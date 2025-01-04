@@ -2835,7 +2835,7 @@ todayTaskOuter.addEventListener("click", function(e) {
         }
     })
 
-
+ 
     // При выборе типа таска (для изменения)
     typesProjectForSelect_modal.forEach(function(type) {
         type.addEventListener("click", function(e) {
