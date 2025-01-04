@@ -9,9 +9,9 @@
 hr {
     border-bottom: 1px solid rgb(200, 194, 194);
 }
+ 
 
-
-
+ 
 .hide1 {        /* Неполное скрытие объекта (место под него остаётся) */
     visibility: hidden;
     
