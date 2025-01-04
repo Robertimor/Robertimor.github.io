@@ -1,0 +1,1079 @@
+@import "./base/_reset.css";
+@import "./base/_base.css";
+
+
+#todolist_block {
+    display: flex;
+    overflow: hidden;
+    height: 100%;
+    width: 100%;
+}
+
+
+.wrapper-type-task {
+    display: flex;
+    align-items: center;
+    padding: 5px;
+    font-size: 12px;
+}
+    .wrapper-type-task__icon-grid {
+        width: 15px;
+    }
+    .wrapper-type-task__name {
+        margin: 0px 5px;
+    }
+    .wrapper-type-task__icon-type-project {
+        width: 16px;
+    }
+
+    
+
+/* aside */
+
+aside {
+    box-sizing: content-box;
+    height: 100vh;
+    width: 260px;
+    transition: transform .60s ease-in-out;
+    background-color: #FAF8F7;
+    padding: 10px;
+    /* float: left; */
+}
+
+.log-reg {
+    font-size: 14px;
+}
+    .log-reg__form {
+        display: flex;
+        flex-direction: column;
+    }
+
+        .log-reg__input {
+            border: 1px solid black;
+            border-radius: 5px;
+            padding: 5px;
+            margin-top: 10px;
+            width: 70%;
+        }
+
+        .log-reg__buttons {
+            margin-top: 10px;
+            display: flex;
+        }
+            .log-reg__btn {
+                border-radius: 10px;
+                padding: 7px 10px;
+                background-color:#DC4C3E;
+                color: white;
+                margin-right: 30px;
+                
+            }
+
+    .log-reg__empty-field {
+        margin-top: 10px;
+        color: red;
+    }
+
+    .log-reg__successfulReg {
+        color: green;
+        font-size: 20px;
+        font-weight: bold;
+        margin-top: 10px;
+        text-align: center;
+    }
+
+
+
+
+
+
+
+
+
+.asideUserMenu {
+    position: relative;
+    font-size: 14px;
+    color: #202020;
+}
+
+
+/* Верхняя шапка бокового меню: */ 
+/*   <--   */
+.asideUserMenu__header_Nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    /* padding-left: 5px; */
+    padding-bottom: 7px;
+    margin-bottom: 10px;
+    border-bottom: 0.2px solid rgb(200, 194, 194);
+}
+    .asideUserMenu__button_menuProfile {      /* Поле с фото профиля, ником и кнопкой открытия доп меню профиля*/
+        display: flex; 
+        align-items: center;
+        font-size: 14px;
+        padding: 6px 5px;
+        border-radius: 5px;
+    }
+        .asideUserMenu__icon-user {
+            box-sizing: content-box;
+        }
+        .asideUserMenu__nicknameUser {
+            font-size: 14px;
+            font-weight: bold;
+        }
+        .asideUserMenu__icon-down {
+            margin-left: 7px;
+        }
+
+    .asideUserMenu__conteiner-from-notifications-hideAndShow {
+        display: flex;
+        align-items: center;
+    }
+    .asideUserMenu__btn-notifications, .asideUserMenu__btn-hideAndShow-sidebar {  /* Кнопка уведомления и скрытия сайдбара */
+        margin-right: 5px;
+        transition: transform 0.4s ease-in-out;
+    }
+        .asideUserMenu__icons-notifications-and-hideAndShow-Sidebar {
+            display:block;
+            box-sizing: content-box;
+            padding: 9px;
+            border-radius: 5px;
+        }
+
+
+
+._hide-sidebar {     /* перемещение сайдбара влево   (добавляемый в js стиль) */
+    transform: translate3d(-300px, 0px, 0px);
+}
+._moved-btn-hide-and-show-sidebar {      /* Перемещение кнопки скрытия сайтбара вправа, сразу после скрытия сайтбара (добавляемый в js стиль) */
+    transition: transform .60s ease-in-out;
+    transform: translate3d(70px, 0px, 0px);
+}
+
+
+.hidden-menu-profile {      /*  Изначально скрытое меню профиля   */
+    position: absolute;
+    top: 45px;
+    /* margin-left: 8px; */
+    /* border: 0.2px solid black; */
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.5);
+    background-color: rgb(255, 255, 255);
+    z-index: 2;
+}
+    .hidden-menu-profile ul {
+        list-style: none;
+    }
+
+    .hidden-menu-profile__links-from-menuProfile {    /* Кнопки доп. меню профиля */
+        display: flex;
+        align-items: center;
+        border-bottom: 1px solid rgb(140, 136, 136);
+        padding: 10px 15px 10px 10px;
+    }
+        .hidden-menu-profile__icons {
+            margin-right: 10px;
+        }
+        
+    .hidden-menu-profile__links-from-menuProfile:last-of-type {
+        border: none;
+    }
+    .hidden-menu-profile__links-from-menuProfile:hover {
+        cursor: pointer;
+        -webkit-transition: all 1s ease;
+        transition: all 1s ease;
+        background-color: #4f4c4c2a;
+    }
+
+
+
+/*  -->  */
+
+
+
+.asideUserMenu__add-new-task {
+    display: flex;
+    align-items: center;
+    padding: 8px 5px;
+    border-radius: 10px;
+    font-size: 14px; 
+    margin-bottom: 5px;
+}
+    .asideUserMenu__text-add-new-task {
+        margin-left: 5px;
+        color: #DC4C3E;
+    }
+
+.asideUserMenu__search-task {
+    display: flex;
+    align-items: center;
+    padding: 8px 5px;
+    border-radius: 10px;
+}
+    .asideUserMenu__text-search {
+        margin-left: 7px;
+    }
+
+
+
+.asideUserMenu__today-list {
+    display: flex;
+    align-items: center;
+    padding: 8px 5px;
+    border-radius: 10px;
+}
+
+    .asideUserMenu__text-today-list {
+        font-size: 14px;
+        margin-left: 5px;
+    }
+
+
+
+.calendar {
+    margin: 10px 0;
+}
+
+
+.asideUserMenu__my-group-projects {
+    border-top: 1px solid rgb(200, 194, 194);
+    padding-top: 15px;
+    margin-top: 25px;
+}
+    .asideUserMenu__my-group-projects h2 {
+        margin-bottom: 10px;
+        font-size: 14px;
+        color: #666666;
+    }
+    .my-type-projects__type-project {
+        margin-bottom: 3px;
+    }
+        .my-type-projects__icon-grid {
+            width: 15px;
+        }
+        /* .my-type-projects__name {
+            margin-left: 5px;
+            margin-right: 5px;
+        } */
+        .my-type-projects__icon-type-project {
+            width: 16px;
+        }
+
+
+
+
+
+
+
+/* //// */
+/* main: */
+
+.main-content {
+    flex-grow: 1;
+}
+
+.block-today {
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+}
+
+
+
+.header-block {
+    padding: 48px 55px 0px 55px;
+    width: 100%;
+    
+}
+.header-block__view-header-content {     /* Поле с контентом для header-а */
+    padding-bottom: 8px;
+    border-bottom: 1px solid #eee;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+    .header-block__header-wrapper {   /* Поле для отображения header-а меню "Сегодня" */
+        /* height: 85px; */
+        display: flex;
+        align-items: center;
+    }
+        .header-block__count-tasks-block {     /* Поле с заголовком и количеством тасков на сегодня */
+            flex-grow: 1;
+        }
+        .header-block__count-tasks-block h1 {
+            font-size: 20px;
+        }
+        .header-block__count-task-wrapper {
+            display: flex;
+            align-items: center;
+            font-size: 14px;
+            margin-left: 4px;
+            color: gray;
+        }
+            .header-block__text-count {
+                margin-left: 5px;
+                padding: 2.5px;
+            }
+        .header-block__filterTasks {   /* Поле с настройками сортировки тасков */
+            display: flex;
+            align-items: center;
+            /* padding: 15px 0px 10px 10px; */
+            font-size: 14px;
+        }
+            .header-block__icon-filter {
+                scale: 1;
+                padding-top: 3px;
+                margin-right: 5px;
+            }
+
+
+
+
+
+
+
+.section-content-block {
+    padding: 0 55px 70px 55px;
+    box-sizing: border-box;
+}
+.section-content-block__view-content {
+    font-size: 14px;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.section-content-block__overdue {      /* внешнее поле с секциеей просроченных тасков */
+    display: flex;
+    align-items: center;
+    /* padding-bottom: 15px; */
+    border-bottom: 1px solid #eee;
+    margin-top: 35px;
+}
+    .section-content-block__prosrocheno {      /* внутреннее поле с секциеей просроченных тасков */
+        display: flex;
+        position: relative;
+        align-items: center;
+        height: min-content;
+        padding-bottom: 5px;
+        flex-grow: 1;
+    }
+        .section-content-block__icon-prosrocheno {      /* иконка стрелочки вправо */
+            position: absolute;
+            left: -36px;
+            scale: 0.6;
+            box-sizing: content-box;
+            padding: 12px 15px 12px 17px;
+            border-radius: 5px;
+        }
+        .section-content-block__text-prosrocheno {
+            font-weight: bold;
+        }
+    
+    .section-content-block__perenesti {         /* ссылка "перенести" */
+        color: #D65B52;
+    }
+    .section-content-block__perenesti:hover {
+        text-decoration: underline;
+    }
+
+
+
+/* /// */
+
+.section-content-block__nameToday {        /* Поле с сегодняшней датой */
+    margin-top: 30px;
+    padding: 6px 30px 5px 0;
+    border-bottom: 1px solid #eee;
+    font-weight: bold;
+}
+
+
+
+.today-task-outer-block {       /* Поле с сегодняшними тасками */
+    list-style: none;
+}
+.task, .subtask {    /* Поле с таском */
+    padding: 10px 0px 15px 0px;
+    border-bottom: 1px solid #eee;
+}
+    .task__wrapper, .subtask__wrapper {     /* Внутреннее поле со всеми 3-мя элементами таска */
+        display: flex;
+        flex-direction: row;
+        align-items:flex-start;
+        width: 100%;
+        position: relative;
+        overflow: hidden;
+    }
+        .task__wrapper-button-task-checkbox, .subtask__wrapper-button-subtask-checkbox {
+            position: relative;
+        }
+            .task__button-task-checkbox, .subtask__button-subtask-checkbox {     /* Кнопка для отметки завершения таска */
+                border: 1px solid #ADADAD;
+                padding: 8px;
+                border-radius: 100%;
+                display: flex;
+                align-items: center;
+                width: 18px;
+                height: 18px;
+            }
+                .task__button-task-checkbox_red, .subtask__button-subtask-checkbox_red {
+                    border: 2px solid gray;
+                    border-color: #D1453B;
+                    background-color: #FAECEB;
+                }
+                .task__button-task-checkbox_orange, .subtask__button-subtask-checkbox_orange {
+                    border: 2px solid gray;
+                    border-color: #ED9521;
+                    background-color: #FDF3E6;
+                }
+                .task__button-task-checkbox_blue, .subtask__button-subtask-checkbox_blue {
+                    border: 2px solid gray;
+                    border-color: #246FE0;
+                    background-color: #E9F0FC;
+                }
+                .task__wrapper-button-task-checkbox img, .subtask__button-subtask-checkbox img {
+                    position: absolute;
+                    top: 5.5px;
+                    left: 4px;
+                    width: 11px;
+                }
+                .task__wrapper-button-task-checkbox img[src="./icon/MarkOk_ser.png"], .subtask__button-subtask-checkbox img[src="./icon/MarkOk_ser.png"] {
+                    left: 3.5px;
+                    top: 5px;
+                }
+
+        .task__task-list-itemsContent-wrapper, .subtask__subtask-list-itemsContent-wrapper {       /* Поле с контентом таска */
+            display: flex;
+            flex-direction: column;
+            flex: 1;
+            margin-left: 10px;
+        }
+            .task__outerWrap-name-description, .subtask__outerWrap-name-description {      /* Внешнее поле с именем и описанием таска */
+                display: flex;
+                align-items: center;
+                flex-direction: row;
+                flex: 1;
+                flex-grow: 2;
+                /* margin-right: 20px; */
+            }
+                .task__innerWrap-name-description, .subtask__innerWrap-name-description {     /* Внутреннее поле с именем таска */
+                    flex: 1;
+                    /* height: 54px; */
+                    /* white-space : nowrap; */
+                    overflow: hidden;
+                    /* text-overflow: ellipsis; */
+                    max-width: 790px;
+                }
+                    .task__name-task, .subtask__name-subtask {      /* Поле с именем таска */
+                        padding-bottom: 6px;
+                    }
+                    .task__description-task, .subtask__description-subtask {   /* Поле с описанием таска */
+                        height: 50%;
+                        display: flex;
+                        margin-bottom: 5px;
+                    }
+                        .task__description-task-text, .subtask__description-subtask-text {     /* Поле с самим текстом описания */
+                            width: 0;
+                            flex-grow: 1;
+                            white-space: nowrap;
+                            overflow: hidden;
+                            text-overflow: ellipsis; 
+                            font-size: 12px;
+                            color: #666;
+                        }
+
+                    
+        
+            .task__deadline, .subtask__deadline {
+                display: flex;
+                align-items: center;
+                align-self: self-start;
+                flex: 1;
+                font-size: 12px;
+                color: #666;
+            }
+            .task__imgBlock-deadline, .subtask__imgBlock-deadline {
+                width: 15px;
+                height: 15px;
+                margin-right: 5px;
+            }
+
+            .task__typeTask, .subtask__typeSubtask {      /* Поле с указанием типа таска (работа/дом/учёба) */
+                display: flex;
+                align-items: center;
+                align-self: self-end;
+                flex: 1;
+                font-size: 12px;
+                color: #666;
+            }
+            .task__imgBlock-typeTask, .task__imgBlock-typeTask_grid, .subtask__imgBlock-typeSubtask, .subtask__imgBlock-typeSubtask_grid {
+                width: 15px;
+                height: 15px;
+                margin-left: 5px;
+            }
+
+        .task__dopFuncs, .subtask__dopFuncs {      /* Поле с дополнительными тремя кнопками к таску */
+            display: flex;
+            justify-content: flex-end;
+            position: absolute;
+            right: 0;
+            top: 0;
+            opacity: 1;
+
+            background-color: #FFFFFF;
+            box-shadow: 0px -5px 15px 5px #FFFFFF;;
+            border-radius: 5px;
+
+        }
+            .task__dopFunction, .subtask__dopFunction {      /* Дополнительные кнопки к таску */
+                position: relative;
+                margin: 0 0 0 10px;
+            }   
+            .task__dopFunction:first-child, .subtask__dopFunction:first-child {      /* Дополнительные кнопки к таску */
+                margin: 0px;
+            }   
+                .task__dopFunction_iconWrap, .subtask__dopFunction_iconWrap {
+                    width: 100%;
+                    height: 100%;
+                    box-sizing: content-box;
+                    padding: 5px 5px 2px 5px;
+                }
+                    .task__dopFunction img, .subtask__dopFunction img {
+                        width: 17px;
+                    }
+
+
+
+
+.add-new-task {     /* Добавить новый таск */
+    display: flex;
+    align-items: center;
+    margin-top: 70px;
+    margin-bottom: 20px;
+}
+
+.add-new-task__text {
+    color: #666;
+    margin-left: 4px;
+}
+.add-new-task__text_hovered, .add-new-task__text_hovered span {       /* Добавляется при наведении (через js) */
+    color: red;
+    cursor: pointer;
+}
+
+
+
+.form-from-add-new-task {
+    border: 0.5px solid #e6e6e6;
+    margin-top: 10px;
+    padding-top: 10px;
+    border-radius: 10px;
+    /* box-shadow: 0 0 10px rgba(0,0,0,0.5); */
+    display: flex;
+    flex-direction: column;
+}
+
+    .form-from-add-new-task__textarea-from-add-new-task {
+        margin-left: 10px;
+        padding: 3px 0px;
+        border: none;
+        outline: none!important;
+        resize: none;
+    }
+    .form-from-add-new-task__name-new-task {
+        font-weight: bold;
+        margin-bottom: 3px;
+        font-size: 14px;
+    }
+    .form-from-add-new-task__description {
+        font-size: 13px;
+    }
+
+    .form-from-add-new-task__dop-settings-for-new-task_wrapper {
+        position: relative;
+        margin-top: 5px;
+        margin-left: 10px;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        color: gray;
+    }
+    
+
+
+        .form-from-add-new-task__select-deadline, .form-from-add-new-task__select-priority {
+            position: relative;
+            display: flex;
+            align-items: center;
+            padding: 5px;
+            border: 0.3px solid #e6e6e5;
+            border-radius: 5px;
+            margin-right: 10px;
+        }   
+            /* Все флаги кроме №4 (прозрачный чёрный) */
+            .form-from-add-new-task__select-priority .form-from-add-new-task__icon-selected-setting:not(.form-from-add-new-task__icon-selected-setting[src = "./icon/priority_4.png"]) {
+                filter: brightness(100%) !important;
+            }
+            .form-from-add-new-task__text-settings, .itc-modal-body__text-settings {
+                margin-left: 5px;
+                color: #666;
+                font-size: 13px;
+            }
+            .form-from-add-new-task__icon-cross, .itc-modal-body__icon-cross {
+                margin: 3px 0 0 5px;
+            }
+                .form-from-add-new-task__icon-cross img, .itc-modal-body__icon-cross img {
+                    width: 12px;
+                    display: block;
+                }
+                .form-from-add-new-task__icon-cross:hover {
+                    filter: brightness(20%) !important;
+                    /* background-color: red; */
+                }
+
+        
+        /* Родительское Поле для выбора срока выполнения таска (кнопка выбора и скрытое меню) */
+        .form-from-add-new-task__setting-deadline {
+            position: relative;
+        }
+            /* Скрытое меню выбора срока выполнения для нового создаваемого таска */
+            .form-from-add-new-task__hiddenMenu-deadline, .itc-modal-body__hiddenMenu-deadline {
+                position: absolute;
+                z-index: 3;
+                background-color: #FFFFFF;
+                border: 1px solid #eee;
+                border-radius: 10px;
+                box-shadow: 0 3px 4px 0 rgba(0,0,0,.08);
+                left: -250px;
+                top: -350px;
+                width: 250px;
+            }
+                /* Список ul из всех коротких текстовых вариантов выбора срока (сегодня, завтра, след неделя и тд) */
+                .form-from-add-new-task__deadline-list, .itc-modal-body__deadline-list {
+                    position: relative;
+                    list-style: none;
+                    font-size: 13px;
+                    border-bottom: 1px solid #dfdfdf;
+                    /* box-shadow: 0 2px 4px 0 rgba(0,0,0,.08); */
+                    padding-bottom: 20px;
+                }   
+                    /* Отдельный элемент li этого списка */
+                    .form-from-add-new-task__deadline-item, .itc-modal-body__deadline-item {
+                        padding: 8px 12px;
+                        display: flex;
+                        align-items: center;
+                        align-content: space-between;
+                    }
+                        /* Уникальные иконки этих элементов */
+                        .form-from-add-new-task__deadline-icon, .itc-modal-body__deadline-icon {
+                            display: block;
+                            width: 20px;
+                            margin-right: 10px;
+                        }
+                        /* span с названием этого элемента */
+                        .form-from-add-new-task__deadline-name, .itc-modal-body__deadline-name {
+                            font-weight: 500;
+                            white-space: nowrap;
+                        }
+                        /* Пояснение с указанием даты в виде числа и месяца */
+                        .form-from-add-new-task__deadline-info, .itc-modal-body__deadline-info {
+                            color: #979797;
+                            flex: 1;
+                            text-align: right;
+                        }
+                /* Календарь для выбора срока выполнения */
+                .form-from-add-new-task__hiddenMenu-deadline-calendare, .itc-modal-body__hiddenMenu-deadline-calendare {
+                    position: relative;
+                    width: 250px;
+                    margin-top: 5px;
+                    border-right: 1px solid #eee;
+                }   
+                    /* Внутренний блок этого календаря */
+                    .form-from-add-new-task__hiddenMenu-deadline-calendare .air-datepicker, .itc-modal-body__hiddenMenu-deadline-calendare .air-datepicker {
+                        border: none;
+                        box-shadow: none;
+                    }
+
+
+
+        /* Родительское Поле для выбора приоритета нового таска (кнопка выбора и скрытое меню) */
+        .form-from-add-new-task__setting-priority {
+            position: relative;
+        }
+            /* Скрытое меню выбора срока выполнения для нового создаваемого таска */
+            .form-from-add-new-task__hiddenMenu-priority, .itc-modal-body__hiddenMenu-priority {
+                position: absolute;
+                z-index: 2;
+                background-color: #FFFFFF;
+                border: 1px solid #eee;
+                border-radius: 10px;
+                box-shadow: 0 3px 4px 0 rgba(0,0,0,.08);
+                left: -30px;
+                top: -140px;
+                width: 150px;
+            }
+
+                /* Список ul из всех вариантов выбора приоритета */
+                .form-from-add-new-task__priority-list, .itc-modal-body__priority-list {
+                    position: relative;
+                    list-style: none;
+                    font-size: 13px;
+                    border-bottom: 1px solid #dfdfdf;
+                    /* box-shadow: 0 2px 4px 0 rgba(0,0,0,.08); */
+                }  
+
+                    /* Отдельный элемент li этого списка */
+                    .form-from-add-new-task__priority-item, .itc-modal-body__priority-item {
+                        padding: 8px 12px;
+                        display: flex;
+                        align-items: center;
+                        align-content: space-between;
+                    }
+
+                        /* Уникальные иконки этих элементов */
+                        .form-from-add-new-task__priority-icon, .itc-modal-body__priority-icon {
+                            display: block;
+                            width: 15px;
+                            margin-right: 10px;   
+                        }
+                        /* span с названием этого элемента */
+                        .form-from-add-new-task__priority-name, .itc-modal-body__priority-name {
+                            font-weight: 500;
+                            white-space: nowrap;
+                        }
+                        /* Контейнер для иконка с отметкой выбранного приоритета */
+                        .form-from-add-new-task__priority-icon-selected, .itc-modal-body__priority-icon-selected {
+                            width: 15px;
+                            text-align: right;
+                            flex: 1;
+                        }
+                            .form-from-add-new-task__priority-icon-selected img, .itc-modal-body__priority-icon-selected img {
+                                width: 15px;
+                            }
+
+
+
+
+    .form-from-add-new-task__footer {
+        position: relative;
+        border-top: 1px solid #eee;
+        padding: 7px 10px;
+        margin-top: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;     /* Размещаю ".form-from-add-new-task__select-type-task" слева, а ".buttuns_Close_AddNewTask" справа */
+    }   
+        /* Скрытое меню для выбора типа нового создаваемого таска */
+        .form-from-add-new-task__hiddenMenuTypesTask, .itc-modal-body__hiddenMenuTypesTask {
+            position: absolute;
+            z-index: 2;
+            top: -161px;
+            left: -100px;
+            width: 250px;
+            height: 170px;
+            overflow-y: auto;
+            /* overflow-y: scroll; */
+            background-color: #FFFFFF;
+            border: 1px solid #eee;
+            border-radius: 10px;
+            box-shadow: 0 2px 4px 0 rgba(0,0,0,.08);
+        }   
+            /* Обёртка для инпута и для списка с существующими типами тасков */
+            .form-from-add-new-task__wrapper-inpSearch, .itc-modal-body__wrapper-inpSearch, .my-type-projects__conteiner_from-hiddenMenu {
+                position: relative;
+                list-style-type: none;
+                font-size: 12px;
+            }  
+                .my-type-projects__conteiner_from-hiddenMenu li {
+                    padding: 8px 12px;
+                }
+            .form-from-add-new-task__wrapper-inpSearch, .itc-modal-body__wrapper-inpSearch {
+                border: 1px solid #e6e6e6;
+                border-radius: 5px;
+                margin: 8px 8px 10px 8px;
+            }
+                .form-from-add-new-task__wrapper-inpSearch input, .itc-modal-body__wrapper-inpSearch input {
+                    border: none;
+                    padding: 6px 8px;
+                    width: 100%;
+                    font-size: 14px;
+                }
+        
+
+
+        /* Кнопка для выбора типа создаваемого таска (открывает скрытое меню) */
+        .form-from-add-new-task__select-type-task {
+            border-radius: 10px;
+            color: #666;
+        }
+            .form-from-add-new-task__select-type-task *  {
+                margin-right: 5px;
+            }
+            .form-from-add-new-task__select-type-task span {
+                padding-bottom: 2px;
+            }
+            .form-from-add-new-task__select-type-task_hovered {
+                color: black;
+            }
+
+
+        .form-from-add-new-task__buttuns-closeAdd-new-task {
+            display: flex;
+            align-items: center;
+        }
+            .btn-close {     /* Кнопка отмены добавления нового таска */
+                font-size: 13px;
+                background-color: #F5F5F5;
+                border-radius: 10px;
+                padding: 0px 10px;
+                margin-right: 20px;
+                height: 32px;
+            }
+            .btn-close:hover {
+                background-color: #4f4c4c2a;;
+            }
+            .btn-add, .btn-save {       /* Стиль кнопки, не зависимо от того, диактивирована она или же нет */
+                color: #FFFFFF;
+                font-size: 13px;
+                height: 32px;
+                background-color: #EDA59E;
+                border-radius: 10px;
+                padding: 0px 10px;
+            }
+            .btn-add[aria-disabled="false"], .btn-save[aria-disabled="false"] {    /* Стиль кнопки, если она не деактивирована (отключена диактивация) */
+                background-color: #DC4C3E
+            }
+                .btn-add[aria-disabled="true"]:hover, .btn-save[aria-disabled="true"]:hover {   /* Стиль диактивированной кнопки, при наведении на неё */
+                    cursor: not-allowed;
+                }
+                .btn-add[aria-disabled="false"]:hover, .btn-save[aria-disabled="false"]:hover {   /* Стиль не диактивированной кнопки, при наведении на неё */
+                    background-color: #C3392C;
+                }
+
+/*  -->  */
+
+
+
+
+
+/* Модальное окно таска */
+.itc-modal-title {
+    display: flex;
+    align-items: center;
+    flex: 1;
+}
+    .itc-modal-title .wrapper-type-task {
+        flex: 1;
+        align-items: center;
+        display: flex;
+    }
+        .itc-modal-title .wrapper-type-task__icon-type-project {
+            /* filter: contrast(200%) !important; */
+            /* filter: invert(30%) !important; */
+            /* filter: hue-rotate(40deg); */
+            filter: contrast(200%);
+        }
+    .itc-modal-header__nav-prev-next {
+        height: fit-content;
+        height: 100%;
+        text-align: right;
+        margin-right: 20px;
+        
+        /* box-sizing: content-box; */
+        box-sizing: border-box;
+        display: flex;
+        align-items: center;
+    }
+        .itc-modal-header__nav-prev-next button {
+            align-items: center;
+            /* width: 100%;
+            height: 100%; */
+
+            padding: 5px;
+            box-sizing: content-box;
+            /* margin: 5px; */
+            border-radius: 5px;
+            width: 15px;
+        }
+        .itc-modal-header__nav-prev-next button:first-of-type {
+            margin-right: 10px;
+        }
+        .itc-modal-header__nav-prev-next img {
+            display: flex;
+            filter: invert(50%);
+        }
+
+
+.itc-modal-body {
+    display: flex;
+    
+}
+    .itc-modal-body__main-content {
+        flex: 1;
+        padding: 22px;
+    }
+        .itc-modal-body .task__button-task-checkbox {
+            margin-top: 3px;
+        }
+            .itc-modal-body .task__wrapper-button-task-checkbox img {
+                top: 7.8px;
+                left: 4.5px;
+            }
+            .itc-modal-body .task__wrapper-button-task-checkbox img[src="./icon/MarkOk_ser.png"] {
+                top: 7.2px;
+                left: 3.5px;            
+            }
+        
+            .itc-modal-body__name_description {
+                display: flex;
+                flex-direction: column;
+                height: unset !important;
+            }
+                .itc-modal-body textarea {
+                    border: none;
+                    outline: none!important;
+                    resize: none;
+                }
+                .itc-modal-content__textarea-name-task {
+                    padding-bottom: 6px;
+                    overflow: hidden;
+                }
+                .itc-modal-content__textarea-description-task {
+                    width: 100%;
+                    min-height: 40px;
+                }
+
+            .buttuns-closeSave-task {
+                display: flex;
+                align-items: center;
+                align-self: self-end;
+            }
+        .itc-modal-body__btn-new-dop-task {
+            display: flex;
+            align-items: center;
+            width: fit-content;
+            margin-top: 15px;
+            padding: 5px 8px 5px 5px;
+            border-radius: 10px;
+            font-size: 13px;
+            color: #666;
+            font-weight: 500;
+        }
+            .itc-modal-body__btn-new-dop-task div {
+                /* box-sizing: border-box; */
+                margin-right: 3px;
+                margin-top: 0.5px;
+            }
+                .itc-modal-body__btn-new-dop-task img {
+                    width: 20px;
+                    display: flex;
+                    filter: grayscale(100%);
+                    /* filter: invert(100%); */
+                }
+
+
+        /* Область для подзадач */
+        .itc-modal-body__subtask-content {
+            font-size: 14px;
+            /* margin: 0 auto 0 20px; */
+            margin: 20px auto 0 0;
+            /* max-width: 300px; */
+            max-width: 100%;
+        }   
+            .itc-modal-body__subtask-count {    /* Заголовок + подсчёт подзадач */
+                display: flex;
+                align-items: center;
+            }
+                .itc-modal-body__subtask-count img {
+                    width: 12px;
+                    margin-right: 5px;
+                }
+                .itc-modal-body__subtasks-count {
+                    margin-left: 4px;
+                }
+           .itc-modal-body__subtask-outer-block {
+                list-style: none;
+                margin-top: 6px;
+                margin-left: 20px;
+           }
+
+                        .subtask__dopFunction::after {
+                            width: max-content;
+                        }
+           
+
+
+
+
+    .itc-modal-body__aside {
+        width: 230px;
+        height: 100%;
+        background-color: #FAF8F7;
+    }
+        .itc-modal-body__group {
+            position: relative;
+            height: 110px;
+            padding: 20px;
+            box-sizing: border-box;
+            /* margin-bottom: 10px; */
+        }
+            .itc-modal-body__name-setting {
+                margin-bottom: 15px;
+                color: #666;
+                font-size: 13px;
+                font-weight: 500;
+            }
+            .itc-modal-body__select-setting {
+                color: #202020;
+                padding: 5px 8px;
+                border-radius: 5px;
+                font-size: 12px;
+                display: flex;
+                align-items: center;
+            }
+                .itc-modal-body__select-setting .wrapper-type-task {
+                    padding: unset;
+                }
+                    .itc-modal-body__icon-down_wrapper {
+                        flex: 1;
+                        text-align: right;
+                    }
+                        .itc-modal-body__icon-down {
+                            width: 10px;
+                        }
+            .itc-modal-body__hiddenMenuTypesTask {
+                top: 80px;
+                /* left: -20px; */
+                left: -20px;
+            }
+
+                .itc-modal-body__select-deadline {
+                    position: relative;
+                    display: flex;
+                    align-items: center;
+                    /* padding: 5px; */
+                    /* border: 0.3px solid #e6e6e5; */
+                    /* border-radius: 5px; */
+                    margin-right: 10px;
+                }
+            .itc-modal-body__hiddenMenu-deadline {
+                left: -250px;
+                top: 14px;
+            }
+
+            .itc-modal-body__hiddenMenu-priority {
+                left: 18px;
+                top: 80px;
+            }
+
+
+                .itc-modal-body__wrapper-priority {
+                    display: flex;
+                    align-items: center;
+                }
+                    .itc-modal-body__wrapper-priority img {
+                        width: 15px;
+                        margin-right: 10px;
+                    }
+

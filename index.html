@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="Air Datepicker/air-datepicker.css">
+    <link rel="stylesheet" href="modal/css/modal.css">
+    <title>JoJo_ToDo_List</title>
+</head>
+<body>
+
+<div id="todolist_block">
+<aside class="aside">
+    <div class="log-reg hide2">
+        <img class="log-reg__img" src="./icon/unknownUser.png" alt="unknownUser" width="60px">
+        <p class="log-reg__text">Введите данные аккаунта:</p>
+        <form class="log-reg__form" action="">
+            <input class="log-reg__input inp-login" name="user-name" type="text" maxlength="18" placeholder="Введите логин...">
+            <input class="log-reg__input inp-password" name="user-password" type="password" placeholder="Введите пароль...">
+            <a class="log-reg__link" href="#">Забыли пароль?</a>
+            <div class="log-reg__buttons">
+                <button class="log-reg__btn btn-login" type="submit">Войти</button>
+                <button class="log-reg__btn btn-register" type="submit">Регистрация</button>
+            </div>
+        </form>
+        <p class="log-reg__successfulReg hide2">Вы успешно зарегистрировались!</p>
+        <p class="log-reg__empty-field hide2">Заполните оба поля</p>
+    </div>
+    <div class="asideUserMenu">
+        <div class="asideUserMenu__header_Nav">  
+                <div class="asideUserMenu__button_menuProfile hover-hint" data-title="Открыть пользовательское меню">
+                    <img class="asideUserMenu__icon-user" src="./icon/jojo.png" alt="unknownUser" width="28px" style="margin-right: 10px;">
+                    <p class="asideUserMenu__nicknameUser">#NICK_NAME#</p>
+                    <img class="asideUserMenu__icon-down" src="./icon/down.png" alt="" width="10px">
+                </div>
+                <div class="asideUserMenu__conteiner-from-notifications-hideAndShow">
+                    <img class="asideUserMenu__btn-notifications asideUserMenu__icons-notifications-and-hideAndShow-Sidebar hover-hint" data-title="Уведомления" aria-label="уведомления" src="./icon/notifications.png" alt="" width="17px;">
+                    <img class="asideUserMenu__btn-hideAndShow-sidebar asideUserMenu__icons-notifications-and-hideAndShow-Sidebar hover-hint" data-title="Скрыть/показать сайдбар" aria-label="Скрыть/показать сайдбар" src="./icon/hideAndShow_Sidebar.png" alt="" width="17px;">
+                </div>
+        </div>
+        <div class="hidden-menu-profile hide2">    <!--Скрытое меню профиля, которое открывается при нажатии на ".asideUserMenu__button_menuProfile" -->
+            <div class="hidden-menu-profile__link-to-profile hidden-menu-profile__links-from-menuProfile">
+                <img class="hidden-menu-profile__icons" src="./icon/link_To_Profile.png" alt="" width="25px">
+                <ul>
+                    <li>Аккаунт</li>
+                    <li>Выполнено сегодня 0 / 0</li>
+                </ul>
+            </div>
+            <div class="hidden-menu-profile__link-to-settings hidden-menu-profile__links-from-menuProfile">
+                <img class="hidden-menu-profile__icons" src="./icon/settings.png" alt="" width="22px">
+                <span>Настройки</span>
+            </div>
+            <div class="hidden-menu-profile__link-to-print hidden-menu-profile__links-from-menuProfile">
+                <img class="hidden-menu-profile__icons" src="./icon/print.png" alt="" width="22px">
+                <span>Распечатать</span>
+            </div>
+            <div class="hidden-menu-profile__link-to-exit hidden-menu-profile__links-from-menuProfile">
+                <img class="hidden-menu-profile__icons" src="./icon/exit.png" alt="" width="22px">
+                <span>Выйти</span>
+            </div>
+        </div>
+        <div class="asideUserMenu__add-new-task hovered_aside-items" aria-label="Добавить задачу">
+            <img class="asideUserMenu__img-add-new-task" src="./icon/add2_2.png" alt="" width="20px">
+            <span class="asideUserMenu__text-add-new-task">Добавить задачу</span>
+        </div>
+        <div class="asideUserMenu__search-task hovered_aside-items">
+            <img class="asideUserMenu__icon-search-task" src="./icon/search.png" alt="" width="20px">
+            <span class="asideUserMenu__text-search">Поиск</span>
+        </div>
+        <div class="asideUserMenu__today-list hovered_aside-items hovered_select_menu">  <!-- Проекты на сегодня (+завершённые) -->
+            <img class="asideUserMenu__img-today-list" src="./icon/today.png" alt="" width="20px">
+            <span class="asideUserMenu__text-today-list">Сегодня</span>
+        </div>      
+        <div class="calendar"></div>
+        <div class="asideUserMenu__my-group-projects">
+            <h2>Мои проекты:</h2>
+            <ul class="my-type-projects">
+                <li class="wrapper-type-task my-type-projects__type-project hovered_aside-items">
+                    <img class="wrapper-type-task__icon-grid" src="./icon/grid_0.png" alt="">
+                    <span class="wrapper-type-task__name">Дом</span>
+                    <img class="wrapper-type-task__icon-type-project" src="./icon/home.png" alt="">
+                </li>
+                <li class="wrapper-type-task my-type-projects__type-project hovered_aside-items">
+                    <img class="wrapper-type-task__icon-grid" src="./icon/grid_0.png" alt="">
+                    <span class="wrapper-type-task__name">Работа</span>
+                    <img class="wrapper-type-task__icon-type-project" src="./icon/job.png" alt="">
+                </li>
+                <li class="wrapper-type-task my-type-projects__type-project hovered_aside-items">
+                    <img class="wrapper-type-task__icon-grid" src="./icon/grid_0.png" alt="">
+                    <span class="wrapper-type-task__name">Учёба</span>
+                    <img class="wrapper-type-task__icon-type-project" src="./icon/study.png" alt="">
+                </li>
+            </ul>
+        </div>
+    </div>
+</aside>
+
+<!-- <textarea autofocus name="" id="" cols="30" rows="10"></textarea> -->
+
+<main class="main-content">
+<div class="block-today">
+    <header class="header-block">
+        <div class="header-block__view-header-content">
+            <div class="header-block__header-wrapper">
+                <div class="header-block__count-tasks-block">
+                    <h1>Сегодня</h1>
+                    <div class="header-block__count-task-wrapper">
+                        <img src="./icon/icon_countTask.png" alt="" width="12px">
+                        <div class="header-block__text-count">
+                            <span class="header-block__countNum-tasks-today">N</span> 
+                            <span>задач</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="header-block__filterTasks ser">
+                    <img class="header-block__icon-filter" src="./icon/filter.png" alt="" width="14px">
+                    <span>Отображение</span>
+                </div>
+            </div>
+        </div>
+    </header>
+    <div class="section-content-block">
+        <div class="section-content-block__view-content">
+            <div class="section-content-block__overdue">   
+                <div class="section-content-block__prosrocheno">    
+                    <img class="section-content-block__icon-prosrocheno hovered1_2" src="./icon/right.png" alt="" width="8px">
+                    <span class="section-content-block__text-prosrocheno">Просрочено</span>
+                </div>
+                <a class="section-content-block__perenesti" href="#">Перенести</a>
+            </div>
+            <div class="section-content-block__nameToday"></div>
+            <ul class="today-task-outer-block">
+                <li class="task" id="-1">
+                <div class="task__wrapper">
+                    <div class="task__wrapper-button-task-checkbox">
+                        <button class="task__button-task-checkbox"><img src="./icon/MarkOk_ser.png" alt="" class="hide2"></button>
+                    </div>
+                    <div class="task__task-list-itemsContent-wrapper">
+                        <div class="task__outerWrap-name-description">
+                            <div class="task__innerWrap-name-description">
+                                <div class="task__name-task" aria-label="Название задачи">Задача 1</div>
+                                <div class="task__description-task" aria-label="описание">
+                                    <span class="task__description-task-text">Простая задача !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="task__deadline">
+                            <div class="task__imgBlock-deadline"><img src="./icon/deadlineNewTask_0.png" alt=""></div>
+                            <span>5 сенября</span>
+                        </div>
+                        <div class="task__typeTask">
+                            <span>Работа</span>
+                            <div class="task__imgBlock-typeTask"><img src="./icon/job.png" alt=""></div>
+                            <img class="task__imgBlock-typeTask_grid" src="./icon/grid_0.png" alt="">
+                        </div>
+                    </div>
+                    <div class="task__dopFuncs" aria-label="Дополнительные функции для управления задачей">
+                        <div class="task__dopFunction task__btnEdit hover-hint hide1" data-title="Редактировать задачу">
+                            <div class="task__dopFunction_iconWrap">
+                                <img src="./icon/edit.png" alt="">
+                            </div>
+                        </div>
+                        <div class="task__dopFunction task__btnNewDeadline hover-hint hide1" data-title="Назначить срок">
+                            <div class="task__dopFunction_iconWrap">
+                                <img src="./icon/deadline_task.png" alt="">
+                            </div>
+                        </div>
+                        <div class="task__dopFunction task__addComment hover-hint hide1" data-title="Прокомментировать задачу">
+                            <div class="task__dopFunction_iconWrap">
+                                <img src="./icon/addComment_task.png" alt="">
+                            </div>
+                        </div>  
+                    </div>
+                </div>
+                </li>
+            </ul>
+            <div class="add-new-task">
+                <img class="add-new-task__imgAddTask1" src="./icon/add2_1.png" alt="" width="25px">
+                <img class="add-new-task__imgAddTask2 hide2" src="./icon/add2_2.png" alt="" width="25px">
+                <span class="add-new-task__text">Добавить задачу</span>
+            </div>
+
+            <!-- <div class="itc-modal-body__subtask-content">
+                <div class="itc-modal-body__subtask-count">
+                    <img src="./icon/down.png" alt="">
+                    <img src="./icon/right2.png" alt="" class="hide2">
+                    <span>Подзадачи:</span>
+                    <span class="itc-modal-body__subtasks-count"></span>
+                </div>
+                <ul class="itc-modal-body__subtask-outer-block">
+                    <li class="subtask"></li>
+                    <li class="subtask" data-subtask-id = "-1">
+                    <div class="subtask__wrapper">
+                        <div class="subtask__wrapper-button-subtask-checkbox">
+                            <button class="subtask__button-subtask-checkbox"><img src="./icon/MarkOk_ser.png" alt="" class="hide2"></button>
+                        </div>
+                        <div class="subtask__subtask-list-itemsContent-wrapper">
+                            <div class="subtask__outerWrap-name-description">
+                                <div class="subtask__innerWrap-name-description">
+                                    <div class="subtask__name-subtask" aria-label="Название задачи">Задача 1</div>
+                                    <div class="subtask__description-subtask" aria-label="описание">
+                                        <span class="subtask__description-subtask-text">Простая задача !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="subtask__typeTask">
+                                <span>Работа</span>
+                                <div class="subtask__imgBlock-typeTask"><img src="./icon/job.png" alt=""></div>
+                                <img class="subtask__imgBlock-typeTask_grid" src="./icon/grid_0.png" alt="">
+                            </div>
+                        </div>
+                        <div class="subtask__dopFuncs" aria-label="Дополнительные функции для управления задачей">
+                            <div class="subtask__dopFunction subtask__btnEdit hover-hint hide1" data-title="Редактировать задачу">
+                                <div class="subtask__dopFunction_iconWrap">
+                                    <img src="./icon/edit.png" alt="">
+                                </div>
+                            </div>
+                            <div class="subtask__dopFunction subtask__btnNewDeadline hover-hint hide1" data-title="Назначить срок">
+                                <div class="subtask__dopFunction_iconWrap">
+                                    <img src="./icon/deadline_task.png" alt="">
+                                </div>
+                            </div>
+                            <div class="subtask__dopFunction subtask__addComment hover-hint hide1" data-title="Прокомментировать задачу">
+                                <div class="subtask__dopFunction_iconWrap">
+                                    <img src="./icon/addComment_task.png" alt="">
+                                </div>
+                            </div>  
+                        </div>
+                    </div>
+                    </li>
+                </ul>
+            </div> -->
+
+            <div class="form-from-add-new-task hide2">
+                <textarea name="name-new-task" class="form-from-add-new-task__name-new-task form-from-add-new-task__textarea-from-add-new-task" placeholder="Название задачи"></textarea>
+                <textarea name="description-new-task" class="form-from-add-new-task__description form-from-add-new-task__textarea-from-add-new-task" placeholder="Описание"></textarea>
+                <div class="form-from-add-new-task__dop-settings-for-new-task_wrapper">
+                    <div class="form-from-add-new-task__setting-deadline form-from-add-new-task__bnt-settings">
+                        <div class="form-from-add-new-task__select-deadline hovered1_2">
+                            <img src="./icon/deadlineNewTask_0.png" alt="" width="13px" class="form-from-add-new-task__icon-selected-setting">
+                            <span class="form-from-add-new-task__text-settings" aria-valuetext="notChanged">Срок выполнения</span>
+                            <span class="form-from-add-new-task__icon-cross"><img src="./icon/theCross.png" alt=""></span>
+                        </div>
+                        <div class="form-from-add-new-task__hiddenMenu-deadline hide2">
+                            <ul class="form-from-add-new-task__deadline-list">
+                                <li class="form-from-add-new-task__deadline-item hovered1_3">
+                                    <img src="./icon/sun.png" alt="" class="form-from-add-new-task__deadline-icon">
+                                    <span class="form-from-add-new-task__deadline-name">Сегодня</span>
+                                    <span class="form-from-add-new-task__deadline-info">#</span>
+                                </li>
+                                <li class="form-from-add-new-task__deadline-item hovered1_3">
+                                    <img src="./icon/deadlineNewTask_3.png  " alt="" class="form-from-add-new-task__deadline-icon">
+                                    <span class="form-from-add-new-task__deadline-name">Завтра</span>
+                                    <span class="form-from-add-new-task__deadline-info">#</span>
+                                </li>
+                                <li class="form-from-add-new-task__deadline-item hovered1_3">
+                                    <img src="./icon/divan.png" alt="" class="form-from-add-new-task__deadline-icon">
+                                    <span class="form-from-add-new-task__deadline-name">На выходных</span>
+                                    <span class="form-from-add-new-task__deadline-info">#</span>
+                                </li>
+                                <li class="form-from-add-new-task__deadline-item hovered1_3">
+                                    <img src="./icon/nextWeek.png" alt="" class="form-from-add-new-task__deadline-icon">
+                                    <span class="form-from-add-new-task__deadline-name">След. неделя</span>
+                                    <span class="form-from-add-new-task__deadline-info">#</span>
+                                </li>
+                                <li class="form-from-add-new-task__deadline-item hovered1_3">
+                                    <img src="./icon/noDeadline.png" alt="" class="form-from-add-new-task__deadline-icon">
+                                    <span class="form-from-add-new-task__deadline-name">Без срока</span>
+                                    <span class="form-from-add-new-task__deadline-info">#</span>
+                                </li>
+                            </ul>
+                            <div class="form-from-add-new-task__hiddenMenu-deadline-calendare"></div>
+                        </div>
+                    </div>      
+                    <div class="form-from-add-new-task__setting-priority form-from-add-new-task__bnt-settings">
+                        <div class="form-from-add-new-task__select-priority hovered1_2">
+                            <img src="./icon/priority_ser.png" alt="" width="11px" class="form-from-add-new-task__icon-selected-setting">
+                            <span class="form-from-add-new-task__text-settings">Приоритет</span>
+                            <span class="form-from-add-new-task__icon-cross hide2"><img src="./icon/theCross.png" alt=""></span>
+                        </div>
+                        <div class="form-from-add-new-task__hiddenMenu-priority hide2">
+                            <ul class="form-from-add-new-task__priority-list">
+                                <li class="form-from-add-new-task__priority-item hovered1_3">
+                                    <img src="./icon/priority_red.png" alt="" class="form-from-add-new-task__priority-icon">
+                                    <span class="form-from-add-new-task__priority-name" aria-label="P1">Приоритет 1</span>
+                                    <span class="form-from-add-new-task__priority-icon-selected hide2"><img src="./icon/redMarkOk.png" alt=""></span>
+                                </li>
+                                <li class="form-from-add-new-task__priority-item hovered1_3">
+                                    <img src="./icon/priority_orange.png" alt="" class="form-from-add-new-task__priority-icon">
+                                    <span class="form-from-add-new-task__priority-name" aria-label="P2">Приоритет 2</span>
+                                    <span class="form-from-add-new-task__priority-icon-selected hide2"><img src="./icon/redMarkOk.png" alt=""></span>
+                                </li>
+                                <li class="form-from-add-new-task__priority-item hovered1_3">
+                                    <img src="./icon/priority_blue.png" alt="" class="form-from-add-new-task__priority-icon">
+                                    <span class="form-from-add-new-task__priority-name" aria-label="P3">Приоритет 3</span>
+                                    <span class="form-from-add-new-task__priority-icon-selected hide2"><img src="./icon/redMarkOk.png" alt=""></span>
+                                </li>
+                                <li class="form-from-add-new-task__priority-item hovered1_3">
+                                    <img src="./icon/priority_ser.png" alt="" class="form-from-add-new-task__priority-icon">
+                                    <span class="form-from-add-new-task__priority-name" aria-label="Приоритет">Приоритет 4</span>
+                                    <span class="form-from-add-new-task__priority-icon-selected hide2"><img src="./icon/redMarkOk.png" alt=""></span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-from-add-new-task__footer">
+                    <div class="form-from-add-new-task__setting-type-task">
+                        <div class="form-from-add-new-task__hiddenMenuTypesTask hide2">
+                            <div class="form-from-add-new-task__wrapper-inpSearch">
+                                <input type="text" name="searchType" id="search-type-task" list="list-types-task" placeholder="Введите название проекта">
+                                <datalist id="list-types-task">
+                                    <option value="Дом"></option>
+                                    <option value="Работа"></option>
+                                    <option value="Учёба"></option>
+                                </datalist>
+                            </div>
+                            <ul class="my-type-projects my-type-projects__conteiner_from-hiddenMenu">
+                                <li class="wrapper-type-task my-type-projects__type-project hovered_aside-items">
+                                    <img class="wrapper-type-task__icon-grid" src="./icon/grid_0.png" alt="" width="15px">
+                                    <span class="wrapper-type-task__name">Дом</span>
+                                    <img class="wrapper-type-task__icon-type-project" src="./icon/home.png" alt="" width="18px">
+                                </li>
+                                <li class="wrapper-type-task my-type-projects__type-project hovered_aside-items">
+                                    <img class="wrapper-type-task__icon-grid" src="./icon/grid_0.png" alt="" width="15px">
+                                    <span class="wrapper-type-task__name">Работа</span>
+                                    <img class="wrapper-type-task__icon-type-project" src="./icon/job.png" alt="" width="20px">
+                                </li>
+                                <li class="wrapper-type-task my-type-projects__type-project hovered_aside-items">
+                                    <img class="wrapper-type-task__icon-grid" src="./icon/grid_0.png" alt="" width="15px">
+                                    <span class="wrapper-type-task__name">Учёба</span>
+                                    <img class="wrapper-type-task__icon-type-project" src="./icon/study.png" alt="" width="19px">
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="wrapper-type-task form-from-add-new-task__select-type-task hovered1_2">
+                            <img src="./icon/grid_0.png" alt="" width="12px">
+                            <span class="form-from-add-new-task__name-type-task">Дом</span>
+                            <img class="form-from-add-new-task__icon_type" src="./icon/home.png" alt="" width="12px">
+                            <img class="form-from-add-new-task__icon" src="./icon/down2_1.png" alt="" width="11px">
+                        </div>
+                    </div>
+                    <div class="form-from-add-new-task__buttuns-closeAdd-new-task">
+                        <button class="btn-close hovered1_2" aria-label="Отмена"><span>Отмена</span></button>
+                        <button class="btn-add" aria-label="Добавить задачу" aria-disabled="true"><span>Добавить задачу</span></button>
+                        <button class="btn-save hide2" aria-label="Изменить задачу" aria-disabled="false"><span>Сохранить</span></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</main>
+</div>
+
+
+
+
+<div>
+    1. Исправить баг с меню выбором сроков выполнения (как у тасков так и в м.о.). Нужно либо создать новый календарь (что бы было 3 вне м.о. и 3 внутри м.о.), что бы не было бага с отображением выбранной даты. Либо сделать так, что бы при нажатии на кнопку открытия скрытого меню (во всех местах), меню очищалось от стилизации выбранной даты, а затем автоматически выделялся тот элемент, который нужен (в зависимости от того, где открыто меню выбора)    
+    2. Ошибка с тем, что не закрывается окно выбора срока выполнения/типа/приоритета у подзадачи, при клике вне поле или на само поле
+    3. Нужно при изменении срока выполнения подзадачи, вписывать новый срок выполнения снизу (внутри подзадачи)
+    4. Исправить ошибку с кликом на крестик (у кнопок срока и приоритета)
+</div>
+
+
+<!-- <div class="modalWindow__btn-new-dop-task">
+    <img src="./icon/add2_1.png" alt="">
+    <span>Добавить подзадачу</span>
+</div> -->
+
+
+
+
+
+
+
+
+<!-- <div class="itc-modal-body__group">
+    <div class="itc-modal-body__name-setting">Проект</div>
+    <div class="itc-modal-body__select-setting">select</div>
+</div> -->
+
+
+
+
+<div class="chest-for-calendar hide2">
+    <div class="itc-modal-body__hiddenMenu-deadline-calendare"></div>
+</div>
+
+
+<script type="module" src="./js/scripts.js"></script>
+<script src="./Air Datepicker/air-datepicker.js"></script>
+<!-- <script type="module" src="modal/js/modal.js"></script> -->
+<script>
+new AirDatepicker('.calendar', {
+    // classes: "myCal",
+    buttons: ["today", "clear"]
+})
+
+new AirDatepicker('.form-from-add-new-task__hiddenMenu-deadline-calendare', {
+    // classes: "myCal",
+    buttons: ["today", "clear"]
+})
+
+new AirDatepicker(".itc-modal-body__hiddenMenu-deadline-calendare", {
+    buttons: ["today"]
+})
+</script>
+</body>
+</html>
