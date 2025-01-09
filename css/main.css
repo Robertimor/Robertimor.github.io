@@ -1,5 +1,5 @@
-/* @import "./base/_reset.css";
-@import "./base/_base.css"; */
+@import "./base/reset.css";
+@import "./base/base.css";
 
 
 #todolist_block {
@@ -403,7 +403,7 @@ aside {
         align-items:flex-start;
         width: 100%;
         position: relative;
-        overflow: hidden;
+        /* overflow: hidden; */
     }
         .task__wrapper-button-task-checkbox, .subtask__wrapper-button-subtask-checkbox {
             position: relative;
@@ -481,6 +481,11 @@ aside {
                             text-overflow: ellipsis; 
                             font-size: 12px;
                             color: #666;
+                        }
+                        .itc-modal-body .task__description-task-text {     /* Поле с самим текстом описания */
+                            white-space: normal;
+                            overflow: hidden;
+                            text-overflow: ellipsis; 
                         }
 
                     
@@ -649,6 +654,13 @@ aside {
                 top: -350px;
                 width: 250px;
             }
+
+            /* Скрытое меню выбора срока выполнения для нового создаваемого таска (в МО у подзадач) */
+            .itc-modal-body .form-from-add-new-task__hiddenMenu-deadline {
+                left: 90px;
+                top: -180px;
+            } 
+            
                 /* Список ul из всех коротких текстовых вариантов выбора срока (сегодня, завтра, след неделя и тд) */
                 .form-from-add-new-task__deadline-list, .itc-modal-body__deadline-list {
                     position: relative;
@@ -779,6 +791,12 @@ aside {
             border-radius: 10px;
             box-shadow: 0 2px 4px 0 rgba(0,0,0,.08);
         }   
+
+        /* Скрытое меню для выбора типа нового создаваемого таска (Внутри МО у подзадач) */
+        .itc-modal-body .form-from-add-new-task__hiddenMenuTypesTask {
+            left: -10px;
+        }
+
             /* Обёртка для инпута и для списка с существующими типами тасков */
             .form-from-add-new-task__wrapper-inpSearch, .itc-modal-body__wrapper-inpSearch, .my-type-projects__conteiner_from-hiddenMenu {
                 position: relative;
@@ -936,13 +954,27 @@ aside {
                     resize: none;
                 }
                 .itc-modal-content__textarea-name-task {
-                    padding-bottom: 6px;
+                    font-weight: bold;
+                    font-size: 19px;
+                    padding-bottom: 30px;
+                    width: 100%;
+                    min-height: 40px;
+                    /* margin-bottom: 30px; */
+                    border-bottom: 1px black solid;
+                    
                     overflow: hidden;
                 }
                 .itc-modal-content__textarea-description-task {
+                    font-size: 14px;
                     width: 100%;
                     min-height: 40px;
                 }
+
+            .task__maxLenght_name_description {
+                margin-top: 30px;
+                font-size: 10px;
+                color: #ADADAD;
+            }
 
             .buttuns-closeSave-task {
                 display: flex;
