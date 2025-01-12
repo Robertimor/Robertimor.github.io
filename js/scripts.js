@@ -314,7 +314,11 @@ selectDeadline.querySelector(".form-from-add-new-task__text-settings").innerHTML
 
 
 let timeVar2 = ''           // (для работы с доп функциями при клике на кнопку добавления нового срока выполнения)
+
+// Удаляю отметку о текущей задаче  
 let currentLi_klick = null
+// Удаляю отметку о текущей подзадаче
+let currentLi_klick_MO = null    
 
 // Можно ли показывать доп. функции таска (изначально скрытые)
 let disabledShowDopTask = false
@@ -415,6 +419,7 @@ todayTaskOuter.addEventListener("click", function(e) {
             break
         }
     }
+    console.log(liFromArr);
 
     // Вставляю данные у выбранного таска в меню редактирования
     copyAndPushLabelsTask(liFromArr)
@@ -1248,7 +1253,8 @@ body.addEventListener("click", function(e) {      // При нажатии вн�
 
 
 
-//Функция для очистки стиля "выбранного элемента" со всех deadlineItem, если он где-то был (удаляю со всех элементов класс "hovered_select_menu"). И ставлю этот класс (стиль "выбранного элемента") тому, на который был произведён клик.
+//Функция для очистки стиля "выбранного элемента" со всех deadlineItem, если он где-то был (удаляю со всех элементов класс "hovered_select_menu"). И ставлю этот класс (стиль "выбранного элемента") тому, на который был произведён клик. 
+// Данная функция используется при редактировании срока у тасков (кроме бокового меню в МО), а так же и у ПОДЗАДАЧ
 function reloadItemsDeadline(currentItemDeadline) {
     deadlineItem.forEach(function(itemDeadline) { 
         itemDeadline.classList.remove("hovered_select_menu")
@@ -1266,7 +1272,7 @@ deadlineItem.forEach(function(item) {
 
         // Родитель скрытого меню срока выполнения (что бы узнать в последствии, находится этот элемент внутри доп. функции "назначить срок" или внутри таска при редактировании задачи)
         let parentDeadlineHiddenMenu = hiddenMenuDeadline.parentElement
-        console.log(parentDeadlineHiddenMenu);
+
 
         // Убираю выделение выбранного дня в календаре, если ранее там было что-то выбрано
         if (selectedDay && selectedDay != "") {
@@ -1345,7 +1351,6 @@ deadlineItem.forEach(function(item) {
             // Обновляю срок выполнения в массиве текущего таска
             liFromArr.newTask_deadlineTask = deadlineThisTask.innerHTML
         }
-
 
 
 
@@ -1566,7 +1571,8 @@ hiddenMenuPriority.addEventListener("click", function(e) {     // При наж�
     }
 })
 
-body.addEventListener("click", function(e) {      // При нажатии вне поля выбора - скрывается
+// При нажатии вне поля выбора - скрывается
+body.addEventListener("click", function(e) {      
 
     // Если доп. меню приоритета - скрыто, то игнорируем
     if (hiddenMenuPriority.classList.contains("hide2") == true) return
@@ -1898,8 +1904,10 @@ todayTaskOuter.addEventListener("click", function(e) {
     currentTask_arr = all_tasks.find(function(el) {       // Присваиваю переменной тот таск, который имеет тот же id, что и выбранный html элемент таска
         return el.newTask_ID == currentIdTask
     })
+    console.log(currentTask_arr);
 
-    let currentIdTask_arr = currentTask_arr.newTask_ID          // id таска у выбранного элемента массива
+    // id таска у выбранного элемента массива
+    let currentIdTask_arr = currentTask_arr.newTask_ID          
 
 
     const currentTask_typeTask_icon = currentTask_arr.newTask_typeTask_icon_src
@@ -2494,7 +2502,7 @@ todayTaskOuter.addEventListener("click", function(e) {
     } 
 
 
-    // При клике на кнопку "Сохранить" при редактировании текущего таска
+    // При клике на кнопку "Сохранить" при редактировании текущего таска (не подзадачи!) (но внутри МО)
     buttonSaveEdit.addEventListener("click", clickSaveEditModal)
     function clickSaveEditModal() {
         if (!el_textarea_name) return       // Если элемент textarea в м.о. ещё не был создан, то пропускаем
@@ -2923,7 +2931,9 @@ todayTaskOuter.addEventListener("click", function(e) {
 
 
     let timevar2_MO = ""        // (для работы с доп функциями при клике на кнопку добавления нового таска)
-    let currentLi_klick_MO = null
+
+    // Удаляю отметку о текущей подзадаче
+    currentLi_klick_MO = null
 
 
     // При нажатии на доп функцию "Назначить срок" у подзадачи
@@ -2949,7 +2959,6 @@ todayTaskOuter.addEventListener("click", function(e) {
             hide_subtask_dopFuncs_modal(currentLi_modal.querySelector(".subtask__dopFuncs"))
 
             // Запрещается показ доп. функций подзадач
-            // disabledShowDopTask_modal = true
             disabledShowDopTask = true
         }
 
@@ -2960,10 +2969,10 @@ todayTaskOuter.addEventListener("click", function(e) {
 
             timevar2_MO=''
             
-            currentLi_klick_MO = null                                  // Удаляю отметку о текущей подзадаче
+            // Удаляю отметку о текущей подзадаче
+            currentLi_klick_MO = null                                  
 
             // Разрешаю показ доп. функций подзадач
-            // disabledShowDopTask_modal = false
             disabledShowDopTask = false
 
             show_subtask_dopFuncs_modal(currentLi_modal.querySelector(".subtask__dopFuncs"))
@@ -3259,17 +3268,19 @@ todayTaskOuter.addEventListener("click", function(e) {
         }
     }
 
-    // 2.1) Выбор срока выполнения таска (при выборе из списка вариантов):
+    // 2.1) Выбор срока выполнения ТАСКА (внутри МО) (при выборе из СПИСКА ВАРИАНТОВ):
     deadlineItem_modal.forEach(function(item) {
         item.addEventListener("click", function(e) {
-            // Родитель скрытого меню срока выполнения (что бы узнать в последствии, находится этот элемент внутри aside или внутри подзадачи)
+            // Родитель скрытого меню срока выполнения (что бы узнать в последствии, находится этот элемент внутри aside или внутри подзадачи в кнопке "назначить срок")
             let parentDeadlineHiddenMenu = conteinerFromHiddenMenuDeadlineTasks_modal.parentElement
             
             // Если меню выбора срока выполнения находится внутри aside (в разделе изменения срока выполнения ТАСКА).
             if (parentDeadlineHiddenMenu.classList.contains("itc-modal-body__group") == true) {
+                // Убираю выделение выбранного дня в календаре, если ранее там было что-то выбрано
                 if (selectedDay_modal && selectedDay_modal != "") {
                     selectedDay_modal.classList.remove("-selected-")
                 }
+                
     
                 const nameItemDeadline_modal = item.querySelector(".itc-modal-body__deadline-name").innerHTML   // Название выбранного дня (из списка)
                 const textAreaDeadline_modal = modalBtn_GroupDeadlineTask.querySelector(".itc-modal-body__text-settings")     // Поле с текстом для выбранного срока
@@ -3334,12 +3345,13 @@ todayTaskOuter.addEventListener("click", function(e) {
             }
 
 
-            // Если меню выбора срока выполнения находится внутри ПОДЗАДАЧИ
+
+            // Если меню выбора срока выполнения находится внутри ПОДЗАДАЧИ (Была нажата кнопка NewDeadlineSubtusk)
             if (parentDeadlineHiddenMenu.classList.contains("subtask__btnNewDeadline") == true) {
                 if (selectedDay_modal && selectedDay_modal != "") {
                     selectedDay_modal.classList.remove("-selected-")
                 }
-    
+                
                 const nameItemDeadline_modal = item.querySelector(".itc-modal-body__deadline-name").innerHTML   // Название выбранного дня (из списка)
                 const textAreaDeadline_subtusk = currentLi_klick_MO.querySelector(".subtask__deadline span")   // Поле с текстом со сроком выполнения данной подзадачи (внизу слева у каждой подзадачи)
                 let selectedDayFromMenu_modal = ""
@@ -3407,47 +3419,44 @@ todayTaskOuter.addEventListener("click", function(e) {
 
                 // Вписываю в поле со сроком выполнения данной подзадачи выбранноу дату
                 textAreaDeadline_subtusk.innerHTML = selectedDayFromMenu_modal
-
-                console.log("ээээй");
             }
             
         })
     })
 
     // 2.2) Выбор срока выполнения таска (при выборе в календаре):
-    // if (selectedDay_modal && selectedDay_modal != "") {
-    //     selectedDay_modal.classList.remove("-selected-")
-    // }
+
     let selectedDay_modal = ""
     DeadlineCalendare_modal.addEventListener("click", function(e) {
         let target = e.target       // Где был совершён клик?
 
-        // Родитель скрытого меню срока выполнения (что бы узнать в последствии, находится этот элемент внутри доп. функции "назначить срок" или внутри подзадачи при редактировании подзадачи)
-        let parentDeadlineHiddenMenu = hiddenMenuDeadline.parentElement
+
+        // Родитель скрытого меню срока выполнения (что бы узнать в последствии, находится этот элемент внутри aside или внутри доп. функции подзадачи "назначить срок")
+        let parentDeadlineHiddenMenu = conteinerFromHiddenMenuDeadlineTasks_modal.parentElement
 
         if (!target.classList.contains("air-datepicker-cell")) return       // Если клик был не на элементе с ячейкой даты, то клик игнорируется
 
 
-        // Если меню выбора срока было открыто через доп. функцию таска "Назначить срок", то ...
-        if (parentDeadlineHiddenMenu.classList.contains("subtask__btnNewDeadline")) {
+        // Если меню выбора срока выполнения находится внутри aside (в разделе изменения срока выполнения ТАСКА).
+        if (parentDeadlineHiddenMenu.classList.contains("itc-modal-body__group") == true) {
             // Если клик был по ячейке с датой, до запускается функция, где уже будет произведена работа с выбранной ячейкой
-            showElCalentare_modalNewDeadline(target) 
+            showElCalentare_modal(target)
         }
 
-        // Если клик был по кнопке "Назначить срок", то клик игнорируется
-        if (target.closest(".subtask__btnNewDeadline") != null)  {
-            return false
-        } 
 
-        showElCalentare_modal(target)     // Если клик был по ячейке с датой, до запускается функция, где уже будет произведена работа с выбранной ячейкой
+        // Если меню выбора срока было открыто через доп. функцию подзадачи "Назначить срок", то ...
+        else if (parentDeadlineHiddenMenu.classList.contains("subtask__btnNewDeadline")) {
+            // Если клик был по ячейке с датой, до запускается функция, где уже будет произведена работа с выбранной ячейкой
+            showElCalentareNewDeadline_modal(target) 
+        }
+
+        
     })
 
     function showElCalentare_modal(currData) {
-        // Родитель скрытого меню срока выполнения (что бы узнать в последствии, находится этот элемент внутри aside или внутри подзадачи)
+        // Родитель скрытого меню срока выполнения (что бы узнать в последствии, находится этот элемент внутри aside или внутри подзадачи  в кнопке "назначить срок")
         let parentDeadlineHiddenMenu = conteinerFromHiddenMenuDeadlineTasks_modal.parentElement
 
-
-        let prevSelectedDay_modal = ""
 
         // Поле с текстом для выбранного срока
         const textAreaDeadline = modalBtn_GroupDeadlineTask.querySelector(".itc-modal-body__text-settings") 
@@ -3458,9 +3467,7 @@ todayTaskOuter.addEventListener("click", function(e) {
 
         //Очищаю стиль выбранного элемента со всех, если он где-то был (удаляю со всех элементов класс "hovered_select_menu")
         reloadItemsDeadline_modal()
-        // if (selectedDay_modal.classList.contains("-selected-")) {
-            selectedDay_modal.classList.add("-selected-")
-        // }
+        selectedDay_modal.classList.add("-selected-")
     
         
         const dataDay = selectedDay_modal.getAttribute("data-date")   // Выбранный номер дня месяца
@@ -3486,48 +3493,19 @@ todayTaskOuter.addEventListener("click", function(e) {
             // Обновляю срок выполнения в массиве этого таска
             currentTask_arr.newTask_deadlineTask = dataDay + " " + selectMonthDataCalendare
         }
-
-
-
-        // Если меню выбора срока выполнения находится внутри ПОДЗАДАЧИ
-        if (parentDeadlineHiddenMenu.classList.contains("subtask__btnNewDeadline") == true) {
-            let idCurSubtask = ""     // Id подзадачи из массива
-
-            // Перебираю массив подзадач и сохраняю в "liFromArr" id того, что совпадает с id выбранной для изменения срока выполнения подзадачи (li)
-            for (let i = 0; i < all_subtasks.length; i++) {
-                if (all_subtasks[i].newSubtask_ID == targetLi_subtask.getAttribute("data-subtask-id")) { 
-                    idCurSubtask = i
-                    break
-                }
-            } 
-
-            // Обновляю срок выполнения в массиве текущей ПОДЗАДАЧИ
-            all_subtasks[idCurSubtask].newSubtask_deadlineSubtask = dataDay + " " + selectMonthDataCalendare
-        }
     }
 
-    function showElCalentare_modalNewDeadline(currData) {
+
+    function showElCalentareNewDeadline_modal(currData) {
         //Очищаю стиль выбранного элемента со всех, если он где-то был (удаляю со всех элементов класс "hovered_select_menu")
         reloadItemsDeadline_modal()
 
-        // Элемент  li для последующего определения нового срока выполнения задаче (через доп. функцию "Назначить срок выполнения")
-        const targetLi = currData.closest(".task")
+        selectedDay = currData  
 
-        let liFromArr   // Таск из массива
-        // Перебираю массив тасков и сохраняю в "liFromArr" id того, что совпадает с id выбранного для редактирования таска (li)
-        for (let i = 0; i < all_tasks.length; i++) {
-            if (all_tasks[i].newTask_ID == targetLi.getAttribute("id")) {
-                liFromArr = all_tasks[i]   
-                break
-            }
-        }
+        // Поле с текстом со сроком выполнения данной подзадачи (нужно для доп. функции "Назначить срок")
+        const deadlineThisSubtask = targetLi_subtask.querySelector(".subtask__deadline span")
 
-        selectedDay = currData
-
-        // Поле с текстом со сроком выполнения данного таска (нужно для доп функции "Назначить срок")
-        const deadlineThisTask = targetLi.querySelector(".task__deadline span")
-
-
+        console.log(deadlineThisSubtask);
         const dataDay = selectedDay.getAttribute("data-date")   // Выбранный номер дня месяца
         const dataMonth = selectedDay.getAttribute("data-month")    // Выбранный месяц (числом)
 
@@ -3540,13 +3518,23 @@ todayTaskOuter.addEventListener("click", function(e) {
 
         // Ввожу в поле с выбором срока выполнения - выбранную в календаре дату (число + месяц)
         isObservHiddenMenus = true
-        observFunc(selectDeadline)
-        if (deadlineThisTask.innerHTML != dataDay + " " + selectMonthDataCalendare) {   // Если выбранная дата не такая же как уже выбранная
-            deadlineThisTask.innerHTML = dataDay + " " + selectMonthDataCalendare
+        observFunc(selectDeadline)  
+        if (deadlineThisSubtask.innerHTML != dataDay + " " + selectMonthDataCalendare) {   // Если выбранная дата не такая же как уже выбранная
+            deadlineThisSubtask.innerHTML = dataDay + " " + selectMonthDataCalendare
         }
 
-        // Обновляю срок выполнения в массиве текущего таска
-        liFromArr.newTask_deadlineTask = deadlineThisTask.innerHTML
+        let idCurSubtask = ""     // Id подзадачи из массива
+        // Перебираю массив подзадач и сохраняю в "liFromArr" id того, что совпадает с id выбранной для изменения срока выполнения подзадачи (li)
+        for (let i = 0; i < all_subtasks.length; i++) {
+            if (all_subtasks[i].newSubtask_ID == targetLi_subtask.getAttribute("data-subtask-id")) { 
+                idCurSubtask = i
+                break
+            }
+        } 
+
+
+        // Обновляю срок выполнения в массиве текущей ПОДЗАДАЧИ
+        all_subtasks[idCurSubtask].newSubtask_deadlineSubtask = deadlineThisSubtask.innerHTML
     }
 
 
@@ -3670,7 +3658,7 @@ todayTaskOuter.addEventListener("click", function(e) {
         buttonAddNewTask.removeEventListener("click", addSubtaskForm) 
         // Удаляю событие с кнопки "сохранить" в форме добавления таска
         buttonSaveTask.removeEventListener("click", buttonSaveSubtask)
-
+  
 
         chestForCalendar.append(document.querySelector(".itc-modal-body__hiddenMenu-deadline-calendare"))
         modal.dispose();  // Удаляю модальное окно из html документа

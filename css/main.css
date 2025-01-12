@@ -369,14 +369,6 @@ aside {
         .section-content-block__text-prosrocheno {
             font-weight: bold;
         }
-    
-    .section-content-block__perenesti {         /* ссылка "перенести" */
-        color: #D65B52;
-    }
-    .section-content-block__perenesti:hover {
-        text-decoration: underline;
-    }
-
 
 
 /* /// */
