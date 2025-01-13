@@ -68,7 +68,11 @@
             <img class="asideUserMenu__icon-search-task" src="./icon/search.png" alt="" width="20px">
             <span class="asideUserMenu__text-search">Поиск</span>
         </div>
-        <div class="asideUserMenu__today-list hovered_aside-items hovered_select_menu">  <!-- Проекты на сегодня (+завершённые) -->
+        <div class="asideUserMenu__allTasks-list hovered_aside-items hovered_select_menu">  <!-- Все проекты (+завершённые) -->
+            <img class="asideUserMenu__img-allTasks-list" src="./icon/allTasks.png" alt="" width="20px">
+            <span class="asideUserMenu__text-allTasks-list">Все задачи</span>
+        </div>   
+        <div class="asideUserMenu__today-list hovered_aside-items">  <!-- Проекты на сегодня (+завершённые) -->
             <img class="asideUserMenu__img-today-list" src="./icon/today.png" alt="" width="20px">
             <span class="asideUserMenu__text-today-list">Сегодня</span>
         </div>      
@@ -98,16 +102,16 @@
 
 
 <main class="main-content">
-<div class="block-today">
+<div class="block-allTasks">
     <header class="header-block">
         <div class="header-block__view-header-content">
             <div class="header-block__header-wrapper">
                 <div class="header-block__count-tasks-block">
-                    <h1>Сегодня</h1>
+                    <h1>Все задачи</h1>
                     <div class="header-block__count-task-wrapper">
                         <img src="./icon/icon_countTask.png" alt="" width="12px">
                         <div class="header-block__text-count">
-                            <span class="header-block__countNum-tasks-today">N</span> 
+                            <span class="header-block__countNum-tasks-allTasks">N</span> 
                             <span>задач</span>
                         </div>
                     </div>
@@ -128,7 +132,7 @@
                 </div>
             </div>
             <div class="section-content-block__nameToday"></div>
-            <ul class="today-task-outer-block">
+            <ul class="allTasks-outer-block">
                 <li class="task" id="-1">
                 <div class="task__wrapper">
                     <div class="task__wrapper-button-task-checkbox">
@@ -402,5 +406,8 @@ new AirDatepicker(".itc-modal-body__hiddenMenu-deadline-calendare", {
     buttons: ["today"]
 })
 </script>
+
+
+
 </body>
 </html>

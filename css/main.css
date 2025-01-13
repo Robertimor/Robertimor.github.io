@@ -216,6 +216,18 @@ aside {
     }
 
 
+.asideUserMenu__allTasks-list {
+    display: flex;
+    align-items: center;
+    padding: 8px 5px;
+    border-radius: 10px;
+}
+
+    .asideUserMenu__text-allTasks-list {
+        font-size: 14px;
+        margin-left: 5px;
+    }
+
 
 .asideUserMenu__today-list {
     display: flex;
@@ -273,7 +285,7 @@ aside {
     flex-grow: 1;
 }
 
-.block-today {
+.block-allTasks {
     box-sizing: border-box;
     display: flex;
     flex-direction: column;
@@ -293,12 +305,12 @@ aside {
     margin: 0 auto;
 }
 
-    .header-block__header-wrapper {   /* Поле для отображения header-а меню "Сегодня" */
+    .header-block__header-wrapper {   /* Поле для отображения header-а меню "Все задачи" */
         /* height: 85px; */
         display: flex;
         align-items: center;
     }
-        .header-block__count-tasks-block {     /* Поле с заголовком и количеством тасков на сегодня */
+        .header-block__count-tasks-block {     /* Поле с заголовком и количеством тасков (общее количество, без учёта просроченных) */
             flex-grow: 1;
         }
         .header-block__count-tasks-block h1 {
@@ -318,7 +330,6 @@ aside {
         .header-block__filterTasks {   /* Поле с настройками сортировки тасков */
             display: flex;
             align-items: center;
-            /* padding: 15px 0px 10px 10px; */
             font-size: 14px;
         }
             .header-block__icon-filter {
@@ -382,7 +393,7 @@ aside {
 
 
 
-.today-task-outer-block {       /* Поле с сегодняшними тасками */
+.allTasks-outer-block {       /* Поле со всеми тасками */
     list-style: none;
 }
 .task, .subtask {    /* Поле с таском */

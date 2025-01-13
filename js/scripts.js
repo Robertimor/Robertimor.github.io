@@ -27,20 +27,14 @@ const hideAndShow_Sidebar = document.querySelector(".asideUserMenu__btn-hideAndS
 
 
 
-const countTasksToday = document.querySelector(".header-block__countNum-tasks-today")      // Поле с количеством заданий на сегодня
+const countAllTasks = document.querySelector(".header-block__countNum-tasks-allTasks")      // Поле с количеством заданий (всего, кроме просроченных)
 const sectionContentBlock_viewContent = document.querySelector(".section-content-block__view-content")  // Основная область. С текущей датой, со списком тасков, с меню добавления новой задачи
 const nameToday = document.querySelector(".section-content-block__nameToday")          // Поле для отображения текущей даты
 
 
-const todayTaskOuter = document.querySelector(".today-task-outer-block")        // Область со всеми созданными сегодняшними тасками
-const tasks = document.querySelectorAll(".task")       // Поле с сегодняшними тасками
-const buttonTaskCheckboxReady = document.querySelectorAll(".task__button-task-checkbox")  // Кнопка возле таска для отметки "выполнено"
-const taskDopFuncs = document.querySelectorAll(".task__dopFuncs")   // Поле с дополнительными тремя кнопками к таску
+const allTasksOuter = document.querySelector(".allTasks-outer-block")        // Область со всеми созданными тасками (кроме просроченных)
 
-const ElNameTask = document.querySelectorAll(".task__name-task")
-const ElDescriptionTask = document.querySelectorAll(".task__description-task-text")
-const ElTypeTaskName = document.querySelectorAll(".task__typeTask span")
-const ElTypeTaskIcon = document.querySelectorAll(".task__imgBlock-typeTask img")
+
 
 
 
@@ -151,7 +145,7 @@ hideAndShow_Sidebar.addEventListener("click", function (e) {
 
 
 let all_tasks = []     // Массив из созданных тасков
-countTasksToday.innerHTML = all_tasks.length   // Вписывание количество тасков в поле для их подсчёта
+countAllTasks.innerHTML = all_tasks.length   // Вписывание количество тасков в поле для их подсчёта
 
 let tasksId = 0     // Счётчик для присваивания уникальных id создаваемым таскам
 
@@ -164,8 +158,8 @@ let tasksId = 0     // Счётчик для присваивания уника
 // Задача 1
 tasksId += 1
 const myJobTask1 = {
-    newTask_name: "Баг с не очищаемым полем выбора типа/срока/приоритета, при открывании этого поля у другой задачи (подобного объекта)", 
-    newTask_description: "Исправить баг с меню выбором сроков выполнения (как у тасков так и в м.о.). Нужно либо создать новый календарь (что бы было 3 вне м.о. и 3 внутри м.о.), что бы не было бага с отображением выбранной даты. Либо сделать так, что бы при нажатии на кнопку открытия скрытого меню (во всех местах), меню очищалось от стилизации выбранной даты, а затем автоматически выделялся тот элемент, который нужен (в зависимости от того, где открыто меню выбора)", 
+    newTask_name: "Добавить автоматическое выделение выбранного в задаче приоритета и срока выполнения, при открытии меню редактирования таска и подзадачи", 
+    newTask_description: "При открытии меню выбора приоритета и срока выполнения, ничего не выделено и не понятно визуально какой из пунктов выбран. Нужно что бы при открытии скрытых меню выбора, сразу ставилось выделение на текущем выборе", 
     newTask_typeTask_name: "Работа",
     newTask_typeTask_icon_src: "./icon/job.png",
     newTask_deadlineTask: "24 июнь",
@@ -177,15 +171,15 @@ const myJobTask1 = {
 }
 funcAddNewTask (myJobTask1)
 all_tasks.push(myJobTask1)
-countTasksToday.innerHTML = all_tasks.length
+countAllTasks.innerHTML = all_tasks.length
 
 
 
 // Задача 2
 tasksId += 1
 const myJobTask2 = {
-    newTask_name: "$$$$$$$", 
-    newTask_description: "$$$$$$$$$$$$$$", 
+    newTask_name: "", 
+    newTask_description: "", 
     newTask_typeTask_name: "Работа",
     newTask_typeTask_icon_src: "./icon/job.png",
     newTask_deadlineTask: "24 июнь",
@@ -197,14 +191,14 @@ const myJobTask2 = {
 }
 funcAddNewTask (myJobTask2)
 all_tasks.push(myJobTask2)
-countTasksToday.innerHTML = all_tasks.length
+countAllTasks.innerHTML = all_tasks.length
 
 
 // Задача 3
 tasksId += 1
 const myJobTask3 = {
-    newTask_name: "Починить кнопку 'Назначить срок'.", 
-    newTask_description: "Как у тасков (вообще не работает), так и перепроверить её работу у подзадач. И то, успешно ли изменяется дата внизу слева у таска/подзадачи", 
+    newTask_name: "KKalala", 
+    newTask_description: "awdawl21lekd1x2ew2d1x213d", 
     newTask_typeTask_name: "Работа",
     newTask_typeTask_icon_src: "./icon/job.png",
     newTask_deadlineTask: "24 июнь",
@@ -216,7 +210,7 @@ const myJobTask3 = {
 }
 funcAddNewTask (myJobTask3)
 all_tasks.push(myJobTask3)
-countTasksToday.innerHTML = all_tasks.length
+countAllTasks.innerHTML = all_tasks.length
 
 
 // Задача 4
@@ -235,7 +229,7 @@ const myJobTask4 = {
 }
 funcAddNewTask (myJobTask4)
 all_tasks.push(myJobTask4)
-countTasksToday.innerHTML = all_tasks.length
+countAllTasks.innerHTML = all_tasks.length
 
 
 // Задача 5
@@ -254,7 +248,7 @@ const myJobTask5 = {
 }
 funcAddNewTask (myJobTask5)
 all_tasks.push(myJobTask5)
-countTasksToday.innerHTML = all_tasks.length
+countAllTasks.innerHTML = all_tasks.length
 
 
 // Задача 6
@@ -273,7 +267,7 @@ const myJobTask6 = {
 }
 funcAddNewTask (myJobTask6)
 all_tasks.push(myJobTask6)
-countTasksToday.innerHTML = all_tasks.length
+countAllTasks.innerHTML = all_tasks.length
 
 
 
@@ -327,13 +321,13 @@ let disabledShowDopTask = false
 // Отображение поля с доп функциями при наведении на поле с таском
 
 let currentLi = null    // Элемент li под курсором в данный момент (если есть)
-todayTaskOuter.addEventListener("mouseover", function(e) {
+allTasksOuter.addEventListener("mouseover", function(e) {
     // перед тем, как войти на следующий элемент, курсор всегда покидает предыдущий если currentLi есть, то мы ещё не ушли с предыдущего <li>, это переход внутри - игнорируем такое событие
     if (currentLi) return
     let target = e.target.closest("li.task")
 
     if (!target) return;    // переход не на <li> - игнорировать
-    if (!todayTaskOuter.contains(target)) return    // переход на <li>, но вне .todayTaskOuter (возможно при вложенных списках) - игнорировать
+    if (!allTasksOuter.contains(target)) return    // переход на <li>, но вне .allTasksOuter (возможно при вложенных списках) - игнорировать
 
     // ура, мы зашли на новый <li>
 
@@ -342,8 +336,8 @@ todayTaskOuter.addEventListener("mouseover", function(e) {
     show_task_dopFuncs(currentLi.querySelector(".task__dopFuncs"))     // Показываем скрытое меню с доп func этого элемента
 })
 
-todayTaskOuter.addEventListener("mouseout", function(e) {
-    // если мы вне <li>, то игнорируем уход мыши. Это какой-то переход внутри .todayTaskOuter, но вне <li>
+allTasksOuter.addEventListener("mouseout", function(e) {
+    // если мы вне <li>, то игнорируем уход мыши. Это какой-то переход внутри .allTasksOuter, но вне <li>
     if (!currentLi) return
     
     // мы покидаем элемент – но куда? Возможно, на потомка?
@@ -391,15 +385,21 @@ function hide_task_dopFuncs(thisDopFuncs) {
 
 
 // Кнопка редактирования тасков
-todayTaskOuter.addEventListener("click", function(e) {
-    let targetLi = e.target.closest(".task")       // Задача, внутри которой был нажат "edit"
+allTasksOuter.addEventListener("click", function(e) {
+
     let target = e.target.closest(".task__btnEdit")   // Нажатая кнопка "edit"
+    // Если нажатие было не по кнопке редактирования, то игнор
     if (!target) return
+
+    let targetLi = e.target.closest(".task")       // Задача, внутри которой был нажат "edit"
+
+    // Блокирую возможность открытия м.о.
+    isModal_block = true 
 
 
     // В область выбранного таска добавляется поле для внесение изменений (вместо самого li, который скрывается)
     targetLi.append(formFromAddNewTask)     
-    todayTaskOuter.querySelectorAll(".task__wrapper").forEach(function(task) {
+    allTasksOuter.querySelectorAll(".task__wrapper").forEach(function(task) {
         task.classList.remove("hide2")      // Убирается скрытие li со всех элементов (если до этого какой-то скрылся, из-за незаконченного редактирования)
     })
     targetLi.querySelector(".task__wrapper").classList.add("hide2")        // Скрывается li
@@ -419,7 +419,6 @@ todayTaskOuter.addEventListener("click", function(e) {
             break
         }
     }
-    console.log(liFromArr);
 
     // Вставляю данные у выбранного таска в меню редактирования
     copyAndPushLabelsTask(liFromArr)
@@ -463,7 +462,7 @@ buttonSaveTask.addEventListener("click", function (e) {
         // Блок "formFromAddNewTask" перемещается в конец
         sectionContentBlock_viewContent.append(formFromAddNewTask)  
         // Удаляется скрытие элемента таска, вместо которого ранее был перемещён блок "formFromAddNewTask"
-        todayTaskOuter.querySelectorAll(".task__wrapper").forEach(function(task) {
+        allTasksOuter.querySelectorAll(".task__wrapper").forEach(function(task) {
             task.classList.remove("hide2")
         })
 
@@ -476,6 +475,8 @@ buttonSaveTask.addEventListener("click", function (e) {
         // Удаляю отметку о текущем таске с отслеживания при наведении
         currentLi = null
 
+        // Снимаю блокировку с открытия м.о.
+        isModal_block = false  
         // Разрешаю показ доп. функций тасков
         disabledShowDopTask = false
     }
@@ -519,7 +520,7 @@ function updateDataTask_element(taskEl, taskArr) {
 
 
 // Кнопка добавления нового срока выполнения таску (одна из 2 доп функций таска)
-todayTaskOuter.addEventListener("click", function(e) {
+allTasksOuter.addEventListener("click", function(e) {
     const targetBtn = e.target.closest(".task__btnNewDeadline")   // Нажатая кнопка "NewDeadline" 
     const targetBtnIcon = e.target.closest(".task__dopFunction_iconWrap")
     let defaultLocation = formFromAddNewTask.querySelector(".form-from-add-new-task__setting-deadline") // Стандартное расположение скрытого меню deadline. (внутри формы для добавления нового таска)
@@ -577,7 +578,7 @@ todayTaskOuter.addEventListener("click", function(e) {
 // Отображение галочки в кружке-конпке при наведении на кружок:
 
 let currentBtnCheckbox = null   // Элемент task__button-task-checkbox под курсором в данный момент (если есть)
-todayTaskOuter.addEventListener("mouseover", function(e) {
+allTasksOuter.addEventListener("mouseover", function(e) {
     // перед тем, как войти на следующий элемент, курсор всегда покидает предыдущий если currentBtnCheckbox есть, то мы ещё не ушли с предыдущего кружка, это переход внутри - игнорируем такое событие
     if (currentBtnCheckbox) return
     let target2 = e.target.closest(".task__button-task-checkbox")
@@ -588,8 +589,8 @@ todayTaskOuter.addEventListener("mouseover", function(e) {
     show_mark_OK(currentBtnCheckbox.querySelector("img"))     // Показываем галочку внутри этого элемента   
 })
 
-todayTaskOuter.addEventListener("mouseout", function(e) { 
-     // если мы вне кружка, то игнорируем уход мыши. Это какой-то переход внутри .todayTaskOuter, но вне кружка
+allTasksOuter.addEventListener("mouseout", function(e) { 
+     // если мы вне кружка, то игнорируем уход мыши. Это какой-то переход внутри .allTasksOuter, но вне кружка
     if (!currentBtnCheckbox) return
 
     // мы покидаем элемент – но куда? Возможно, на потомка?
@@ -613,7 +614,7 @@ function show_mark_OK (thisMark) {
 }
 
 // Функция удаления тасков при нажатии на кружок
-todayTaskOuter.addEventListener("click", function(e) {
+allTasksOuter.addEventListener("click", function(e) {
     let target = e.target.closest(".task__button-task-checkbox")   //Нажатый кружок
     let targetLi = e.target.closest(".task")       // Задача, внутри которой был нажат кружок
     if (!target) return
@@ -632,7 +633,7 @@ todayTaskOuter.addEventListener("click", function(e) {
 
 
     // all_tasks.splice(liFromArr, 1)     // Удаляю этот таск из массива с тасками
-    // countTasksToday.innerHTML = all_tasks.length    // Обновляю поле на странице с количеством существующих тасков
+    // countAllTasks.innerHTML = all_tasks.length    // Обновляю поле на странице с количеством существующих тасков
 })
 
 function removeTask(curTask) {
@@ -649,7 +650,7 @@ function removeTask(curTask) {
 
 
     all_tasks.splice(liFromArr, 1)     // Удаляю этот таск из массива с тасками
-    countTasksToday.innerHTML = all_tasks.length    // Обновляю поле на странице с количеством существующих тасков
+    countAllTasks.innerHTML = all_tasks.length    // Обновляю поле на странице с количеством существующих тасков
 }
 
 
@@ -676,7 +677,7 @@ addNewTask.addEventListener("mouseleave", function(e) {
 addNewTask.addEventListener("click", function(e) {
     sectionContentBlock_viewContent.append(formFromAddNewTask)
     // Убираю скрытие у элемента li, вместо которого ранее могло подставляться поле для редактирования
-    todayTaskOuter.querySelectorAll(".task__wrapper").forEach(function(task) {
+    allTasksOuter.querySelectorAll(".task__wrapper").forEach(function(task) {
         task.classList.remove("hide2")
     })
     formFromAddNewTask.classList.remove("hide2")
@@ -744,6 +745,11 @@ selectTypeTask.addEventListener("mouseleave", function(e) {
 // Появление и скрытие поле с выбором типа таска в меню создания/редактирования новой задачи
 let timeVar = ''
 selectTypeTask.addEventListener("click", function(e) {      // При нажатии на кнопку 
+
+    // Очищаю выделение срока выполнения в списке вариантов и в календаре
+    relodadItemsAndCalendarDeadline()
+
+
     // Если скрытое меню показано (не скрыто)
     if (conteinerFromHiddenMenuTypesTasks.classList.contains("hide2") == false) {       
         conteinerFromHiddenMenuTypesTasks.classList.add("hide2")    // Скрываю меню выбора типа таска
@@ -785,6 +791,11 @@ selectTypeTask.addEventListener("click", function(e) {      // При нажат
 
 conteinerFromHiddenMenuTypesTasks.addEventListener("click", function(e) {     // При нажатии на само поля выбора
     timeVar = 1;  
+
+     // Убираю выделения кнопки
+     selectTypeTask.classList.remove("active2")
+     selectTypeTask.querySelector("span").classList.remove("darkned")
+     selectTypeTask.querySelector(".form-from-add-new-task__icon").classList.remove("darkned")
 })
 
 
@@ -841,8 +852,6 @@ body.addEventListener("click", function(e) {      // При нажатии вн�
         // Игнорируем дальнейший код, который должен работать лишь если модальное окно закрыто.
         return
     }  
-
-
 
     const targetLi = e.target.closest(".task")     // Элемент  li для последующего определения нового типа таску (одна из двух кнопок доп функций таска)
 
@@ -992,6 +1001,9 @@ selectDeadline.addEventListener("click", function(e) {      // При нажат
 
         // Разрешаю показ доп. функций тасков
         disabledShowDopTask = false
+
+        // Очищаю выделение срока в списке вариантов и в календаре
+        relodadItemsAndCalendarDeadline()
     } 
     // Иначе, если доп меню скрыто и клик был на крестик:
     else if (hiddenMenuDeadline.classList.contains("hide2") == true && e.target == btnCross.querySelector("img")) {
@@ -1087,6 +1099,9 @@ body.addEventListener("click", function(e) {      // При нажатии вн�
 
             // Разрешаю показ доп. функций тасков
             disabledShowDopTask = false
+
+            // Очищаю выделение срока в списке вариантов и в календаре
+            relodadItemsAndCalendarDeadline()
         } 
         
         // Если клик был вне поля выбора и вне элемента таска (li), и при этом уже был отмечен текущий таск по клику (ранее уже нажалась кнопка ".task__btnNewDeadline" (иконку) и отобразилось меню выбора срока выполнения)
@@ -1109,6 +1124,9 @@ body.addEventListener("click", function(e) {      // При нажатии вн�
 
             // Разрешаю показ доп. функций тасков
             disabledShowDopTask = false
+
+            // Очищаю выделение срока в списке вариантов и в календаре
+            relodadItemsAndCalendarDeadline()
         } 
 
         // Если клик был вне поля выбора, на элемент таска (li), но не на кнопку ".task__btnNewDeadline" и при этом ранее уже был отмечен таск (ранее уже нажалась кнопка ".task__btnNewDeadline" (иконку) и отобразилось меню выбора срока выполнения)
@@ -1136,6 +1154,10 @@ body.addEventListener("click", function(e) {      // При нажатии вн�
             // Показываю доп. функции у той подзадачи, на которую был совершён клик (которая была под курсором в момент клика)
             targetLi_modal.querySelector(".subtask__dopFuncs").querySelector(".subtask__btnEdit").classList.remove("hide1")
             targetLi_modal.querySelector(".subtask__dopFuncs").querySelector(".subtask__btnNewDeadline").classList.remove("hide1")
+
+
+            // Очищаю выделение срока в списке вариантов и в календаре
+            relodadItemsAndCalendarDeadline()
         }
 
         // Если клик был вне поля выбора, на элемент таска (li), но не на кнопку ".task__btnNewDeadline" и при этом ранее не был отмечен таск (ранее не нажималась кнопка ".task__btnNewDeadline", при нажатии на которую отображается меню выбора срока выполнения) 
@@ -1151,6 +1173,9 @@ body.addEventListener("click", function(e) {      // При нажатии вн�
             targetLi_modal.querySelector(".subtask__dopFuncs").querySelector(".subtask__btnEdit").classList.remove("hide1")
             targetLi_modal.querySelector(".subtask__dopFuncs").querySelector(".subtask__btnNewDeadline").classList.remove("hide1")
 
+
+            // Очищаю выделение срока в списке вариантов и в календаре
+            relodadItemsAndCalendarDeadline()
         }
 
 
@@ -1169,7 +1194,7 @@ body.addEventListener("click", function(e) {      // При нажатии вн�
 
     
     const targetLi = e.target.closest(".task")     // Элемент  li для последующего определения нового срока выполнения таску (одна из двух кнопок доп функций таска)
-    console.log(targetLi);
+
     const targetBtn = e.target.closest(".task__btnNewDeadline")   // Была ли нажата кнопка "NewDeadline" 
     const defaultLocation = formFromAddNewTask.querySelector(".form-from-add-new-task__setting-deadline")   // Стандартное расположение скрытого меню deadline. (внутри формы для добавления нового таска)
 
@@ -1184,6 +1209,10 @@ body.addEventListener("click", function(e) {      // При нажатии вн�
 
         // Разрешаю показ доп. функций тасков
         disabledShowDopTask = false
+
+        // Очищаю выделение срока в списке вариантов и в календаре
+        relodadItemsAndCalendarDeadline()
+
     } 
     
     // Если клик был вне поля выбора и вне элемента таска (li), и при этом уже был отмечен текущий таск по клику (ранее уже нажалась кнопка ".task__btnNewDeadline" (иконку) и отобразилось меню выбора срока выполнения)
@@ -1205,6 +1234,9 @@ body.addEventListener("click", function(e) {      // При нажатии вн�
 
         // Разрешаю показ доп. функций тасков
         disabledShowDopTask = false
+
+        // Очищаю выделение срока в списке вариантов и в календаре
+        relodadItemsAndCalendarDeadline()
     } 
 
     // Если клик был вне поля выбора, на элемент таска (li), но не на кнопку ".task__btnNewDeadline" и при этом ранее уже был отмечен таск (ранее уже нажалась кнопка ".task__btnNewDeadline" (иконку) и отобразилось меню выбора срока выполнения)
@@ -1229,6 +1261,9 @@ body.addEventListener("click", function(e) {      // При нажатии вн�
 
         // Показываю доп. функции у того таска, на который был совершён клик (который был под курсором в момент клика)
         show_task_dopFuncs(currentLi.querySelector(".task__dopFuncs"))
+
+        // Очищаю выделение срока в списке вариантов и в календаре
+        relodadItemsAndCalendarDeadline()
     }
 
     // Если клик был вне поля выбора, на элемент таска (li), но не на кнопку ".task__btnNewDeadline" и при этом ранее не был отмечен таск (ранее не нажималась кнопка ".task__btnNewDeadline", при нажатии на которую отображается меню выбора срока выполнения) 
@@ -1242,6 +1277,9 @@ body.addEventListener("click", function(e) {      // При нажатии вн�
         show_task_dopFuncs(currentLi.querySelector(".task__dopFuncs"))
 
         isModal_block = false   // Снимаю блокировку с открытия м.о.
+
+        // Очищаю выделение срока в списке вариантов и в календаре
+        relodadItemsAndCalendarDeadline()
     }
 
 
@@ -1261,6 +1299,19 @@ function reloadItemsDeadline(currentItemDeadline) {
     })
     if (currentItemDeadline) {
         currentItemDeadline.classList.add("hovered_select_menu")
+    }
+}
+
+//Функция для очистки стиля "выбранного элемента" со всех deadlineItem и у всех ячеек календаря, если он где-то был (удаляю со всех элементов класс "hovered_select_menu").
+// Данная функция используется при редактировании срока у тасков (кроме бокового меню в МО), а так же и у ПОДЗАДАЧ
+function relodadItemsAndCalendarDeadline() {
+    // Очищаю выделение срока в списке вариантов
+    deadlineItem.forEach(function(itemDeadline) { 
+        itemDeadline.classList.remove("hovered_select_menu")
+    })
+    // Очищаю выделение срока в календаре
+    if (selectedDay && selectedDay != "") {
+        selectedDay.classList.remove("-selected-")
     }
 }
 
@@ -1519,6 +1570,9 @@ function showElCalentareNewDeadline(currData) {
 // Появление и скрытие поле с выбором приоритета задачи в меню создания/редактирования новой задачи
 timeVar = ''
 selectPriority.addEventListener("click", function(e) {      // При нажатии на кнопку
+    // Очищаю выделение срока выполнения в списке вариантов и в календаре
+    relodadItemsAndCalendarDeadline()
+
     const btnCross = selectPriority.querySelector(".form-from-add-new-task__icon-cross")
 
     // Если доп меню показано (не скрыто) и клик был на крестик и крестик показан (не скрыт)
@@ -1736,12 +1790,12 @@ buttonAddNewTask.addEventListener("click", function(e) {
         }
         funcAddNewTask(contentNewTask)      // Запускаю функцию для добавления нового html элемента с новым таском
         all_tasks.push(contentNewTask)     // Добавляю созданый объект в массив из списка всех тасков
-        countTasksToday.innerHTML = all_tasks.length    // Обновляю поле на странице с количеством существующих тасков
+        countAllTasks.innerHTML = all_tasks.length    // Обновляю поле на странице с количеством существующих тасков
 
         // Обнуляю элементы поля .formFromAddNewTask (поле для добавление нового таска) и скрываю его
         reloadFormAddTask()
 
-        todayTaskOuter.querySelectorAll(".task__wrapper").forEach(function(task) {
+        allTasksOuter.querySelectorAll(".task__wrapper").forEach(function(task) {
             task.classList.remove("hide2")
         })
         formFromAddNewTask.classList.add("hide2")
@@ -1789,7 +1843,7 @@ function funcAddNewTask(content) {
     </div>
     </li>
     `
-    todayTaskOuter.insertAdjacentHTML("afterbegin", html)     // Добавляю новый html элемент таска в начало
+    allTasksOuter.insertAdjacentHTML("afterbegin", html)     // Добавляю новый html элемент таска в начало
 }
 
 function reloadFormAddTask() {
@@ -1839,7 +1893,7 @@ buttonCloseMenuNewTask.addEventListener("click", function(e) {
         formFromAddNewTask.classList.add("hide2")   // Скрывается Блок "formFromAddNewTask"
         sectionContentBlock_viewContent.append(formFromAddNewTask)  // Блок "formFromAddNewTask" перемещается в конец
         // Удаляется скрытие элемента таска, вместо которого ранее был перемещён блок "formFromAddNewTask"
-        todayTaskOuter.querySelectorAll(".task__wrapper").forEach(function(task) {
+        allTasksOuter.querySelectorAll(".task__wrapper").forEach(function(task) {
             task.classList.remove("hide2")
         })
 
@@ -1854,6 +1908,10 @@ buttonCloseMenuNewTask.addEventListener("click", function(e) {
         // Удаляю отметку о текущем таске с отслеживания при наведении
         currentLi = null
 
+
+        // Снимаю блокировку с открытия м.о.
+        isModal_block = false
+
         // Разрешаю показ доп. функций тасков
         disabledShowDopTask = false
     }
@@ -1866,7 +1924,7 @@ formFromAddNewTask.addEventListener("keydown", function(e) {
         formFromAddNewTask.classList.add("hide2")   // Скрывается Блок "formFromAddNewTask"
         sectionContentBlock_viewContent.append(formFromAddNewTask)  // Блок "formFromAddNewTask" перемещается в конец
         // Удаляется скрытие элемента таска, вместо которого ранее был перемещён блок "formFromAddNewTask"
-        todayTaskOuter.querySelectorAll(".task__wrapper").forEach(function(task) {
+        allTasksOuter.querySelectorAll(".task__wrapper").forEach(function(task) {
             task.classList.remove("hide2")
         })
 
@@ -1885,7 +1943,7 @@ formFromAddNewTask.addEventListener("keydown", function(e) {
 
 
 let modal = ""
-todayTaskOuter.addEventListener("click", function(e) {
+allTasksOuter.addEventListener("click", function(e) {
     let targetLi = e.target.closest(".task")
 
 
@@ -1904,7 +1962,7 @@ todayTaskOuter.addEventListener("click", function(e) {
     currentTask_arr = all_tasks.find(function(el) {       // Присваиваю переменной тот таск, который имеет тот же id, что и выбранный html элемент таска
         return el.newTask_ID == currentIdTask
     })
-    console.log(currentTask_arr);
+
 
     // id таска у выбранного элемента массива
     let currentIdTask_arr = currentTask_arr.newTask_ID          
@@ -2557,7 +2615,7 @@ todayTaskOuter.addEventListener("click", function(e) {
         all_tasks.splice(currentIdTask_arr, 1)
 
         // Обновляю поле на странице с количеством существующих тасков
-        countTasksToday.innerHTML = all_tasks.length    
+        countAllTasks.innerHTML = all_tasks.length    
 
         modal.dispose()
     })
@@ -2605,8 +2663,9 @@ todayTaskOuter.addEventListener("click", function(e) {
         // Удаляется скрытие кнопки "addSubtask", вместо которого ранее был перемещён блок "formFromAddNewTask"
         addSubtask.classList.remove("hide2")
 
-        // Если переменной, отвечающей за выбранную подзадачу, внутри которой должна находиться кнопка "отмена" - существует, (т.е. если "отмена прожата именно при создании новой подзадачи, а не при редактировании существующей") то 
-        if (targetLi_subtask !=null) {
+
+        // Если переменная, отвечающей за выбранную подзадачу, внутри которой должна находиться кнопка "отмена" - существует, (т.е. если "отмена прожата именно при редактировании существующей, а не при создании новой"), то 
+        if (targetLi_subtask !=null) {  
             targetLi_subtask.querySelector(".subtask__wrapper").classList.remove("hide2")        // Скрывается li
 
             // Скрываю все доп функции подзадачи
@@ -2803,10 +2862,16 @@ todayTaskOuter.addEventListener("click", function(e) {
 
 
     // Кнопка редактирования подзадач
-    subtaskOuter_modal.addEventListener("click", function(e) {
-        targetLi_subtask = e.target.closest(".subtask")       // Подзадача, внутри которой был нажат "edit"
+    subtaskOuter_modal.addEventListener("click", function(e) {  
+
         let target = e.target.closest(".subtask__btnEdit")   // Нажатая кнопка "edit"
-        if (!target) return
+        // Если нажатие было не по кнопке редактирования, то игнор
+        if (!target) return  
+
+
+        targetLi_subtask = e.target.closest(".subtask")       // Подзадача, внутри которой был нажат "edit"
+
+
     
         // В область выбранного таска добавляется поле для внесение изменений (вместо самого li, который скрывается)
         targetLi_subtask.append(formFromAddNewTask)     
@@ -3652,6 +3717,13 @@ todayTaskOuter.addEventListener("click", function(e) {
     document.addEventListener('hide.itc.modal', closeModal, {once: true})   // Удаляется после срабатывания
     function closeModal() {
         isModal = false     // Модальное окно - отсутствует
+
+        formFromAddNewTask.classList.add("hide2")   // Скрывается Блок "formFromAddNewTask"
+        sectionContentBlock_viewContent.append(formFromAddNewTask)  // Блок "formFromAddNewTask" перемещается в конец страницы
+        // Обнуляю элементы поля .formFromAddNewTask (поле для добавление нового таска) и скрываю его
+        reloadFormAddTask()
+
+
         // Удаляю событие с кнопки "Отмена" в форме добавления таска
         buttonCloseMenuNewTask.removeEventListener("click", closeSubtaskForm)  
         // Удаляю событие с кнопки "Добавить задачу" в форме добавления таска
