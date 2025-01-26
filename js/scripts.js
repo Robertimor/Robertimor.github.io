@@ -7,8 +7,6 @@ const body = document.querySelector('body');
 
 const cale = document.querySelector(".calendar");
 
-const chestForCalendar = document.querySelector(".chest-for-calendar")
-const DeadlineCalendare_modal = document.querySelector(".itc-modal-body__hiddenMenu-deadline-calendare")  // Календарь в скрытом меню для выбора срока выполнения (изначально элемент находится вне модального окна, создан при загрузке страницы, для дальнейшего перемещения его в м.о.)
 
 const aside = document.querySelector(".aside")                  // Сайдбар целиком
 const logReg = document.querySelector(".log-reg")               // Поле с регистрацией/авторизацией
@@ -44,10 +42,11 @@ const nameNewTask = document.querySelector(".form-from-add-new-task__name-new-ta
 const description = document.querySelector(".form-from-add-new-task__description")   // Поле для написания описания нового добавляемого таска
 
 
+
 const dopSettingsForNewTask = document.querySelectorAll(".form-from-add-new-task__bnt-settings")   // Поле выбора срока выполнения и приоритета для нового таска
 
 const selectDeadline = document.querySelector(".form-from-add-new-task__select-deadline")       // Поле (кнопка) для выбора срока выполнения нового таска
-const hiddenMenuDeadline = document.querySelector(".form-from-add-new-task__hiddenMenu-deadline")   // Скрытое поле с выбором срока выполнения таска
+const hiddenMenuDeadline = document.querySelector(".form-from-add-new-task__hiddenMenu-deadline")   // Скрытое поле с выбором срока выполнения таска при создании/редактировании задачи/подзадачи
 const deadlineItem = document.querySelectorAll(".form-from-add-new-task__deadline-item")        // Элементы li с вариантами срока выполнения
 const DeadlineCalendare = hiddenMenuDeadline.querySelector(".form-from-add-new-task__hiddenMenu-deadline-calendare")    // Календарь в скрытом меню для выбора срока выполнения
 
@@ -72,25 +71,21 @@ const imgAddTask1 = document.querySelector(".add-new-task__imgAddTask1")      //
 const imgAddTask2 = document.querySelector(".add-new-task__imgAddTask2")      // Иконка добавления таска 2 (Если навести курсор)
 
 
+
+let MyCalendar
+
+let MyCalendarForm
+const curHiddenCalendarContainerForm = document.querySelector(".form-from-add-new-task__hiddenMenu-deadline-calendare")
+const curHiddenCalendarForm = document.querySelector(".hiddenMenu-deadline-calendare-input")
+
+
+
+
 let isModal = false
 let isModal_block = false
 
 
-// Переменная для числового обозначения месяцев (нужно будет для перевода из текста в число)  (УДАЛИТЬ, если найду решение для выделения даты при открытии скрытого меню, без использования этого способа)
-// const monthsNameNumber = {
-//     "янв.": 0,
-//     "февр.": 1,
-//     "март": 2,
-//     "апр.": 3,
-//     "май": 4,
-//     "июнь": 5,
-//     "июль": 6,
-//     "авг.": 7,
-//     "сент.": 8,
-//     "окт.": 9,
-//     "нояб.": 10,
-//     "дек": 11
-// }
+
 
 
 
@@ -198,8 +193,8 @@ countAllTasks.innerHTML = all_tasks.length
 // Задача 2
 tasksId += 1
 const myJobTask2 = {
-    newTask_name: "", 
-    newTask_description: "", 
+    newTask_name: "aawdwacsefwddw", 
+    newTask_description: "qqqqqqqqqqqqqqqqqqqqqq", 
     newTask_typeTask_name: "Работа",
     newTask_typeTask_icon_src: "./icon/job.png",
     newTask_deadlineTask: "24 июнь",
@@ -218,7 +213,7 @@ countAllTasks.innerHTML = all_tasks.length
 // Задача 3
 tasksId += 1
 const myJobTask3 = {
-    newTask_name: "KKalala", 
+    newTask_name: "Возможно запретить отображение и возможность выбора доп. функций, когда открыто меню создания/редактирования задачи/подзадачи", 
     newTask_description: "awdawl21lekd1x2ew2d1x213d", 
     newTask_typeTask_name: "Работа",
     newTask_typeTask_icon_src: "./icon/job.png",
@@ -238,8 +233,8 @@ countAllTasks.innerHTML = all_tasks.length
 // Задача 4
 tasksId += 1
 const myJobTask4 = {
-    newTask_name: "№№№№№№", 
-    newTask_description: "№№№№№№№№№№№№№№№№№№№№№№", 
+    newTask_name: "#@$№№№№№№№№№№№№№№№№'", 
+    newTask_description: "№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№", 
     newTask_typeTask_name: "Работа",
     newTask_typeTask_icon_src: "./icon/job.png",
     newTask_deadlineTask: "7 сентября",
@@ -258,8 +253,8 @@ countAllTasks.innerHTML = all_tasks.length
 // Задача 5
 tasksId += 1
 const myJobTask5 = {
-    newTask_name: "###########", 
-    newTask_description: "#####", 
+    newTask_name: "#########", 
+    newTask_description: "#######################", 
     newTask_typeTask_name: "Работа",
     newTask_typeTask_icon_src: "./icon/job.png",
     newTask_deadlineTask: "1 мая",
@@ -278,7 +273,7 @@ countAllTasks.innerHTML = all_tasks.length
 // Задача 6
 tasksId += 1
 const myJobTask6 = {
-    newTask_name: "###########", 
+    newTask_name: "##########", 
     newTask_description: "############################", 
     newTask_typeTask_name: "Работа",
     newTask_typeTask_icon_src: "./icon/job.png",
@@ -334,6 +329,25 @@ nameToday.innerHTML = `${nowDay} ${nowMonth} ‧ Сегодня ‧ ${correctWee
 selectDeadline.querySelector(".form-from-add-new-task__text-settings").innerHTML = `${nowDay} ${nowMonth}`
 selectDeadline.querySelector(".form-from-add-new-task__text-settings_hidden-num").innerHTML = nowData.toLocaleDateString()
 
+// Сегодняшняя дата в формате "год.месяц.число". Нужно для установки минимальной даты всем календарям
+const currectEntryDate = `${nowYear}.${nowMonthNum + 1}.${nowDay}`
+
+const containerAsideCalendar = document.querySelector(".asideUserMenu__calendar")
+const inpAsideCalendar = document.querySelector("#aside-calendar")
+const MyCalendarAside = new AirDatepicker(inpAsideCalendar, {
+    inline: true,  
+    buttons: ["today", "clear"],
+    minDate: currectEntryDate,
+    container: containerAsideCalendar,
+    // selectedDates: [new Date("2025.03.26")],
+    autoClose: false,
+}) 
+
+MyCalendarAside.show()
+
+
+
+
 
 
 
@@ -344,8 +358,15 @@ let currentLi_klick = null
 // Удаляю отметку о текущей подзадаче
 let currentLi_klick_MO = null    
 
-// Можно ли показывать доп. функции таска (изначально скрытые)
+// Можно ли показывать доп. функции таска и подзадачи (изначально скрытые)
 let disabledShowDopTask = false
+
+
+
+
+
+
+
 
 
 // Отображение поля с доп функциями при наведении на поле с таском
@@ -387,10 +408,9 @@ allTasksOuter.addEventListener("mouseout", function(e) {
 
 // Функция показа доп функций элемента таска
 function show_task_dopFuncs(thisDopFuncs) {
-    let parentEl = hiddenMenuDeadline.parentElement
 
-    // Если запрета на показ доп.ф. нету, ИЛИ мы навелись на тот таск, на который только что кликнули; И при этом всём, внутри таска нету меню выбора срока выполнения
-    if ((disabledShowDopTask == false || (currentLi_klick == currentLi)) && parentEl.classList.contains("task__btnNewDeadline") == false) {
+    // Если запрета на показ доп.ф. нету, ИЛИ мы навелись на тот таск, на который только что кликнули
+    if (disabledShowDopTask == false || (currentLi_klick == currentLi)) {
         thisDopFuncs.classList.remove("hide1")
         thisDopFuncs.querySelector(".task__btnEdit").classList.remove("hide1")
         thisDopFuncs.querySelector(".task__btnNewDeadline").classList.remove("hide1")
@@ -398,13 +418,13 @@ function show_task_dopFuncs(thisDopFuncs) {
 } 
 
 function hide_task_dopFuncs(thisDopFuncs) {
-    // Если внутри таска нету меню выбора срока выполнения, то все доп функции скрываются
+    // Если сейчас не нажимается кнопка для назначения нового срока выполнения задаче, то скрываются все доп. функции
     if (!timeVar2) {
         thisDopFuncs.classList.add("hide1")
         thisDopFuncs.querySelector(".task__btnEdit").classList.add("hide1")
         thisDopFuncs.querySelector(".task__btnNewDeadline").classList.add("hide1")
     } 
-    // Иначе, если внутри таска есть меню выбора срока выполнения, то скрываются все доп функции, кроме кнопки выбора срока выполнения
+    // Иначе, если нажимается кнопка назначения нового срока выполнения задаче, то скрывается лишь кнопка редактирования задачи
     else if (timeVar2 = 1) {
         thisDopFuncs.querySelector(".task__btnEdit").classList.add("hide1")
     }
@@ -537,7 +557,7 @@ function updateDataTask_element(taskEl, taskArr) {
         
 
         taskEl.querySelector(".task__deadline__date_visible").innerHTML = taskArr.newTask_deadlineTask   // Поле с текстом со сроком выполнения данного таска (вне мо, на основной странице)
-        taskEl.querySelector(".task__deadline_date_hidden").innerHTML = taskArr.newTask_deadlineFullDataTask    // Поле с полной числовой датой срока выполнения (вне мо, на основной странице)
+        taskEl.querySelector(".task__deadline__date_hidden").innerHTML = taskArr.newTask_deadlineFullDataTask    // Поле с полной числовой датой срока выполнения (вне мо, на основной странице)
     
         taskEl.querySelector(".task__typeTask span").innerHTML = taskArr.newTask_typeTask_name  // Имя типа таска
 
@@ -553,10 +573,11 @@ function updateDataTask_element(taskEl, taskArr) {
 
 
 // Кнопка добавления нового срока выполнения таску (одна из 2 доп функций таска)
+// (При нажатии на доп функцию "Назначить срок" у таска)
 allTasksOuter.addEventListener("click", function(e) {
     const targetBtn = e.target.closest(".task__btnNewDeadline")   // Нажатая кнопка "NewDeadline" 
     const targetBtnIcon = e.target.closest(".task__dopFunction_iconWrap")
-    let defaultLocation = formFromAddNewTask.querySelector(".form-from-add-new-task__setting-deadline") // Стандартное расположение скрытого меню deadline. (внутри формы для добавления нового таска)
+
     
     // Если клик был вне контейнера с кнопкой "NewDeadline", то игнорируем
     if (!targetBtn) return
@@ -564,14 +585,51 @@ allTasksOuter.addEventListener("click", function(e) {
     // Если клик был вне контейнера с иконкой кнопки "NewDeadline" (даже если например, на календарь), то игнорируем
     if (!targetBtnIcon) return
 
+
+    const targetTask = e.target.closest(".task")
+
+
+    // Скрытое меню выбора срока выполнения у кнопки "Назначить срок" конкретно текущего таска
+    const curHiddenMenuDeadlineNewDeadline = targetBtn.querySelector(".task__dopFunction__hiddenMenu-deadline")
+
+    const curHiddenCalendarContainer = targetBtn.querySelector(".task__dopFunction__hiddenMenu-deadline-calendare")
+    const curHiddenCalendar = targetBtn.querySelector(".hiddenMenu-deadline-calendare")
+
+
+
+    
+
+
     // Если меню скрыто
-    if (hiddenMenuDeadline.classList.contains("hide2") == true) {  
-        targetBtn.append(hiddenMenuDeadline)                   // Перемещаю меню выбора к текущему таску, к кнопке "NewDeadline"
-        hiddenMenuDeadline.classList.remove("hide2")        // Показываю это меню выбора (удаляю скрытие)
+    if (curHiddenMenuDeadlineNewDeadline.classList.contains("hide2") == true) {  
+        // Показываю это меню выбора (удаляю скрытие)
+        curHiddenMenuDeadlineNewDeadline.classList.remove("hide2")    
 
 
-        timeVar2 = 1
-        currentLi_klick = e.target.closest("li")            // Отмечаю в глобальную переменную - таск, внутри которого был совершён клик по кнопке
+        // Скрытое поле для вставки выбранной даты у таска (полной, с годом, и только числами)
+        const textAreaDeadlineHiddenNum = targetTask.querySelector(".task__deadline__date_hidden")
+
+        // Полная дата, которая была перевёрнута (стала: "год.месяц.число")
+        const textAreaDeadlineHiddenNumReversed = textAreaDeadlineHiddenNum.innerHTML.split(".").reverse().join(".")
+
+        
+        MyCalendar = new AirDatepicker(curHiddenCalendar, {
+            inline: false,  
+            buttons: ["today", "clear"],
+            minDate: currectEntryDate,
+            container: curHiddenCalendarContainer,
+            selectedDates: `${textAreaDeadlineHiddenNumReversed}`,
+            autoClose: true,
+            // isDestroyed: true
+        })
+        MyCalendar.show();
+
+
+        // Отмечаю нажатие на кнопку назначения нового срока выполнения
+        timeVar2 = 1   
+
+        // Отмечаю в глобальную переменную - таск, внутри которого был совершён клик по кнопке
+        currentLi_klick = e.target.closest("li")            
 
         hide_task_dopFuncs(currentLi.querySelector(".task__dopFuncs"))
 
@@ -582,12 +640,16 @@ allTasksOuter.addEventListener("click", function(e) {
     }
     
     // Если меню отображено (не скрыто)
-    else if (hiddenMenuDeadline.classList.contains("hide2") == false && timeVar2) {     
-        hiddenMenuDeadline.classList.add("hide2")               // Скрываю это меню выбора
-        defaultLocation.append(hiddenMenuDeadline) 
-                     // Перемещаю меню выбора обратно в форму для создания нового таска
+    else if (curHiddenMenuDeadlineNewDeadline.classList.contains("hide2") == false && timeVar2) {  
+        // Скрываю это меню выбора и уничтожаю созданный календарь
+        curHiddenMenuDeadlineNewDeadline.classList.add("hide2") 
+        MyCalendar.destroy()
+        MyCalendar = null
+
+
         setTimeout(() => timeVar2='', 100)
-        currentLi_klick = null                                  // Удаляю отметку о текущем таске
+        // Удаляю отметку о текущем таске
+        currentLi_klick = null                                  
 
         // Разрешаю показ доп. функций тасков
         disabledShowDopTask = false
@@ -780,7 +842,7 @@ let timeVar = ''
 selectTypeTask.addEventListener("click", function(e) {      // При нажатии на кнопку 
 
     // Очищаю выделение срока выполнения в списке вариантов и в календаре
-    relodadItemsAndCalendarDeadline()
+    reloadItemsAndCalendarDeadline()
 
 
     // Если скрытое меню показано (не скрыто)
@@ -857,7 +919,7 @@ body.addEventListener("click", function(e) {      // При нажатии вн�
             // Разрешаю показ доп. функций задач/подзадач
             disabledShowDopTask = false
         } 
-        // Иначе, если клик был вне поля выбора и на элемент таска (li)
+        // Иначе, если клик был вне поля выбора и на элемент подзадачи (li)
         else if (!timeVar && targetLi_modal != null) {
             // Скрываю меню выбора типа таска
             conteinerFromHiddenMenuTypesTasks.classList.add("hide2") 
@@ -1014,390 +1076,97 @@ function observFunc(observObj) {
 
 
 
-// Появление и скрытие поля с выбором срока выполнения задачи в меню создания/редактирования новой задачи
-timeVar = ''
-selectDeadline.addEventListener("click", function(e) {      // При нажатии на кнопку 
-    const btnCross = selectDeadline.querySelector(".form-from-add-new-task__icon-cross")
-
-    // Если доп меню показано (не скрыто) и клик был на крестик и крестик показан (не скрыт)
-    if (hiddenMenuDeadline.classList.contains("hide2") == false && e.target == btnCross.querySelector("img") && btnCross.classList.contains("hide2") == false) {
-        btnCross.classList.add("hide2")  // ещё раз прописываю скрытие, ибо событие клика по крестику (отдельное) не скроет его (но изменит содержание тега с текстом)
-    } 
-    // Иначе, если доп меню показано (не скрыто) (и клик был не на крестик, соответственно)
-    else if (hiddenMenuDeadline.classList.contains("hide2") == false) {
-        hiddenMenuDeadline.classList.add("hide2") 
-        isObservHiddenMenus = false
-        observFunc(selectDeadline)
-
-        // Снимаю блокировку с открытия м.о.
-        isModal_block = false  
-
-        // Разрешаю показ доп. функций тасков
-        disabledShowDopTask = false
-
-        // Очищаю выделение срока в списке вариантов и в календаре
-        relodadItemsAndCalendarDeadline()
-    } 
-    // Иначе, если доп меню скрыто и клик был на крестик:
-    else if (hiddenMenuDeadline.classList.contains("hide2") == true && e.target == btnCross.querySelector("img")) {
-        btnCross.classList.add("hide2")
-    }
-    // Иначе, если доп меню скрыто (и клик был, соответственно, не на крестик)
-    else if (hiddenMenuDeadline.classList.contains("hide2") == true)
-    {
-        // Скрываю скрытые меню выбора типа таска и приоритета, если они были открыты
-        conteinerFromHiddenMenuTypesTasks.classList.add("hide2")
-        hiddenMenuPriority.classList.add("hide2")
-
-        
-        hiddenMenuDeadline.classList.remove("hide2")    // Показываю скрытое меню срока выполнения
-        timeVar = 1;  
-        
-        // const find2 = [1,5,2,3]
-        // const fin = find2.find(function(it) {
-        //     return it > 2
-        // })
-        // console.log(fin);
-        const allDays = hiddenMenuDeadline.querySelectorAll(".air-datepicker-body--cells .-day-")
-        console.log(allDays);
-        // console.log(allDays.querySelector("data-date='18'"));
-        const kaka = hiddenMenuDeadline.querySelector(".air-datepicker-body--cells .-weekend-")
-        console.log(kaka);
-        console.log(allDays.querySelector(".-weekend-"));
-        const la = [1,2,5]
-        console.log(typeof allDays);
-        console.log(typeof la);
-        // const baka = allDays.find(function (day) {
-        //     return day
-        //         // return day.classList.contains("day")
-        //         // return day.getAttribute("data-date='8'")
-        //         // return day.classList.getAttribute("data-date='8'")
-        //     })
-        // const finded = hiddenMenuDeadline.querySelectorAll(".air-datepicker-body--cells .-day-").find(function (day) {
-        //     return day.classList.contains("day")
-        //     // return day.getAttribute("data-date='8'")
-        //     // return day.classList.getAttribute("data-date='8'")
-        // })
-        // console.log(finded);
-
-        isObservHiddenMenus = true     // Даётся разрешение на реакцию при изменении во время слежки за объектом
-        observFunc(selectDeadline)  // При первом открытии скрытого меню, начнётся отслеживание изменения окна "selectDeadline"
-
-
-        // Блокирую возможность открытия м.о.
-        isModal_block = true  
-
-        // Запрещается показ доп. функций тасков
-        disabledShowDopTask = true
-    }
-})
-
-hiddenMenuDeadline.addEventListener("click", function(e) {     // При нажатии на само поля выбора (при создании/редактировании и при нажатии на доп ф. "назначить срок")
-    let defaultLocation = formFromAddNewTask.querySelector(".form-from-add-new-task__setting-deadline") // Стандартное расположение скрытого меню deadline. (внутри формы для добавления нового таска)
-    timeVar = 1;  
-    timeVar2 = 1        // (для работы с доп функциями при клике на кнопку добавления нового срока выполнения)
-
-    // Если ранее на каком-то из тасков была нажата кнопка "NewDeadline" (иконка) и при этом СЕЙЧАС клик произошёл не на навигатор в календаре (месяцы/годы), не на кнопки календаря
-    if ((currentLi_klick != null) && !(e.target.closest(".air-datepicker--navigation") || e.target.closest(".-months-") || e.target.closest(".-years-") || e.target.closest(".air-datepicker--buttons"))) {
-        hiddenMenuDeadline.classList.add("hide2")       // Скрываю само меню
-        defaultLocation.append(hiddenMenuDeadline)      // Перемещаю меню выбора обратно в форму для создания нового таска
-
-        timeVar2 = ''
-
-
-        // Скрываю все доп функции таска
-        hide_task_dopFuncs(currentLi_klick.querySelector(".task__dopFuncs"))
-
-
-        // Удаляю отметку о текущем таске с отслеживателя по клику и с отслеживания от наведения
-        currentLi_klick = null 
-        currentLi = null
-
-
-        // Обнуляю элементы поля .formFromAddNewTask (поле для добавление нового таска) и скрываю его
-        reloadFormAddTask()
-
-        // Снимаю блокировку с открытия м.о.
-        isModal_block = false   
-
-        // Разрешаю показ доп. функций тасков
-        disabledShowDopTask = false
-    } 
-    // Если ранее ни на каком из тасков не была нажата кнопка "NewDeadline" (иконка)
-    else if ((currentLi_klick == null)) {
-        timeVar2 = ""
-    }
-
-    if (isObservHiddenMenus == false) {
-        isObservHiddenMenus = true     // Даётся разрешение на реакцию при изменении во время слежки за объектом
-        observFunc(selectDeadline)   // Начинается слежка за "selectDeadline", если ранее была отключена (либо повторно устанавливается. Старая удаляется)
-    }
-})
-
-
-body.addEventListener("click", function(e) {      // При нажатии вне поля выбора
-
-    // Если доп. меню срока выполнения - скрыто, то игнорируем
-    if (hiddenMenuDeadline.classList.contains("hide2") == true) return
-
-
-    // Если М.О. открыто, то:
-    if (!isModal == false) {
-        const targetLi_modal = e.target.closest(".subtask")     // Элемент  li для последующего определения нового срока выполнения подзадаче (одна из двух кнопок доп функций подзадачи)       
-        const targetBtn = e.target.closest(".task__btnNewDeadline")   // Была ли нажата кнопка "NewDeadline" 
-        const defaultLocation = formFromAddNewTask.querySelector(".form-from-add-new-task__setting-deadline") // Стандартное расположение скрытого меню deadline. (внутри формы для добавления нового таска)
-
-        // Если клик был вне поля выбора и вне элемента таска (li), и при этом ранее не был отмечен текущий таск по клику (перед этим кликом не нажалась кнопка ".task__btnNewDeadline" (иконка), после которой отображается меню выбора срока выполнения)
-        if (!timeVar && targetLi_modal == null && currentLi_klick == null) {     // Если клик был вне поля и не на кнопку ".task__btnNewDeadline" (на иконку) и ранее не был отмечен текущий таск по клику
-            isObservHiddenMenus = false
-            observFunc(selectPriority)
-
-            hiddenMenuDeadline.classList.add("hide2") 
-
-            // Снимаю блокировку с открытия м.о.
-            isModal_block = false 
-
-            // Разрешаю показ доп. функций тасков
-            disabledShowDopTask = false
-
-            // Очищаю выделение срока в списке вариантов и в календаре
-            relodadItemsAndCalendarDeadline()
-        } 
-        
-        // Если клик был вне поля выбора и вне элемента таска (li), и при этом уже был отмечен текущий таск по клику (ранее уже нажалась кнопка ".task__btnNewDeadline" (иконку) и отобразилось меню выбора срока выполнения)
-        else if (!timeVar && targetLi_modal == null && currentLi_klick != null) {
-            hiddenMenuDeadline.classList.add("hide2")
-            defaultLocation.append(hiddenMenuDeadline)      // Перемещаю меню выбора обратно в форму для создания нового таска
-
-            timeVar2 = ''
-
-            // Скрываю доп функции таска
-            hide_task_dopFuncs(currentLi_klick.querySelector(".task__dopFuncs"))
-
-            currentLi_klick = null              // Удаляю отметку о текущем таске с отслеживателя по клику
-
-            // Обнуляю элементы поля .formFromAddNewTask (поле для добавление нового таска) и скрываю его
-            reloadFormAddTask()
-
-            // Снимаю блокировку с открытия м.о.
-            isModal_block = false 
-
-            // Разрешаю показ доп. функций тасков
-            disabledShowDopTask = false
-
-            // Очищаю выделение срока в списке вариантов и в календаре
-            relodadItemsAndCalendarDeadline()
-        } 
-
-        // Если клик был вне поля выбора, на элемент таска (li), но не на кнопку ".task__btnNewDeadline" и при этом ранее уже был отмечен таск (ранее уже нажалась кнопка ".task__btnNewDeadline" (иконку) и отобразилось меню выбора срока выполнения)
-        else if (!timeVar && targetLi_modal != null && !targetBtn && currentLi_klick != null) {
-            hiddenMenuDeadline.classList.add("hide2")
-            defaultLocation.append(hiddenMenuDeadline)      // Перемещаю меню выбора обратно в форму для создания нового таска
-
-            timeVar2 = ''
-
-            // Скрываю доп функции у текущего таска
-            hide_task_dopFuncs(currentLi_klick.querySelector(".task__dopFuncs"))
-
-            currentLi_klick = null              // Удаляю отметку о текущем таске с отслеживателя по клику
-
-            // Обнуляю элементы поля .formFromAddNewTask (поле для добавление нового таска) и скрываю его
-            reloadFormAddTask()
-
-
-            // Снимаю блокировку с открытия м.о.
-            isModal_block = false 
-
-            // Разрешаю показ доп. функций тасков
-            disabledShowDopTask = false
-
-            // Показываю доп. функции у той подзадачи, на которую был совершён клик (которая была под курсором в момент клика)
-            targetLi_modal.querySelector(".subtask__dopFuncs").querySelector(".subtask__btnEdit").classList.remove("hide1")
-            targetLi_modal.querySelector(".subtask__dopFuncs").querySelector(".subtask__btnNewDeadline").classList.remove("hide1")
-
-
-            // Очищаю выделение срока в списке вариантов и в календаре
-            relodadItemsAndCalendarDeadline()
-        }
-
-        // Если клик был вне поля выбора, на элемент таска (li), но не на кнопку ".task__btnNewDeadline" и при этом ранее не был отмечен таск (ранее не нажималась кнопка ".task__btnNewDeadline", при нажатии на которую отображается меню выбора срока выполнения) 
-        if (!timeVar && targetLi_modal != null && !targetBtn && currentLi_klick == null) {
-            hiddenMenuDeadline.classList.add("hide2")
-
-            // Снимаю блокировку с открытия м.о.
-            isModal_block = false 
-            // Разрешаю показ доп. функций тасков
-            disabledShowDopTask = false
-
-            // Показываю доп. функции у той подзадачи, на которую был совершён клик (которая была под курсором в момент клика)
-            targetLi_modal.querySelector(".subtask__dopFuncs").querySelector(".subtask__btnEdit").classList.remove("hide1")
-            targetLi_modal.querySelector(".subtask__dopFuncs").querySelector(".subtask__btnNewDeadline").classList.remove("hide1")
-
-
-            // Очищаю выделение срока в списке вариантов и в календаре
-            relodadItemsAndCalendarDeadline()
-        }
-
-
-        if (timeVar) { 
-            setTimeout(() => timeVar='', 100)
-        }  
-
-
-        // Игнорируем дальнейший код, который должен работать лишь если модальное окно закрыто.
-        return
-    }     
-    
-    
-
-    // ЕСЛИ МО НЕТУ!!!!!!!!!!
-
-    
-    const targetLi = e.target.closest(".task")     // Элемент  li для последующего определения нового срока выполнения таску (одна из двух кнопок доп функций таска)
-
-    const targetBtn = e.target.closest(".task__btnNewDeadline")   // Была ли нажата кнопка "NewDeadline" 
-    const defaultLocation = formFromAddNewTask.querySelector(".form-from-add-new-task__setting-deadline")   // Стандартное расположение скрытого меню deadline. (внутри формы для добавления нового таска)
-
-    // Если клик был вне поля выбора и вне элемента таска (li), и при этом ранее не был отмечен текущий таск по клику (перед этим кликом не нажалась кнопка ".task__btnNewDeadline" (иконка), после которой отображается меню выбора срока выполнения)
-    if (!timeVar && targetLi == null && currentLi_klick == null) {     // Если клик был вне поля и не на кнопку ".task__btnNewDeadline" (на иконку) и ранее не был отмечен текущий таск по клику
-        isObservHiddenMenus = false
-        observFunc(selectPriority)
-
-        hiddenMenuDeadline.classList.add("hide2") 
-
-        isModal_block = false       // Снимаю блокировку с открытия м.о.
-
-        // Разрешаю показ доп. функций тасков
-        disabledShowDopTask = false
-
-        // Очищаю выделение срока в списке вариантов и в календаре
-        relodadItemsAndCalendarDeadline()
-
-    } 
-    
-    // Если клик был вне поля выбора и вне элемента таска (li), и при этом уже был отмечен текущий таск по клику (ранее уже нажалась кнопка ".task__btnNewDeadline" (иконку) и отобразилось меню выбора срока выполнения)
-    else if (!timeVar && targetLi == null && currentLi_klick != null) {
-        hiddenMenuDeadline.classList.add("hide2")
-        defaultLocation.append(hiddenMenuDeadline)      // Перемещаю меню выбора обратно в форму для создания нового таска
-
-        timeVar2 = ''
-
-        // Скрываю доп функции таска
-        hide_task_dopFuncs(currentLi_klick.querySelector(".task__dopFuncs"))
-
-        currentLi_klick = null              // Удаляю отметку о текущем таске с отслеживателя по клику
-
-        // Обнуляю элементы поля .formFromAddNewTask (поле для добавление нового таска) и скрываю его
-        reloadFormAddTask()
-
-        isModal_block = false       // Снимаю блокировку с открытия м.о.
-
-        // Разрешаю показ доп. функций тасков
-        disabledShowDopTask = false
-
-        // Очищаю выделение срока в списке вариантов и в календаре
-        relodadItemsAndCalendarDeadline()
-    } 
-
-    // Если клик был вне поля выбора, на элемент таска (li), но не на кнопку ".task__btnNewDeadline" и при этом ранее уже был отмечен таск (ранее уже нажалась кнопка ".task__btnNewDeadline" (иконку) и отобразилось меню выбора срока выполнения)
-    else if (!timeVar && targetLi != null && !targetBtn && currentLi_klick != null) {
-        hiddenMenuDeadline.classList.add("hide2")
-        defaultLocation.append(hiddenMenuDeadline)      // Перемещаю меню выбора обратно в форму для создания нового таска
-
-        timeVar2 = ''
-
-        // Скрываю доп функции у текущего таска
-        hide_task_dopFuncs(currentLi_klick.querySelector(".task__dopFuncs"))
-
-        currentLi_klick = null              // Удаляю отметку о текущем таске с отслеживателя по клику
-
-        // Обнуляю элементы поля .formFromAddNewTask (поле для добавление нового таска) и скрываю его
-        reloadFormAddTask()
-
-        isModal_block = true        // Ставлю блокировку с открытия м.о.
-
-        // Разрешаю показ доп. функций тасков
-        disabledShowDopTask = false
-
-        // Показываю доп. функции у того таска, на который был совершён клик (который был под курсором в момент клика)
-        show_task_dopFuncs(currentLi.querySelector(".task__dopFuncs"))
-
-        // Очищаю выделение срока в списке вариантов и в календаре
-        relodadItemsAndCalendarDeadline()
-    }
-
-    // Если клик был вне поля выбора, на элемент таска (li), но не на кнопку ".task__btnNewDeadline" и при этом ранее не был отмечен таск (ранее не нажималась кнопка ".task__btnNewDeadline", при нажатии на которую отображается меню выбора срока выполнения) 
-    if (!timeVar && targetLi != null && !targetBtn && currentLi_klick == null) {
-        hiddenMenuDeadline.classList.add("hide2")
-
-        // Разрешаю показ доп. функций тасков
-        disabledShowDopTask = false
-
-        // Показываю доп. функции у того таска, на который был совершён клик (который был под курсором в момент клика)
-        show_task_dopFuncs(currentLi.querySelector(".task__dopFuncs"))
-
-        isModal_block = false   // Снимаю блокировку с открытия м.о.
-
-        // Очищаю выделение срока в списке вариантов и в календаре
-        relodadItemsAndCalendarDeadline()
-    }
-
-
-    if (timeVar) { 
-        setTimeout(() => timeVar='', 100)
-    }  
-})
-
-
-
-
 //Функция для очистки стиля "выбранного элемента" со всех deadlineItem, если он где-то был (удаляю со всех элементов класс "hovered_select_menu"). И ставлю этот класс (стиль "выбранного элемента") тому, на который был произведён клик. 
-// Данная функция используется при редактировании срока у тасков (кроме бокового меню в МО), а так же и у ПОДЗАДАЧ
+// Данная функция используется при редактировании срока у ТАСКОВ (кроме бокового меню в МО)
 function reloadItemsDeadline(currentItemDeadline) {
-    deadlineItem.forEach(function(itemDeadline) { 
-        itemDeadline.classList.remove("hovered_select_menu")
-    })
-    if (currentItemDeadline) {
+    // 1) Если передан целиков список
+
+    // 1.1) Если в данный параметр был передан целиком список из "Назначить срок"
+    if (currentItemDeadline.classList.contains("task__dopFunction__deadline-list")) {
+        currentItemDeadline.querySelectorAll("li").forEach(function(itemDeadline) { 
+            itemDeadline.classList.remove("hovered_select_menu")
+        })
+    }
+    // 1.2) Иначе, Если в данный параметр был передан целиком список из меню создания/редактирования задачи
+    else if (currentItemDeadline.classList.contains("form-from-add-new-task__deadline-list")) {
+        currentItemDeadline.querySelectorAll("li").forEach(function(itemDeadline) { 
+            itemDeadline.classList.remove("hovered_select_menu")
+        })
+    }
+
+
+    // 2) Если был передан конкретный элемент списка
+
+    // 2.1) Если элемент списка срока находится внутри "Назначить срок"
+    else if (currentItemDeadline.classList.contains("task__dopFunction__deadline-item")) {
+        const parentCurDeadlineItems = currentItemDeadline.closest("ul")
+        parentCurDeadlineItems.querySelectorAll("li").forEach(function(itemDeadline) { 
+            itemDeadline.classList.remove("hovered_select_menu")
+        })
+    } 
+
+    // 2.2) Иначе, если элемент списка срока находится в меню при создании/редактировании задачи
+    else if (currentItemDeadline.classList.contains("form-from-add-new-task__deadline-item")) {
+        deadlineItem.forEach(function(itemDeadline) { 
+            itemDeadline.classList.remove("hovered_select_menu")
+        })
         currentItemDeadline.classList.add("hovered_select_menu")
     }
 }
 
 //Функция для очистки стиля "выбранного элемента" со всех deadlineItem и у всех ячеек календаря, если он где-то был (удаляю со всех элементов класс "hovered_select_menu").
-// Данная функция используется при редактировании срока у тасков (кроме бокового меню в МО), а так же и у ПОДЗАДАЧ
-function relodadItemsAndCalendarDeadline() {
-    // Очищаю выделение срока в списке вариантов
+// Данная функция используется при редактировании срока у ТАСКОВ (кроме бокового меню в МО)
+function reloadItemsAndCalendarDeadline() {
+    // Очищаю выделение срока в списке вариантов (в форме для создания, редактирования задачи)
     deadlineItem.forEach(function(itemDeadline) { 
         itemDeadline.classList.remove("hovered_select_menu")
     })
-    // Очищаю выделение срока в календаре
+
+    // Очищаю выделение срока в календаре (в форме для создания, редактирования задачи)
     if (selectedDay && selectedDay != "") {
         selectedDay.classList.remove("-selected-")
     }
 }
 
-// Выбор срока выполнения таска (при выборе из списка вариантов):
-deadlineItem.forEach(function(item) {
-    item.addEventListener("click", function(e) {
-        // Элемент  li для последующего определения нового срока выполнения задаче (через доп. функцию "Назначить срок выполнения")
-        const targetLi = e.target.closest(".task")
 
-        // Родитель скрытого меню срока выполнения (что бы узнать в последствии, находится этот элемент внутри доп. функции "назначить срок" или внутри таска при редактировании задачи)
-        let parentDeadlineHiddenMenu = hiddenMenuDeadline.parentElement
+// ВЫБОР СРОКА ВЫПОЛНЕНИЯ ТАСКА:
 
+// 1) Выбор срока выполнения таска (при выборе из списка вариантов):
 
-        // Убираю выделение выбранного дня в календаре, если ранее там было что-то выбрано
-        if (selectedDay && selectedDay != "") {
-            selectedDay.classList.remove("-selected-")
-        }
+// 1.1) Если меню выбора срока было открыто через доп. функцию таска "Назначить срок", то ...
+// (При клике на один из пунктов выбора срока выполнения задачи (из списка вариантов), при выборе через "Назначить срок")
+allTasksOuter.addEventListener("click", function(e) {
+    const targetBtn = e.target.closest(".task__btnNewDeadline")   // Нажатая кнопка "NewDeadline" 
 
+    // Если клик был вне контейнера с кнопкой "NewDeadline" у ТАСКА, то игнорируем
+    if (!targetBtn) return
 
-        const nowData2 = new Date()
+    const targetLi = e.target.closest(".task")  // Задача, внутри которой была нажата кнопка "Назначить срок"
+    const deadlineItemNewDeadline = targetLi.querySelectorAll(".task__dopFunction__deadline-item")  // Все элементы для выбора срока выполнения у данного таска
 
 
-        // Если меню выбора срока было открыто через доп. функцию таска "Назначить срок", то ...
-        if (parentDeadlineHiddenMenu.classList.contains("task__btnNewDeadline")) {
+    // Запускаю функцию для создания одноразового обработчика события на каждом из элементов и сразу его вызова на элементе
+    deadlineItemsClick(deadlineItemNewDeadline)
+
+})
+// Функция для создания обработчика событий на все элементы списка выбора срока выполнения. При нажатии на какой-то из них, сразу происходит работа.
+function deadlineItemsClick(items) {
+    items.forEach(function(item) {
+        item.addEventListener("click", function(e) {
+            // Элемент  li для последующего определения нового срока выполнения задаче (через доп. функцию "Назначить срок выполнения")
+            const targetLi = e.target.closest(".task")
+
+
+            // Убираю выделение выбранного дня в календаре, если ранее там было что-то выбрано
+            if (selectedDay && selectedDay != "") {
+                selectedDay.classList.remove("-selected-")
+            }
+    
+    
+            const nowData2 = new Date()
+    
             let liFromArr   // Таск из массива
-            // Перебираю массив тасков и сохраняю в "liFromArr" id того, что совпадает с id выбранного для редактирования таска (li)
+            // Перебираю массив тасков и сохраняю в "liFromArr" тот элемент, что совпадает с id выбранного для редактирования таска (li)
             for (let i = 0; i < all_tasks.length; i++) {
                 if (all_tasks[i].newTask_ID == targetLi.getAttribute("id")) {
                     liFromArr = all_tasks[i]   
@@ -1406,13 +1175,13 @@ deadlineItem.forEach(function(item) {
             }
 
             // Название выбранного дня (из списка)
-            const nameItemDeadline = item.querySelector(".form-from-add-new-task__deadline-name").innerHTML
+            const nameItemDeadline = item.querySelector(".task__dopFunction__deadline-name").innerHTML
 
             // Поле с текстом со сроком выполнения данного таска (нужно для доп функции "Назначить срок") (внизу слева у каждого таска)
             const deadlineThisTask = targetLi.querySelector(".task__deadline__date_visible")
 
             // Поле с полной датой в числовом формате у данного таска 
-            const deadlineThisTaskFullNum = targetLi.querySelector(".task__deadline_date_hidden")
+            const deadlineThisTaskFullNum = targetLi.querySelector(".task__deadline__date_hidden")
 
 
             if (nameItemDeadline == "Сегодня" && deadlineThisTask.innerHTML != `${nowDay} ${nowMonth}`) {
@@ -1479,19 +1248,37 @@ deadlineItem.forEach(function(item) {
                 //Очищаю стиль выбранного элемента со всех, если он где-то был (удаляю со всех элементов класс "hovered_select_menu")
                 reloadItemsDeadline(item)
     
-            } else if (nameItemDeadline == "Без срока" && textAreaDeadline.innerHTML == "Срок выполнения") {
+            } else if (nameItemDeadline == "Без срока" && deadlineThisTask.innerHTML == "Срок выполнения") {
                 isObservHiddenMenus == false
             }
 
             // Обновляю срок выполнения в массиве текущего таска
             liFromArr.newTask_deadlineTask = deadlineThisTask.innerHTML
             liFromArr.newTask_deadlineFullDataTask = deadlineThisTaskFullNum.innerHTML
+            
+        }, { once: true })
+    })
+}   
+
+
+
+
+// 1.2) Если меню выбора срока было открыто при создании/редактировании таска (т.е. не через доп. функцию "Назначить срок"), то ...
+// (При клике на один из пунктов выбора срока выполнения задачи (из списка вариантов), при выборе из "form-from-add-new-task__hiddenMenu-deadline") 
+deadlineItem.forEach(function(item) {
+    item.addEventListener("click", function(e) {
+        if (isModal != false) return    // Если МО открыто, то игнор
+
+        // Убираю выделение выбранного дня в календаре, если ранее там было что-то выбрано
+        if (selectedDay && selectedDay != "") {
+            selectedDay.classList.remove("-selected-")
         }
 
 
+        const nowData2 = new Date()
 
-        // Если меню выбора срока было открыто редактирования таска (т.е. не через доп. функцию "Назначить срок"), то ...
-
+        console.log("дырка");
+        console.log("ЛАКИ ЛАКИ");
 
         // Название выбранного дня (из списка)
         const nameItemDeadline = item.querySelector(".form-from-add-new-task__deadline-name").innerHTML
@@ -1573,34 +1360,104 @@ deadlineItem.forEach(function(item) {
 })
 
 
-// Выбор срока выполнения таска (при выборе в календаре):
+
+// 2) Выбор срока выполнения таска (при выборе в календаре):
 let selectedDay
-DeadlineCalendare.addEventListener("click", function(e) {
+
+// 2.1) Если меню выбора открыто через "Назначить срок", то...
+// (При клике на день в календаре, при выборе из "task__dopFunction__hiddenMenu-deadline") 
+allTasksOuter.addEventListener("click", function(e) {
+    if (isModal != false) return    // Если МО открыто, то игнор
+
     let target = e.target       // Где был совершён клик?
 
-    // Родитель скрытого меню срока выполнения (что бы узнать в последствии, находится этот элемент внутри доп. функции "назначить срок" или внутри таска при редактировании задачи)
-    let parentDeadlineHiddenMenu = hiddenMenuDeadline.parentElement
-
-    if (!target.classList.contains("air-datepicker-cell")) return       // Если клик был не на элементе с ячейкой даты, то клик игнорируется
+    const targetBtn = e.target.closest(".task__btnNewDeadline")   // Нажатая кнопка "NewDeadline" 
 
 
-    // Если меню выбора срока было открыто через доп. функцию таска "Назначить срок", то ...
-    if (parentDeadlineHiddenMenu.classList.contains("task__btnNewDeadline")) {
-        // Если клик был по ячейке с датой, до запускается функция, где уже будет произведена работа с выбранной ячейкой
-        showElCalentareNewDeadline(target) 
+    // Если клик был вне контейнера с кнопкой "NewDeadline" у ТАСКА, то игнорируем
+    if (!targetBtn) return
+
+
+    // Если клик был не на элементе с ячейкой даты, то клик игнорируется
+    if (!target.classList.contains("air-datepicker-cell")) return  
+
+
+    
+    const targetLi = e.target.closest(".task")  // Задача, внутри которой была нажата кнопка "Назначить срок"
+
+
+    // Целиком список сроков из списка вариантов (ul) (при открытии из "Назначить срок") 
+    const deadlineItemNewDeadline = targetLi.querySelector(".task__dopFunction__deadline-list")  
+
+    // Очищаю выделение срока со всех элементов из списка выбора вариантов
+    reloadItemsDeadline(deadlineItemNewDeadline)
+
+
+    // Поле с текстом со сроком выполнения данного таска (нужно для доп функции "Назначить срок") (внизу слева у каждого таска)
+    const deadlineThisTask = targetLi.querySelector(".task__deadline__date_visible")
+
+    // Поле с полной датой в числовом формате у данного таска 
+    const deadlineThisTaskFullNum = targetLi.querySelector(".task__deadline__date_hidden")
+
+
+    selectedDay = target
+
+
+    const dateDay = selectedDay.getAttribute("data-date")   // Выбранный номер дня месяца
+    const dateMonth = selectedDay.getAttribute("data-month")    // Выбранный месяц (числом)
+    const dateYear = selectedDay.getAttribute("data-year") // Выбранный год
+
+    // Создаю каллендарь на основании выбранного дня, месяца и года
+    const selectDataCalendare = new Date(dateYear, dateMonth, dateDay)        
+    const optionsSelection = {  
+        month: "short"
+    }
+    // Создаю переменную с текстовым обозначением выбранного в календаре месяца
+    const selectMonthDataCalendare = (Intl.DateTimeFormat(localLanguage, optionsSelection).format(selectDataCalendare))
+
+    // Ввожу в поле с выбором срока выполнения - выбранную в календаре дату (число + месяц)
+    isObservHiddenMenus = true
+    observFunc(selectDeadline)
+    if (deadlineThisTask.innerHTML != dateDay + " " + selectMonthDataCalendare) {   // Если выбранная дата не такая же как уже выбранная
+        deadlineThisTask.innerHTML = dateDay + " " + selectMonthDataCalendare
+    }
+    deadlineThisTaskFullNum.innerHTML = selectDataCalendare.toLocaleDateString()
+
+
+    let liFromArr   // Таск из массива
+    // Перебираю массив тасков и сохраняю в "liFromArr"  тот таск, id которого совпадает с id выбранного для редактирования таска (li)
+    for (let i = 0; i < all_tasks.length; i++) {
+        if (all_tasks[i].newTask_ID == targetLi.getAttribute("id")) {
+            liFromArr = all_tasks[i]   
+            break
+        }
     }
 
-
-    // Если клик был по кнопке "Назначить срок", то клик игнорируется
-    if (target.closest(".task__btnNewDeadline") != null)  {
-        return false
-    }  
-
-    showElCalentare(target)     // Если клик был по ячейке с датой, до запускается функция, где уже будет произведена работа с выбранной ячейкой
+     // Обновляю срок выполнения в массиве текущего таска
+     liFromArr.newTask_deadlineTask = deadlineThisTask.innerHTML
+     liFromArr.newTask_deadlineFullDataTask = deadlineThisTaskFullNum.innerHTML
 })
-function showElCalentare(currData) {
+
+
+
+// 2.2) Если меню выбора открыто создании/редактировании таска, то...
+// (При клике на день в календаре, при выборе из "form-from-add-new-task__hiddenMenu-deadline") 
+DeadlineCalendare.addEventListener("click", function(e) {
+    if (isModal != false) return    // Если МО открыто, то игнор
+
+    let target = e.target       // Где был совершён клик?
+
+
+    // Если клик был не на элементе с ячейкой даты, то клик игнорируется
+    if (!target.classList.contains("air-datepicker-cell")) return       
+
+
+    // Целиком список сроков из списка вариантов (ul) (при создании/редактировании задачи) 
+    const deadlineHiddenList = target.closest(".form-from-add-new-task__hiddenMenu-deadline").querySelector(".form-from-add-new-task__deadline-list")
+
     //Очищаю стиль выбранного элемента со всех, если он где-то был (удаляю со всех элементов класс "hovered_select_menu")
-    reloadItemsDeadline()
+    reloadItemsDeadline(deadlineHiddenList)
+
 
     // Поле для вставки и отображения выбранной даты у таска (с текстовым отображением месяца)
     const textAreaDeadline = selectDeadline.querySelector(".form-from-add-new-task__text-settings")
@@ -1609,7 +1466,8 @@ function showElCalentare(currData) {
     const textAreaDeadlineHiddenNum = selectDeadline.querySelector(".form-from-add-new-task__text-settings_hidden-num")
 
 
-    selectedDay = currData
+    selectedDay = target
+    
 
     const dateDay = selectedDay.getAttribute("data-date")   // Выбранный номер дня месяца
     const dateMonth = selectedDay.getAttribute("data-month")    // Выбранный месяц (числом)
@@ -1636,58 +1494,351 @@ function showElCalentare(currData) {
         textAreaDeadline.innerHTML = dateDay + " " + selectMonthDataCalendare
     }
     textAreaDeadlineHiddenNum.innerHTML = selectDataCalendare.toLocaleDateString()
+})
+
+
+
+
+
+
+// Появление и скрытие поля с выбором срока выполнения задачи в меню создания/редактирования задачи и при открытии его через "Назначить срок" (когда МО закрыто)
+timeVar = ''
+
+// 1) // При нажатии на кнопку в форме для создания/редактирования таска
+selectDeadline.addEventListener("click", function(e) {      
+    if (isModal != false) return    // Если МО открыто, то игнор
+
+
+    const btnCross = selectDeadline.querySelector(".form-from-add-new-task__icon-cross")
+
+
+    // Если доп меню показано (не скрыто) и клик был на крестик и крестик показан (не скрыт)
+    if (hiddenMenuDeadline.classList.contains("hide2") == false && e.target == btnCross.querySelector("img") && btnCross.classList.contains("hide2") == false) {
+        btnCross.classList.add("hide2")  // ещё раз прописываю скрытие, ибо событие клика по крестику (отдельное) не скроет его (но изменит содержание тега с текстом)
+    } 
+    // Иначе, если доп меню показано (не скрыто) (и клик был не на крестик, соответственно)
+    else if (hiddenMenuDeadline.classList.contains("hide2") == false) {
+        // Скрываю само меню и удаляю календарь в нём
+        hiddenMenuDeadline.classList.add("hide2") 
+        MyCalendarForm.destroy()    
+        MyCalendarForm = null
+
+
+        isObservHiddenMenus = false
+        observFunc(selectDeadline)
+
+        // Снимаю блокировку с открытия м.о.
+        isModal_block = false  
+
+        // Разрешаю показ доп. функций тасков
+        disabledShowDopTask = false
+
+        // Очищаю выделение срока в списке вариантов и в календаре
+        reloadItemsAndCalendarDeadline() 
+    } 
+    // Иначе, если доп меню скрыто и клик был на крестик:
+    else if (hiddenMenuDeadline.classList.contains("hide2") == true && e.target == btnCross.querySelector("img")) {
+        btnCross.classList.add("hide2")
+    }
+    // Иначе, если доп меню скрыто (и клик был, соответственно, не на крестик)
+    else if (hiddenMenuDeadline.classList.contains("hide2") == true)
+    {
+        // Скрываю скрытые меню выбора типа таска и приоритета, если они были открыты
+        conteinerFromHiddenMenuTypesTasks.classList.add("hide2")
+        hiddenMenuPriority.classList.add("hide2")
+
+        hiddenMenuDeadline.classList.remove("hide2")    // Показываю скрытое меню срока выполнения
+
+
+        // Скрытое поле для вставки выбранной даты у таска (полной, с годом, и только числами)
+        const textAreaDeadlineHiddenNum = selectDeadline.querySelector(".form-from-add-new-task__text-settings_hidden-num")
+
+        // Полная дата, которая была перевёрнута (стала: "год.месяц.число")
+        const textAreaDeadlineHiddenNumReversed = textAreaDeadlineHiddenNum.innerHTML.split(".").reverse().join(".")
+
+        MyCalendarForm = new AirDatepicker(curHiddenCalendarForm, {
+            inline: false,  
+            buttons: ["today", "clear"],
+            minDate: currectEntryDate,
+            container: curHiddenCalendarContainerForm,
+            selectedDates: `${textAreaDeadlineHiddenNumReversed}`,
+            autoClose: false,
+            // isDestroyed: true
+        })
+        MyCalendarForm.show();
+
+        timeVar = 1;  
+        
+
+        isObservHiddenMenus = true     // Даётся разрешение на реакцию при изменении во время слежки за объектом
+        observFunc(selectDeadline)  // При первом открытии скрытого меню, начнётся отслеживание изменения окна "selectDeadline"
+
+
+        // Блокирую возможность открытия м.о.
+        isModal_block = true  
+
+        // Запрещается показ доп. функций тасков
+        disabledShowDopTask = true
+    }
+})
+
+// 2.1) При нажатии на само поля выбора (при создании/редактировании и с учётом наличия ранее нажатой  доп ф. "назначить срок")
+hiddenMenuDeadline.addEventListener("click", function(e) {  
+    if (isModal != false) return    // Если МО открыто, то игнор
+
     
-}
+    timeVar = 1;  
+    timeVar2 = 1        // (для работы с доп функциями при клике на кнопку добавления нового срока выполнения)
 
-function showElCalentareNewDeadline(currData) {
-    //Очищаю стиль выбранного элемента со всех, если он где-то был (удаляю со всех элементов класс "hovered_select_menu")
-    reloadItemsDeadline()
+    // Если ранее на каком-то из тасков была нажата кнопка "NewDeadline" (иконка) и при этом СЕЙЧАС клик произошёл не на навигатор в календаре (месяцы/годы), не на кнопки календаря
+    // Этот код работает только если ранее на каком-то таске было открыто скрытое меню через "назначить срок", а сейчас клик происходит по открытому аналогичному меню, но вызванному у таска при его создании/редактировании
+    if ((currentLi_klick != null) && !(e.target.closest(".air-datepicker--navigation") || e.target.closest(".-months-") || e.target.closest(".-years-") || e.target.closest(".air-datepicker--buttons"))) {
+        // Скрытое меню выбора срока выполнения у кнопки "Назначить срок" конкретно текущего таска
+        const curHiddenMenuDeadlineNewDeadline = currentLi_klick.querySelector(".task__dopFunction__hiddenMenu-deadline")
 
-    // Элемент  li для последующего определения нового срока выполнения задаче (через доп. функцию "Назначить срок выполнения")
-    const targetLi = currData.closest(".task")
 
-    let liFromArr   // Таск из массива
-    // Перебираю массив тасков и сохраняю в "liFromArr" id того, что совпадает с id выбранного для редактирования таска (li)
-    for (let i = 0; i < all_tasks.length; i++) {
-        if (all_tasks[i].newTask_ID == targetLi.getAttribute("id")) {
-            liFromArr = all_tasks[i]   
-            break
+        // Скрываю само меню и удаляю календарь в нём
+        curHiddenMenuDeadlineNewDeadline.classList.add("hide2")   
+        MyCalendar.destroy()    
+        MyCalendar = null
+
+        // Отмечаю, что сейчас не нажиматся кнопка "Назначить срок" и можно скрывать все доп. функции
+        timeVar2 = ''
+
+
+        // Скрываю все доп функции таска
+        hide_task_dopFuncs(currentLi_klick.querySelector(".task__dopFuncs"))
+
+
+        // Удаляю отметку о текущем таске с отслеживателя по клику и с отслеживания от наведения
+        currentLi_klick = null 
+        currentLi = null
+
+
+        // Обнуляю элементы поля .formFromAddNewTask (поле для добавление нового таска) и скрываю его
+        reloadFormAddTask()
+
+        // Снимаю блокировку с открытия м.о.
+        isModal_block = false   
+
+        // Разрешаю показ доп. функций тасков
+        disabledShowDopTask = false
+    } 
+    // Если ранее ни на каком из тасков не была нажата кнопка "NewDeadline" (иконка)
+    else if ((currentLi_klick == null)) {
+        timeVar2 = ""
+    }
+
+    if (isObservHiddenMenus == false) {
+        isObservHiddenMenus = true     // Даётся разрешение на реакцию при изменении во время слежки за объектом
+        observFunc(selectDeadline)   // Начинается слежка за "selectDeadline", если ранее была отключена (либо повторно устанавливается. Старая удаляется)
+    }
+})
+
+// 2.2) При нажатии на само поле выбора (при создании/редактировании задачи и нажатии доп ф. "назначить срок")
+allTasksOuter.addEventListener("click", function(e) {
+    if (isModal != false) return    // Если МО открыто, то игнор
+
+    const target_container_task = e.target.closest(".task__dopFunction__hiddenMenu-deadline")   // Область скрытого меню выбора срока при нажатии на "Назначить срок"
+    const target_container_formTask = e.target.closest(".form-from-add-new-task__hiddenMenu-deadline")  // Область скрытого меню выбора срока при создании/редактировании задачи
+
+
+    // Если клик был не по меню выбора срока выполнения в функции "назначить срок" и не по аналогичному меню при создании/редактировании задачи, то игнор
+    if (!target_container_task && !target_container_formTask) return
+
+    timeVar = 1;  
+    timeVar2 = 1        // (для работы с доп функциями при клике на кнопку добавления нового срока выполнения)
+
+
+    // Если ранее на каком-то из тасков была нажата кнопка "NewDeadline" (иконка) и при этом СЕЙЧАС клик произошёл не на навигатор в календаре (месяцы/годы), не на кнопки календаря
+    // Этот код работает если клик был по меню выбора срока выполнения после нажатия на "Назначить срок" (только в этом случае нужно скрывать сразу меню выбора, ведь при создании/редактировании после выбора скрывать меню не нужно)
+    if ((currentLi_klick != null) && !(e.target.closest(".air-datepicker--navigation") || e.target.closest(".-months-") || e.target.closest(".-years-") || e.target.closest(".air-datepicker--buttons"))) {
+        console.log("Хули еп");
+        // Скрытое меню выбора срока выполнения у кнопки "Назначить срок" конкретно текущего таска
+        const curHiddenMenuDeadlineNewDeadline = currentLi_klick.querySelector(".task__dopFunction__hiddenMenu-deadline")
+
+
+        // Скрываю само меню и удаляю календарь в нём
+        curHiddenMenuDeadlineNewDeadline.classList.add("hide2")   
+        MyCalendar.destroy()    
+        MyCalendar = null
+
+        // Отмечаю, что сейчас не нажиматся кнопка "Назначить срок" и можно скрывать все доп. функции
+        timeVar2 = ''
+
+
+        // Скрываю все доп функции таска
+        hide_task_dopFuncs(currentLi_klick.querySelector(".task__dopFuncs"))
+
+
+        // Удаляю отметку о текущем таске с отслеживателя по клику и с отслеживания от наведения
+        currentLi_klick = null 
+        currentLi = null
+
+
+        // Обнуляю элементы поля .formFromAddNewTask (поле для добавление нового таска) и скрываю его
+        reloadFormAddTask()
+
+        // Снимаю блокировку с открытия м.о.
+        isModal_block = false   
+
+        // Разрешаю показ доп. функций тасков
+        disabledShowDopTask = false
+    } 
+    // Если ранее ни на каком из тасков не была нажата кнопка "NewDeadline" (иконка)
+    // Если скрытое меню выбора было открыто при создании/редактировании задачи
+    else if ((currentLi_klick == null)) {
+        timeVar2 = ""
+    }
+
+    if (isObservHiddenMenus == false) {
+        isObservHiddenMenus = true     // Даётся разрешение на реакцию при изменении во время слежки за объектом
+        observFunc(selectDeadline)   // Начинается слежка за "selectDeadline", если ранее была отключена (либо повторно устанавливается. Старая удаляется)
+    }
+})
+
+
+// 3) При нажатии вне поля выбора (при открытии меню срока выполнения у таска при его редактировании/создании или при "Назначить срок" таска)
+body.addEventListener("click", function(e) {     
+    if (isModal == true)  return  // Если МО открыто, то игнор
+
+    console.log("Вход");
+    // Если доп. меню срока выполнения (и у меню редактирования/создания задачи; и у доп. функции "назначить срок") - скрыто, то игнорируем
+    if ((hiddenMenuDeadline.classList.contains("hide2") == true) && (!currentLi_klick)) return
+
+    else if (currentLi_klick) {
+        if (currentLi_klick.querySelector(".task__dopFunction__hiddenMenu-deadline").classList.contains("hide2") == true) {
+            console.log("Странно");
+            return
         }
     }
 
-    selectedDay = currData
+    
+    const targetLi = e.target.closest(".task")     // Элемент  li для последующего определения нового срока выполнения таску (одна из двух кнопок доп функций таска)
 
-    // Поле с текстом со сроком выполнения данного таска (нужно для доп функции "Назначить срок")
-    const deadlineThisTask = targetLi.querySelector(".task__deadline__date_visible")
-
-    // Поле с полной датой в числовом формате у данного таска (нужно для доп функции "Назначить срок")
-    const deadlineThisTaskFullNum = targetLi.querySelector(".task__deadline_date_hidden")
+    const targetBtn = e.target.closest(".task__btnNewDeadline")   // Была ли нажата кнопка "NewDeadline" 
 
 
-    const dateDay = selectedDay.getAttribute("data-date")   // Выбранный номер дня месяца
-    const dateMonth = selectedDay.getAttribute("data-month")    // Выбранный месяц (числом)
-    const dateYear = selectedDay.getAttribute("data-year") // Выбранный год
-
-    // Создаю каллендарь на основании выбранного дня, месяца и года
-    const selectDataCalendare = new Date(dateYear, dateMonth, dateDay)        
-    const optionsSelection = {  
-        month: "short"
+    // Скрытое меню выбора срока выполнения у кнопки "Назначить срок" конкретно текущего таска
+    let curHiddenMenuDeadlineNewDeadline = null
+    // Если ранее была нажата кнопка "Назначить срок" у задачи, то переменной выше присваиваю нужное значение
+    if (currentLi_klick != null) {
+        curHiddenMenuDeadlineNewDeadline = currentLi_klick.querySelector(".task__dopFunction__hiddenMenu-deadline")
     }
-    // Создаю переменную с текстовым обозначением выбранного в календаре месяца
-    const selectMonthDataCalendare = (Intl.DateTimeFormat(localLanguage, optionsSelection).format(selectDataCalendare))
 
-    // Ввожу в поле с выбором срока выполнения - выбранную в календаре дату (число + месяц)
-    isObservHiddenMenus = true
-    observFunc(selectDeadline)
-    if (deadlineThisTask.innerHTML != dateDay + " " + selectMonthDataCalendare) {   // Если выбранная дата не такая же как уже выбранная
-        deadlineThisTask.innerHTML = dateDay + " " + selectMonthDataCalendare
+
+    
+
+    // Если клик был вне поля выбора и вне элемента таска (li), и при этом ранее не был отмечен текущий таск по клику (перед этим кликом не нажалась кнопка ".task__btnNewDeadline" (иконка), после которой отображается меню выбора срока выполнения)
+    if (!timeVar && targetLi == null && currentLi_klick == null) {     // Если клик был вне поля и не на кнопку ".task__btnNewDeadline" (на иконку) и ранее не был отмечен текущий таск по клику
+        isObservHiddenMenus = false
+        observFunc(selectPriority)
+
+
+        // Скрываю само меню и удаляю календарь в нём
+        hiddenMenuDeadline.classList.add("hide2") 
+        MyCalendarForm.destroy()    
+        MyCalendarForm = null
+
+
+        isModal_block = false       // Снимаю блокировку с открытия м.о.
+
+        // Разрешаю показ доп. функций тасков
+        disabledShowDopTask = false
+
+        // Очищаю выделение срока в списке вариантов и в календаре
+        reloadItemsAndCalendarDeadline()
+
+    } 
+    
+    // Если клик был вне поля выбора и вне элемента таска (li), и при этом уже был отмечен текущий таск по клику (ранее уже нажалась кнопка ".task__btnNewDeadline" (иконку) и отобразилось меню выбора срока выполнения)
+    else if (!timeVar && targetLi == null && currentLi_klick != null) {
+        curHiddenMenuDeadlineNewDeadline.classList.add("hide2")
+        MyCalendar.destroy()
+        MyCalendar = null
+        
+        
+        // Отмечаю, что сейчас не нажиматся кнопка "Назначить срок" и можно скрывать все доп. функции
+        timeVar2 = ''
+
+        // Скрываю доп функции таска
+        hide_task_dopFuncs(currentLi_klick.querySelector(".task__dopFuncs"))
+
+        currentLi_klick = null              // Удаляю отметку о текущем таске с отслеживателя по клику
+
+        // Обнуляю элементы поля .formFromAddNewTask (поле для добавление нового таска) и скрываю его
+        reloadFormAddTask()
+
+        isModal_block = false       // Снимаю блокировку с открытия м.о.
+
+        // Разрешаю показ доп. функций тасков
+        disabledShowDopTask = false
+
+        // Очищаю выделение срока в списке вариантов и в календаре
+        reloadItemsAndCalendarDeadline()
+    } 
+
+
+    // Если клик был вне поля выбора, на элемент таска (li), но не на кнопку ".task__btnNewDeadline" и при этом ранее не был отмечен таск (ранее не нажималась кнопка ".task__btnNewDeadline", при нажатии на которую отображается меню выбора срока выполнения) 
+    if (!timeVar && targetLi != null && !targetBtn && currentLi_klick == null) {
+        // Скрываю само меню и удаляю календарь в нём
+        hiddenMenuDeadline.classList.add("hide2") 
+        MyCalendarForm.destroy()    
+        MyCalendarForm = null
+
+
+        // Разрешаю показ доп. функций тасков
+        disabledShowDopTask = false
+
+        // Показываю доп. функции у того таска, на который был совершён клик (который был под курсором в момент клика)
+        show_task_dopFuncs(currentLi.querySelector(".task__dopFuncs"))
+
+        isModal_block = false   // Снимаю блокировку с открытия м.о.
+
+        // Очищаю выделение срока в списке вариантов и в календаре
+        reloadItemsAndCalendarDeadline()
     }
-    deadlineThisTaskFullNum.innerHTML = selectDataCalendare.toLocaleDateString()
 
-     // Обновляю срок выполнения в массиве текущего таска
-     liFromArr.newTask_deadlineTask = deadlineThisTask.innerHTML
-     liFromArr.newTask_deadlineFullDataTask = deadlineThisTaskFullNum.innerHTML
-}
+
+    // Если клик был вне поля выбора, на элемент таска (li), но не на кнопку ".task__btnNewDeadline" и при этом ранее уже был отмечен таск (ранее уже нажалась кнопка ".task__btnNewDeadline" (иконку) и отобразилось меню выбора срока выполнения)
+    else if (!timeVar && targetLi != null && !targetBtn && currentLi_klick != null) {
+        // Скрываю само меню и удаляю календарь в нём
+        curHiddenMenuDeadlineNewDeadline.classList.add("hide2")
+        MyCalendar.destroy()
+        MyCalendar = null
+
+        // Отмечаю, что сейчас не нажиматся кнопка "Назначить срок" и можно скрывать все доп. функции
+        timeVar2 = ''
+
+        // Скрываю доп функции у текущего таска
+        hide_task_dopFuncs(currentLi_klick.querySelector(".task__dopFuncs"))
+
+        currentLi_klick = null              // Удаляю отметку о текущем таске с отслеживателя по клику
+
+        // Обнуляю элементы поля .formFromAddNewTask (поле для добавление нового таска) и скрываю его
+        reloadFormAddTask()
+
+        isModal_block = true        // Ставлю блокировку с открытия м.о.
+
+        // Разрешаю показ доп. функций тасков
+        disabledShowDopTask = false
+
+        // Показываю доп. функции у того таска, на который был совершён клик (который был под курсором в момент клика)
+        show_task_dopFuncs(currentLi.querySelector(".task__dopFuncs"))
+
+        // Очищаю выделение срока в списке вариантов и в календаре
+        reloadItemsAndCalendarDeadline() 
+    }
+
+    
+    if (timeVar) { 
+        setTimeout(() => timeVar='', 100)
+    }  
+})
+
+
+
+
 
 
 
@@ -1695,7 +1846,7 @@ function showElCalentareNewDeadline(currData) {
 timeVar = ''
 selectPriority.addEventListener("click", function(e) {      // При нажатии на кнопку
     // Очищаю выделение срока выполнения в списке вариантов и в календаре
-    relodadItemsAndCalendarDeadline()
+    reloadItemsAndCalendarDeadline()
 
     const btnCross = selectPriority.querySelector(".form-from-add-new-task__icon-cross")
 
@@ -1938,8 +2089,12 @@ buttonAddNewTask.addEventListener("click", function(e) {
         // Обнуляю элементы поля .formFromAddNewTask (поле для добавление нового таска) и скрываю его
         reloadFormAddTask()
 
+        
+        // Целиком список сроков из списка вариантов (ul) (при создании/редактировании задачи) 
+        const deadlineHiddenList = e.target.closest(".form-from-add-new-task__hiddenMenu-deadline").querySelector(".form-from-add-new-task__deadline-list")
+
         //Очищаю стиль выбранного элемента со всех, если он где-то был (удаляю со всех элементов класс "hovered_select_menu")
-        reloadItemsDeadline(item)
+        reloadItemsDeadline(deadlineHiddenList)
 
         
         allTasksOuter.querySelectorAll(".task__wrapper").forEach(function(task) {
@@ -1968,7 +2123,7 @@ function funcAddNewTask(content) {
             <div class="task__deadline">
                 <div class="task__imgBlock-deadline"><img src="./icon/deadlineNewTask_0.png" alt=""></div>
                 <span class="task__deadline__date_visible">${content.newTask_deadlineTask}</span>
-                <span class="task__deadline_date_hidden hide1">${content.newTask_deadlineFullDataTask}</span>
+                <span class="task__deadline__date_hidden hide1">${content.newTask_deadlineFullDataTask}</span>
             </div>
             <div class="task__typeTask">
                 <span>${content.newTask_typeTask_name}</span>
@@ -1985,6 +2140,38 @@ function funcAddNewTask(content) {
             <div class="task__dopFunction task__btnNewDeadline hover-hint hide1" data-title="Назначить срок">
                 <div class="task__dopFunction_iconWrap">
                     <img src="./icon/deadline_task.png" alt="">
+                </div>
+                <div class="task__dopFunction__hiddenMenu-deadline hide2">
+                    <ul class="task__dopFunction__deadline-list">
+                        <li class="task__dopFunction__deadline-item hovered1_3">
+                            <img src="./icon/sun.png" alt="" class="task__dopFunction__deadline-icon">
+                            <span class="task__dopFunction__deadline-name">Сегодня</span>
+                            <span class="task__dopFunction__deadline-info">#</span>
+                        </li>
+                        <li class="task__dopFunction__deadline-item hovered1_3">
+                            <img src="./icon/deadlineNewTask_3.png" alt="" class="task__dopFunction__deadline-icon">
+                            <span class="task__dopFunction__deadline-name">Завтра</span>
+                            <span class="task__dopFunction__deadline-info">#</span>
+                        </li>
+                        <li class="task__dopFunction__deadline-item hovered1_3">
+                            <img src="./icon/divan.png" alt="" class="task__dopFunction__deadline-icon">
+                            <span class="task__dopFunction__deadline-name">На выходных</span>
+                            <span class="task__dopFunction__deadline-info">#</span>
+                        </li>
+                        <li class="task__dopFunction__deadline-item hovered1_3">
+                            <img src="./icon/nextWeek.png" alt="" class="task__dopFunction__deadline-icon">
+                            <span class="task__dopFunction__deadline-name">След. неделя</span>
+                            <span class="task__dopFunction__deadline-info">#</span>
+                        </li>
+                        <li class="task__dopFunction__deadline-item hovered1_3">
+                            <img src="./icon/noDeadline.png" alt="" class="task__dopFunction__deadline-icon">
+                            <span class="task__dopFunction__deadline-name">Без срока</span>
+                            <span class="task__dopFunction__deadline-info">#</span>
+                        </li>
+                    </ul>
+                    <div class="task__dopFunction__hiddenMenu-deadline-calendare">
+                        <input type="text" class="hiddenMenu-deadline-calendare hide2">
+                    </div>
                 </div>
             </div>
         </div>
@@ -2082,6 +2269,38 @@ formFromAddNewTask.addEventListener("keydown", function(e) {
         reloadFormAddTask()
     }
 })
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -2271,6 +2490,7 @@ allTasksOuter.addEventListener("click", function(e) {
                             <span class="itc-modal-body__deadline-info">#</span>
                         </li>
                     </ul>
+                    <div class="itc-modal-body__hiddenMenu-deadline-calendare"><input type="text" class="hiddenMenu-deadline-calendare hide2"></div>
                 </div>
             </div>
             <hr>
@@ -2327,8 +2547,10 @@ allTasksOuter.addEventListener("click", function(e) {
     const modalBtn_GroupDeadlineTask = document.querySelector('.itc-modal-body__select-setting[data-title="Назначить новой крайний срок..."]')      
         // Скрытое меню выбора срока выполнения таска в м.о. 
         const conteinerFromHiddenMenuDeadlineTasks_modal = document.querySelector(".itc-modal-body__hiddenMenu-deadline")      
-            // Элементы li с вариантами срока выполнения
-            const deadlineItem_modal = document.querySelectorAll(".itc-modal-body__deadline-item")      
+                // Элементы li с вариантами срока выполнения
+                const deadlineItem_modal = document.querySelectorAll(".itc-modal-body__deadline-item")     
+            // Календарь в скрытом меню для выбора срока выполнения таска внутри МО 
+            const DeadlineCalendare_modal = document.querySelector(".itc-modal-body__hiddenMenu-deadline-calendare")  
 
     
     // Поле для выбора приоритета таска в м.о.
@@ -2925,8 +3147,39 @@ allTasksOuter.addEventListener("click", function(e) {
                     <div class="subtask__dopFunction_iconWrap">
                         <img src="./icon/deadline_task.png" alt="">
                     </div>
+                    <div class="subtask__dopFunction__hiddenMenu-deadline hide2">
+                        <ul class="subtask__dopFunction__deadline-list">
+                            <li class="subtask__dopFunction__deadline-item hovered1_3">
+                                <img src="./icon/sun.png" alt="" class="subtask__dopFunction__deadline-icon">
+                                <span class="subtask__dopFunction__deadline-name">Сегодня</span>
+                                <span class="subtask__dopFunction__deadline-info">#</span>
+                            </li>
+                            <li class="subtask__dopFunction__deadline-item hovered1_3">
+                                <img src="./icon/deadlineNewTask_3.png" alt="" class="subtask__dopFunction__deadline-icon">
+                                <span class="subtask__dopFunction__deadline-name">Завтра</span>
+                                <span class="subtask__dopFunction__deadline-info">#</span>
+                            </li>
+                            <li class="subtask__dopFunction__deadline-item hovered1_3">
+                                <img src="./icon/divan.png" alt="" class="subtask__dopFunction__deadline-icon">
+                                <span class="subtask__dopFunction__deadline-name">На выходных</span>
+                                <span class="subtask__dopFunction__deadline-info">#</span>
+                            </li>
+                            <li class="subtask__dopFunction__deadline-item hovered1_3">
+                                <img src="./icon/nextWeek.png" alt="" class="subtask__dopFunction__deadline-icon">
+                                <span class="subtask__dopFunction__deadline-name">След. неделя</span>
+                                <span class="subtask__dopFunction__deadline-info">#</span>
+                            </li>
+                            <li class="subtask__dopFunction__deadline-item hovered1_3">
+                                <img src="./icon/noDeadline.png" alt="" class="subtask__dopFunction__deadline-icon">
+                                <span class="subtask__dopFunction__deadline-name">Без срока</span>
+                                <span class="subtask__dopFunction__deadline-info">#</span>
+                            </li>
+                        </ul>
+                        <div class="subtask__dopFunction__hiddenMenu-deadline-calendare">
+                            <input type="text" class="hiddenMenu-deadline-calendare hide2">
+                        </div>
+                    </div>
                 </div>
-
             </div>
         </div>
         </li>
@@ -2980,10 +3233,8 @@ allTasksOuter.addEventListener("click", function(e) {
 
     // Функция показа доп функций элемента подзадачи
     function show_subtask_dopFuncs_modal(thisDopFuncs) {
-        let parentEl = conteinerFromHiddenMenuDeadlineTasks_modal.parentElement
-
-        // Если запрета на показ доп.ф. нету, ИЛИ мы навелись на ту подзадачу, на которую только что кликнули; И при этом всём, внутри подзадачи нету меню выбора срока выполнения, то все доп функции показываются
-        if ((disabledShowDopTask == false || (currentLi_klick_MO == currentLi_modal)) && parentEl.classList.contains("subtask__btnNewDeadline") == false) {
+        // Если запрета на показ доп.ф. нету, ИЛИ мы навелись на ту подзадачу, на которую только что кликнули
+        if (disabledShowDopTask == false || (currentLi_klick_MO == currentLi_modal)) {
             thisDopFuncs.classList.remove("hide1")
             thisDopFuncs.querySelector(".subtask__btnEdit").classList.remove("hide1")
             thisDopFuncs.querySelector(".subtask__btnNewDeadline").classList.remove("hide1")
@@ -3009,11 +3260,6 @@ allTasksOuter.addEventListener("click", function(e) {
 
     let targetLi_subtask = null
 
-    // Стандартное расположение скрытого меню deadline. (внутри поля для добавления изменения срока выполнения таска)
-    let defaultLocationHiddenMenuDeadline_MO = conteinerFromHiddenMenuDeadlineTasks_modal.parentElement
-
-    // Перемещаю календарь в м.о. внутрь скрытого меню изменения срока выполнения таска
-    conteinerFromHiddenMenuDeadlineTasks_modal.append(DeadlineCalendare_modal)
 
 
 
@@ -3151,14 +3397,557 @@ allTasksOuter.addEventListener("click", function(e) {
     }
 
 
-
     let timevar2_MO = ""        // (для работы с доп функциями при клике на кнопку добавления нового таска)
 
     // Удаляю отметку о текущей подзадаче
     currentLi_klick_MO = null
 
 
-    // При нажатии на доп функцию "Назначить срок" у подзадачи
+
+    
+
+    //Функция для очистки стиля "выбранного элемента" со всех deadlineItem, если он где-то был (удаляю со всех элементов класс "hovered_select_menu"). И ставлю этот класс (стиль "выбранного элемента") тому, на который был произведён клик. 
+    // Данная функция используется при редактировании срока у ПОДЗАДАЧ
+    function reloadItemsDeadlineSubtask(currentItemDeadline) {
+        // 1) Если передан целиков список
+
+        // 1.1) Если в данный параметр был передан целиком список из "Назначить срок"
+        if (currentItemDeadline.classList.contains("subtask__dopFunction__deadline-list")) {
+            currentItemDeadline.querySelectorAll("li").forEach(function(itemDeadline) { 
+                itemDeadline.classList.remove("hovered_select_menu")
+            })
+        }
+        // 1.2) Иначе, Если в данный параметр был передан целиком список из меню создания/редактирования задачи
+        else if (currentItemDeadline.classList.contains("form-from-add-new-task__deadline-list")) {
+            currentItemDeadline.querySelectorAll("li").forEach(function(itemDeadline) { 
+                itemDeadline.classList.remove("hovered_select_menu")
+            })
+        }
+
+
+        // 2) Если был передан конкретный элемент списка
+
+        // 2.1) Если элемент списка срока находится внутри "Назначить срок"
+        else if (currentItemDeadline.classList.contains("subtask__dopFunction__deadline-item")) {
+            const parentCurDeadlineItems = currentItemDeadline.closest("ul")
+            parentCurDeadlineItems.querySelectorAll("li").forEach(function(itemDeadline) { 
+                itemDeadline.classList.remove("hovered_select_menu")
+            })
+        } 
+
+        // 2.2) Иначе, если элемент списка срока находится в меню при создании/редактировании задачи
+        else if (currentItemDeadline.classList.contains("form-from-add-new-task__deadline-item")) {
+            deadlineItem.forEach(function(itemDeadline) { 
+                itemDeadline.classList.remove("hovered_select_menu")
+            })
+            currentItemDeadline.classList.add("hovered_select_menu")
+        }
+    }
+
+    //Функция для очистки стиля "выбранного элемента" со всех deadlineItem и у всех ячеек календаря, если он где-то был (удаляю со всех элементов класс "hovered_select_menu").
+    // Данная функция используется при редактировании срока у ПОДЗАДАЧ 
+    function reloadItemsAndCalendarDeadlineSubtask() {
+        // Очищаю выделение срока в списке вариантов (в форме для создания, редактирования подзадачи)
+        deadlineItem.forEach(function(itemDeadline) { 
+            itemDeadline.classList.remove("hovered_select_menu")
+        })
+
+        // Очищаю выделение срока в календаре (в форме для создания, редактирования подзадачи)
+        if (selectedDay_MO_Subtask && selectedDay_MO_Subtask != "") {
+            selectedDay_MO_Subtask.classList.remove("-selected-")
+        }
+    }
+
+
+
+
+
+
+
+
+
+    // ВЫБОР СРОКА ВЫПОЛНЕНИЯ ПОДЗАДАЧИ:
+
+    // 1) Выбор срока выполнения подзадачи (при выборе из списка вариантов):
+
+    // 1.1) Если меню выбора срока было открыто через доп. функцию подзадачи "Назначить срок", то ...
+    // При клике на один из пунктов выбора срока выполнения подзадачи (из списка вариантов), при выборе через "Назначить срок"
+    subtaskOuter_modal.addEventListener("click", function(e) {
+        const targetBtn = e.target.closest(".subtask__btnNewDeadline")   // Нажатая кнопка "NewDeadline" 
+
+        // Если клик был вне контейнера с кнопкой "NewDeadline" у ПОДЗАДАЧИ, то игнорируем
+        if (!targetBtn) return
+
+        const targetLi_Modal = e.target.closest(".subtask")  // Подзадача, внутри которой была нажата кнопка "Назначить срок"
+        const deadlineItemNewDeadline = targetLi_Modal.querySelectorAll(".subtask__dopFunction__deadline-item")  // Все элементы для выбора срока выполнения у данной подзадачи
+    
+    
+        // Запускаю функцию для создания одноразового обработчика события на каждом из элементов и сразу его вызова на элементе
+        deadlineItemsSubtaskClick(deadlineItemNewDeadline)
+    })
+    // Функция для создания обработчика событий на все элементы списка выбора срока выполнения. При нажатии на какой-то из них, сразу происходит работа.
+    function deadlineItemsSubtaskClick(items) {
+        items.forEach(function(item) {
+            item.addEventListener("click", function(e) {
+                // Элемент  li для последующего определения нового срока выполнения задаче (через доп. функцию "Назначить срок выполнения")
+                const targetLi_modal = e.target.closest(".subtask")
+
+
+                // Убираю выделение выбранного дня в календаре, если ранее там было что-то выбрано
+                if (selectedDay_MO_Subtask && selectedDay_MO_Subtask != "") {
+                    selectedDay_MO_Subtask.classList.remove("-selected-")
+                }
+        
+        
+                const nowData2 = new Date()
+        
+
+
+                // Название выбранного дня (из списка)
+                const nameItemDeadline = item.querySelector(".subtask__dopFunction__deadline-name").innerHTML
+
+                // Поле с текстом со сроком выполнения данной подзадачи (нужно для доп функции "Назначить срок") (внизу слева у каждой подзадачи)
+                const deadlineThisSubtask = targetLi_modal.querySelector(".subtask__deadline__date_visible")
+
+                // Поле с полной датой в числовом формате у данной подзадачи 
+                const deadlineThisSubtaskFullNum = targetLi_modal.querySelector(".subtask__deadline__date_hidden")
+
+
+                if (nameItemDeadline == "Сегодня" && deadlineThisSubtask.innerHTML != `${nowDay} ${nowMonth}`) {
+                    deadlineThisSubtask.innerHTML = `${nowDay} ${nowMonth}`
+
+                    deadlineThisSubtaskFullNum.innerHTML = nowData2.toLocaleDateString()
+
+
+                    //Очищаю стиль выбранного элемента со всех, если он где-то был (удаляю со всех элементов класс "hovered_select_menu")
+                    reloadItemsDeadlineSubtask(item)
+        
+                } else if (nameItemDeadline == "Завтра" && deadlineThisSubtask.innerHTML != `${nowDay+1} ${nowMonth}`) {
+                    deadlineThisSubtask.innerHTML = `${nowDay+1} ${nowMonth}`
+
+                    nowData2.setDate(nowDay+1)
+                    deadlineThisSubtaskFullNum.innerHTML = nowData2.toLocaleDateString()
+
+
+                    //Очищаю стиль выбранного элемента со всех, если он где-то был (удаляю со всех элементов класс "hovered_select_menu")
+                    reloadItemsDeadlineSubtask(item)
+        
+                } else if (nameItemDeadline == "На выходных") {
+                    let dataWeekend = new Date()    // Создаю новый объект даты
+
+                    // Если сегодня уже суббота, то передвигаю счётчик на 1 вперёд что бы сработал следующий цикл и дошёл до субботы следующей недели
+                    if (Intl.DateTimeFormat(localLanguage, options3).format(dataWeekend) != "суббота") {
+                        dataWeekend.setDate(dataWeekend.getDate() + 1)
+                    }
+                    // Увеличиваю дату пока не достигну субботы
+                    while (Intl.DateTimeFormat(localLanguage, options3).format(dataWeekend) != "суббота") {
+                        dataWeekend.setDate(dataWeekend.getDate() + 1)
+                    }
+        
+                    // Если ближайшая суббота уже не была выбрана, то...
+                    if (deadlineThisSubtask.innerHTML != `${dataWeekend.getDate()} ${Intl.DateTimeFormat(localLanguage, options2).format(dataWeekend)}`) {
+                        deadlineThisSubtask.innerHTML = `${dataWeekend.getDate()} ${Intl.DateTimeFormat(localLanguage, options2).format(dataWeekend)}`
+
+                        deadlineThisSubtaskFullNum.innerHTML = dataWeekend.toLocaleDateString()
+        
+                        //Очищаю стиль выбранного элемента со всех, если он где-то был (удаляю со всех элементов класс "hovered_select_menu")
+                        reloadItemsDeadlineSubtask(item)
+                    }
+        
+                } else if (nameItemDeadline == "След. неделя") {
+                    let dataNextWeek = new Date()   // Создаю новый объект даты
+                    dataNextWeek.setDate(dataNextWeek.getDate() + 7)    // Увеличиваю дату ровно на неделю (7 дней)
+        
+                    if (deadlineThisSubtask.innerHTML != `${dataNextWeek.getDate()} ${Intl.DateTimeFormat(localLanguage, options2).format(dataNextWeek)}`) {
+                        deadlineThisSubtask.innerHTML = `${dataNextWeek.getDate()} ${Intl.DateTimeFormat(localLanguage, options2).format(dataNextWeek)}`
+
+                        deadlineThisSubtaskFullNum.innerHTML = dataNextWeek.toLocaleDateString()
+        
+                        //Очищаю стиль выбранного элемента со всех, если он где-то был (удаляю со всех элементов класс "hovered_select_menu")
+                        reloadItemsDeadlineSubtask(item)
+                    }
+        
+                } else if (nameItemDeadline == "Без срока" && deadlineThisSubtask.innerHTML != "Срок выполнения") {
+                    isObservHiddenMenus = false
+        
+                    deadlineThisSubtask.innerHTML = "Срок выполнения"
+                    deadlineThisSubtaskFullNum.innerHTML = "Срок выполнения"
+
+
+                    //Очищаю стиль выбранного элемента со всех, если он где-то был (удаляю со всех элементов класс "hovered_select_menu")
+                    reloadItemsDeadlineSubtask(item)
+        
+                } else if (nameItemDeadline == "Без срока" && deadlineThisSubtask.innerHTML == "Срок выполнения") {
+                    isObservHiddenMenus == false
+                }
+
+
+
+
+
+
+                let idCurSubtask = ""     // Id подзадачи из массива
+                // Перебираю массив подзадач и сохраняю в "liFromArr" id того, что совпадает с id выбранной для изменения срока выполнения подзадачи (li)
+                for (let i = 0; i < all_subtasks.length; i++) {
+                    if (all_subtasks[i].newSubtask_ID == targetLi_modal.getAttribute("data-subtask-id")) { 
+                        idCurSubtask = i
+                        break
+                    }
+                } 
+
+
+                // Обновляю срок выполнения в массиве текущей ПОДЗАДАЧИ
+                all_subtasks[idCurSubtask].newSubtask_deadlineSubtask = deadlineThisSubtask.innerHTML
+                all_subtasks[idCurSubtask].newSubtask_deadlineFullDataSubtask = deadlineThisSubtaskFullNum.innerHTML
+
+
+
+                // Удаляю отметку о текущей подзадачи с отслеживания при наведении
+                currentLi_modal = null
+                targetLi_subtask = null
+
+
+                // Целиком список сроков из списка вариантов (ul) (в "Назначить срок") 
+                const deadlineHiddenList = e.target.closest(".subtask__dopFunction__hiddenMenu-deadline").querySelector(".subtask__dopFunction__deadline-list")
+                //Очищаю стиль выбранного элемента со всех, если он где-то был (удаляю со всех элементов класс "hovered_select_menu")
+                reloadItemsDeadlineSubtask(deadlineHiddenList)
+                
+            }, { once: true })
+        })
+    }  
+
+
+
+
+    // 1.2) Если меню выбора срока было открыто при создании/редактировании подзадачи (т.е. не через доп. функцию "Назначить срок"), то ...
+    // (При клике на один из пунктов выбора срока выполнения подзадачи (из списка вариантов), при выборе из "form-from-add-new-task__hiddenMenu-deadline") 
+    deadlineItem.forEach(function(item) {
+        item.addEventListener("click", deadlineItemSubtaskFormClick)
+    })
+    function deadlineItemSubtaskFormClick(e) {
+        if (isModal == false) return    // Если МО отсутствует, то игнор
+
+        // Элемент li из списка вариантов для выбора срока выполнения
+        const item = e.target.closest(".form-from-add-new-task__deadline-item")
+
+
+
+        // Убираю выделение выбранного дня в календаре, если ранее там было что-то выбрано
+        if (selectedDay_MO_Subtask && selectedDay_MO_Subtask != "") {
+            selectedDay_MO_Subtask.classList.remove("-selected-")
+        }
+
+
+        const nowData2 = new Date()
+
+
+
+        // Название выбранного дня (из списка)
+        const nameItemDeadline = item.querySelector(".form-from-add-new-task__deadline-name").innerHTML
+
+        // Поле с текстом для выбранного срока
+        const textAreaDeadline = selectDeadline.querySelector(".form-from-add-new-task__text-settings")
+
+        // Скрытое поле для вставки выбранной даты у подзадачи (полной, с годом, и только числами)
+        const textAreaDeadlineHiddenNum = selectDeadline.querySelector(".form-from-add-new-task__text-settings_hidden-num")
+        
+
+        if (nameItemDeadline == "Сегодня" && textAreaDeadline.innerHTML != `${nowDay} ${nowMonth}`) {
+            textAreaDeadline.innerHTML = `${nowDay} ${nowMonth}`
+
+            textAreaDeadlineHiddenNum.innerHTML = nowData2.toLocaleDateString()
+
+            //Очищаю стиль выбранного элемента со всех, если он где-то был (удаляю со всех элементов класс "hovered_select_menu")
+            reloadItemsDeadlineSubtask(item)
+
+        } else if (nameItemDeadline == "Завтра" && textAreaDeadline.innerHTML != `${nowDay+1} ${nowMonth}`) {
+            textAreaDeadline.innerHTML = `${nowDay+1} ${nowMonth}`
+            
+            nowData2.setDate(nowDay+1)
+            textAreaDeadlineHiddenNum.innerHTML = nowData2.toLocaleDateString()
+
+            //Очищаю стиль выбранного элемента со всех, если он где-то был (удаляю со всех элементов класс "hovered_select_menu")
+            reloadItemsDeadlineSubtask(item)
+
+        } else if (nameItemDeadline == "На выходных") {
+            let dataWeekend = new Date()    // Создаю новый объект даты
+            // Если сегодня уже суббота, то передвигаю счётчик на 1 вперёд что бы сработал следующий цикл и дошёл до субботы следующей недели
+            if (Intl.DateTimeFormat(localLanguage, options3).format(dataWeekend) != "суббота") {
+                dataWeekend.setDate(dataWeekend.getDate() + 1)
+            }
+            // Увеличиваю дату пока не достигну субботы
+            while (Intl.DateTimeFormat(localLanguage, options3).format(dataWeekend) != "суббота") {
+                dataWeekend.setDate(dataWeekend.getDate() + 1)
+            }
+
+
+            // Если ближайшая суббота уже не была выбрана, то...
+            if (textAreaDeadline.innerHTML != `${dataWeekend.getDate()} ${Intl.DateTimeFormat(localLanguage, options2).format(dataWeekend)}`) {
+                textAreaDeadline.innerHTML = `${dataWeekend.getDate()} ${Intl.DateTimeFormat(localLanguage, options2).format(dataWeekend)}`
+
+                textAreaDeadlineHiddenNum.innerHTML = dataWeekend.toLocaleDateString()
+
+                //Очищаю стиль выбранного элемента со всех, если он где-то был (удаляю со всех элементов класс "hovered_select_menu")
+                reloadItemsDeadlineSubtask(item)
+            }
+
+        } else if (nameItemDeadline == "След. неделя") {
+            let dataNextWeek = new Date()   // Создаю новый объект даты
+            dataNextWeek.setDate(dataNextWeek.getDate() + 7)    // Увеличиваю дату ровно на неделю (7 дней)
+
+            if (textAreaDeadline.innerHTML != `${dataNextWeek.getDate()} ${Intl.DateTimeFormat(localLanguage, options2).format(dataNextWeek)}`) {
+                textAreaDeadline.innerHTML = `${dataNextWeek.getDate()} ${Intl.DateTimeFormat(localLanguage, options2).format(dataNextWeek)}`
+
+                textAreaDeadlineHiddenNum.innerHTML = dataNextWeek.toLocaleDateString()
+
+                //Очищаю стиль выбранного элемента со всех, если он где-то был (удаляю со всех элементов класс "hovered_select_menu")
+                reloadItemsDeadlineSubtask(item)
+            }
+
+        } else if (nameItemDeadline == "Без срока" && textAreaDeadline.innerHTML != "Срок выполнения") {
+            isObservHiddenMenus = false
+
+
+            textAreaDeadline.innerHTML = "Срок выполнения"
+            textAreaDeadlineHiddenNum.innerHTML = "Срок выполнения"
+
+            //Очищаю стиль выбранного элемента со всех, если он где-то был (удаляю со всех элементов класс "hovered_select_menu")
+            reloadItemsDeadlineSubtask(item)
+
+            selectDeadline.querySelector(".form-from-add-new-task__icon-cross").classList.add("hide2")
+        } else if (nameItemDeadline == "Без срока" && textAreaDeadline.innerHTML == "Срок выполнения") {
+            isObservHiddenMenus == false
+        }
+    }
+
+    
+
+
+    // 2) Выбор срока выполнения подзадачи (при выборе в календаре):
+    let selectedDay_MO_Subtask
+
+    // 2.1) Если меню выбора открыто через "Назначить срок", то...
+    // (При клике на день в календаре, при выборе из "subtask__dopFunction__hiddenMenu-deadline") 
+    subtaskOuter_modal.addEventListener("click", function(e) {
+        if (isModal == false) return    // Если МО отсутствует, то игнор
+
+        let target = e.target       // Где был совершён клик?
+        const targetBtn = e.target.closest(".subtask__btnNewDeadline")   // Нажатая кнопка "NewDeadline" 
+
+        // Если клик был вне контейнера с кнопкой "NewDeadline" у ПОДЗАДАЧИ, то игнорируем
+        if (!targetBtn) return
+
+
+        // Если клик был не на элементе с ячейкой даты, то клик игнорируется
+        if (!target.classList.contains("air-datepicker-cell")) return  
+
+
+        const targetLi_Modal = e.target.closest(".subtask")  // Подзадача, внутри которой была нажата кнопка "Назначить срок"
+        
+
+
+        // Поле с текстом со сроком выполнения данной подзадачи (нужно для доп функции "Назначить срок") (внизу слева у каждой подзадачи)
+        const deadlineThisSubtask = targetLi_Modal.querySelector(".subtask__deadline__date_visible")
+
+        // Поле с полной датой в числовом формате у данной подзадачи 
+        const deadlineThisSubtaskFullNum = targetLi_Modal.querySelector(".subtask__deadline__date_hidden")
+
+        selectedDay_MO_Subtask = target
+
+        const dateDay = selectedDay_MO_Subtask.getAttribute("data-date")   // Выбранный номер дня месяца
+        const dateMonth = selectedDay_MO_Subtask.getAttribute("data-month")    // Выбранный месяц (числом)
+        const dateYear = selectedDay_MO_Subtask.getAttribute("data-year") // Выбранный год
+
+
+        // Создаю каллендарь на основании выбранного дня, месяца и года
+        const selectDataCalendare = new Date(dateYear, dateMonth, dateDay)        
+        const optionsSelection = {  
+            month: "short"
+        }
+        // Создаю переменную с текстовым обозначением выбранного в календаре месяца
+        const selectMonthDataCalendare = (Intl.DateTimeFormat(localLanguage, optionsSelection).format(selectDataCalendare))
+
+        // Ввожу в поле с выбором срока выполнения - выбранную в календаре дату (число + месяц)
+        isObservHiddenMenus = true
+        observFunc(selectDeadline)
+        if (deadlineThisSubtask.innerHTML != dateDay + " " + selectMonthDataCalendare) {   // Если выбранная дата не такая же как уже выбранная
+            deadlineThisSubtask.innerHTML = dateDay + " " + selectMonthDataCalendare
+        }
+        deadlineThisSubtaskFullNum.innerHTML = selectDataCalendare.toLocaleDateString()
+
+
+        let idCurSubtask = ""     // Id подзадачи из массива
+        // Перебираю массив подзадач и сохраняю в "liFromArr" id того, что совпадает с id выбранной для изменения срока выполнения подзадачи (li)
+        for (let i = 0; i < all_subtasks.length; i++) {
+            if (all_subtasks[i].newSubtask_ID == targetLi_Modal.getAttribute("data-subtask-id")) { 
+                idCurSubtask = i
+                break
+            }
+        } 
+
+
+        // Обновляю срок выполнения в массиве текущей ПОДЗАДАЧИ
+        all_subtasks[idCurSubtask].newSubtask_deadlineSubtask = deadlineThisSubtask.innerHTML
+        all_subtasks[idCurSubtask].newSubtask_deadlineFullDataSubtask = deadlineThisSubtaskFullNum.innerHTML
+
+
+
+        // Удаляю отметку о текущей подзадачи с отслеживания при наведении
+        currentLi_modal = null
+        targetLi_subtask = null
+
+
+        // Целиком список сроков из списка вариантов (ul) (в "Назначить срок") 
+        const deadlineHiddenList = e.target.closest(".subtask__dopFunction__hiddenMenu-deadline").querySelector(".subtask__dopFunction__deadline-list")
+        //Очищаю стиль выбранного элемента со всех, если он где-то был (удаляю со всех элементов класс "hovered_select_menu")
+        reloadItemsDeadlineSubtask(deadlineHiddenList)
+    })
+
+
+
+    // 2.2) Если меню выбора открыто создании/редактировании подзадачи, то...
+    // (При клике на день в календаре, при выборе из "form-from-add-new-task__hiddenMenu-deadline") 
+    DeadlineCalendare.addEventListener("click", deadlineClickCalendar)
+    function deadlineClickCalendar(e) {
+        if (isModal == false) return    // Если МО отсутствует, то игнор
+
+        let target = e.target       // Где был совершён клик?
+
+        // Если клик был не на элементе с ячейкой даты, то клик игнорируется
+        if (!target.classList.contains("air-datepicker-cell")) return 
+
+
+        // Целиком список сроков из списка вариантов (ul) (при создании/редактировании задачи) 
+        const deadlineHiddenList = target.closest(".form-from-add-new-task__hiddenMenu-deadline").querySelector(".form-from-add-new-task__deadline-list")
+
+        //Очищаю стиль выбранного элемента со всех, если он где-то был (удаляю со всех элементов класс "hovered_select_menu")
+        reloadItemsDeadlineSubtask(deadlineHiddenList)
+
+
+        // Поле для вставки и отображения выбранной даты у таска (с текстовым отображением месяца)
+        const textAreaDeadline = selectDeadline.querySelector(".form-from-add-new-task__text-settings")
+
+        // Скрытое поле для вставки выбранной даты у таска (полной, с годом, и только числами)
+        const textAreaDeadlineHiddenNum = selectDeadline.querySelector(".form-from-add-new-task__text-settings_hidden-num")
+
+
+        selectedDay_MO_Subtask = target
+
+
+        const dateDay = selectedDay_MO_Subtask.getAttribute("data-date")   // Выбранный номер дня месяца
+        const dateMonth = selectedDay_MO_Subtask.getAttribute("data-month")    // Выбранный месяц (числом)
+        const dateYear = selectedDay_MO_Subtask.getAttribute("data-year") // Выбранный год
+
+
+        // Создаю каллендарь на основании выбранного дня, месяца и года
+        const selectDataCalendare = new Date(dateYear, dateMonth, dateDay)        
+
+        const optionsSelection = {  
+            month: "short"
+        }
+
+
+        // Создаю переменную с текстовым обозначением выбранного в календаре месяца
+        const selectMonthDataCalendare = (Intl.DateTimeFormat(localLanguage, optionsSelection).format(selectDataCalendare))
+
+
+
+        // Ввожу в поле с выбором срока выполнения - выбранную в календаре дату (число + месяц)
+        isObservHiddenMenus = true
+        observFunc(selectDeadline)
+        if (textAreaDeadline.innerHTML != dateDay + " " + selectMonthDataCalendare) {   // Если выбранная дата не такая же как уже выбранная
+            textAreaDeadline.innerHTML = dateDay + " " + selectMonthDataCalendare
+        }
+        textAreaDeadlineHiddenNum.innerHTML = selectDataCalendare.toLocaleDateString()
+
+    }
+
+
+
+
+
+
+
+    // Появление и скрытие поля с выбором срока выполнения подзадачи в меню создания/редактирования подзадачи и при открытии его через "Назначить срок" (когда открыто МО)
+    let timeVar_MO = ''
+
+    // При нажатии на кнопку в форме для создания/редактирования подзадачи
+    selectDeadline.addEventListener("click", selectDeadlineFunc)      
+    function selectDeadlineFunc(e) {
+        if (isModal == false) return    // Если МО отсутствует, то игнор
+
+
+        const btnCross = selectDeadline.querySelector(".form-from-add-new-task__icon-cross")
+
+
+        // Если доп меню показано (не скрыто) и клик был на крестик и крестик показан (не скрыт)
+        if (hiddenMenuDeadline.classList.contains("hide2") == false && e.target == btnCross.querySelector("img") && btnCross.classList.contains("hide2") == false) {
+            btnCross.classList.add("hide2")  // ещё раз прописываю скрытие, ибо событие клика по крестику (отдельное) не скроет его (но изменит содержание тега с текстом)
+        } 
+        // Иначе, если доп меню показано (не скрыто) (и клик был не на крестик, соответственно)
+        else if (hiddenMenuDeadline.classList.contains("hide2") == false) {
+            // Скрываю само меню и удаляю календарь в нём
+            hiddenMenuDeadline.classList.add("hide2") 
+            MyCalendarForm.destroy()    
+            MyCalendarForm = null
+
+
+            isObservHiddenMenus = false
+            observFunc(selectDeadline)
+
+            // Снимаю блокировку с открытия м.о.
+            isModal_block = false  
+
+            // Разрешаю показ доп. функций тасков
+            disabledShowDopTask = false
+
+            // Очищаю выделение срока в списке вариантов и в календаре (при создании/редактировании задачи)
+            reloadItemsAndCalendarDeadlineSubtask() 
+        } 
+        // Иначе, если доп меню скрыто и клик был на крестик:
+        else if (hiddenMenuDeadline.classList.contains("hide2") == true && e.target == btnCross.querySelector("img")) {
+            btnCross.classList.add("hide2")
+        }
+        // Иначе, если доп меню скрыто (и клик был, соответственно, не на крестик)
+        else if (hiddenMenuDeadline.classList.contains("hide2") == true)
+        {
+            // Скрываю скрытые меню выбора типа таска и приоритета, если они были открыты
+            conteinerFromHiddenMenuTypesTasks.classList.add("hide2")
+            hiddenMenuPriority.classList.add("hide2")
+            hiddenMenuDeadline.classList.remove("hide2")    // Показываю скрытое меню срока выполнения
+
+
+            // Скрытое поле для вставки выбранной даты у таска (полной, с годом, и только числами)
+            const textAreaDeadlineHiddenNum = selectDeadline.querySelector(".form-from-add-new-task__text-settings_hidden-num")
+
+            // Полная дата, которая была перевёрнута (стала: "год.месяц.число")
+            const textAreaDeadlineHiddenNumReversed = textAreaDeadlineHiddenNum.innerHTML.split(".").reverse().join(".")
+
+            MyCalendarForm = new AirDatepicker(curHiddenCalendarForm, {
+                inline: false,  
+                buttons: ["today", "clear"],
+                minDate: currectEntryDate,
+                container: curHiddenCalendarContainerForm,
+                selectedDates: `${textAreaDeadlineHiddenNumReversed}`,
+                autoClose: false,
+                // isDestroyed: true
+            })
+            MyCalendarForm.show();
+
+            timeVar_MO = 1;  
+            
+
+            isObservHiddenMenus = true     // Даётся разрешение на реакцию при изменении во время слежки за объектом
+            observFunc(selectDeadline)  // При первом открытии скрытого меню, начнётся отслеживание изменения окна "selectDeadline"
+
+
+            // Запрещается показ доп. функций подзадач
+            disabledShowDopTask = true
+        }
+    }
+
+
+    // 1) При нажатии на доп функцию "Назначить срок" у подзадачи
     subtaskOuter_modal.addEventListener("click", function(e) {
         const targetBtn = e.target.closest(".subtask__btnNewDeadline")      // Нажатая кнопка "NewDeadline" 
         const targetBtnIcon = e.target.closest(".subtask__dopFunction_iconWrap")
@@ -3169,14 +3958,47 @@ allTasksOuter.addEventListener("click", function(e) {
         // Если клик был вне контейнера с иконкой кнопки "NewDeadline" (даже если например, на календарь), то игнорируем
         if (!targetBtnIcon) return
 
-        // Если меню скрыто
-        if (conteinerFromHiddenMenuDeadlineTasks_modal.classList.contains("hide2") == true) {   
-            reloadItemsDeadline_modal()
-            targetBtn.append(conteinerFromHiddenMenuDeadlineTasks_modal)                   // Перемещаю меню выбора к текущему таску, к кнопке "NewDeadline" 
-            conteinerFromHiddenMenuDeadlineTasks_modal.classList.remove("hide2")        // Показываю это меню выбора (удаляю скрытие)
+        const targetSubtask = e.target.closest(".subtask")
 
+
+
+        // Скрытое меню выбора срока выполнения у кнопки "Назначить срок" конкретно текущей подзадачи
+        const curHiddenMenuDeadlineNewDeadline = targetBtn.querySelector(".subtask__dopFunction__hiddenMenu-deadline")
+
+        const curHiddenCalendarContainer = targetBtn.querySelector(".subtask__dopFunction__hiddenMenu-deadline-calendare")
+        const curHiddenCalendar = targetBtn.querySelector(".hiddenMenu-deadline-calendare")
+
+
+
+        // Если меню скрыто
+        if (curHiddenMenuDeadlineNewDeadline.classList.contains("hide2") == true) {   
+            // Показываю это меню выбора (удаляю скрытие)
+            curHiddenMenuDeadlineNewDeadline.classList.remove("hide2")
+            
+            
+            // Скрытое поле для вставки выбранной даты у таска (полной, с годом, и только числами)
+            const textAreaDeadlineHiddenNum = targetSubtask.querySelector(".subtask__deadline__date_hidden")
+
+            // Полная дата, которая была перевёрнута (стала: "год.месяц.число")
+            const textAreaDeadlineHiddenNumReversed = textAreaDeadlineHiddenNum.innerHTML.split(".").reverse().join(".")
+
+            MyCalendar = new AirDatepicker(curHiddenCalendar, {
+                inline: false,  
+                buttons: ["today", "clear"],
+                minDate: currectEntryDate,
+                container: curHiddenCalendarContainer,
+                selectedDates: textAreaDeadlineHiddenNumReversed,
+                autoClose: true,
+                // isDestroyed: true
+            })
+            MyCalendar.show();
+
+            
+            // Отмечаю нажатие на кнопку назначения нового срока выполнения
             timevar2_MO = 1
-            currentLi_klick_MO = e.target.closest("li")            // Отмечаю в глобальную переменную - подзадачу, внутри которой был совершён клик по кнопке
+
+            // Отмечаю в глобальную переменную - подзадачу, внутри которой был совершён клик по кнопке
+            currentLi_klick_MO = e.target.closest("li")            
 
             hide_subtask_dopFuncs_modal(currentLi_modal.querySelector(".subtask__dopFuncs"))
 
@@ -3185,11 +4007,16 @@ allTasksOuter.addEventListener("click", function(e) {
         }
 
         // Если меню отображено (не скрыто)
-        else if (conteinerFromHiddenMenuDeadlineTasks_modal.classList.contains("hide2") == false && timevar2_MO) {     
-            conteinerFromHiddenMenuDeadlineTasks_modal.classList.add("hide2")               // Скрываю это меню выбора
-            defaultLocationHiddenMenuDeadline_MO.append(conteinerFromHiddenMenuDeadlineTasks_modal)              // Перемещаю меню выбора обратно в aside область для изменения срока выполнения таска
+        else if (curHiddenMenuDeadlineNewDeadline.classList.contains("hide2") == false && timevar2_MO) {     
+            // Скрываю это меню выбора и уничтожаю созданный календарь
+            curHiddenMenuDeadlineNewDeadline.classList.add("hide2") 
+            MyCalendar.destroy()
+            MyCalendar = null
 
-            timevar2_MO=''
+
+           
+            setTimeout(() => timevar2_MO='', 100)
+            // timevar2_MO=''
             
             // Удаляю отметку о текущей подзадаче
             currentLi_klick_MO = null                                  
@@ -3205,13 +4032,259 @@ allTasksOuter.addEventListener("click", function(e) {
     })
 
 
+    // 2.1) При нажатии на само поля выбора (при создании/редактировании и с учётом наличия ранее нажатой  доп ф. "назначить срок")
+    hiddenMenuDeadline.addEventListener("click", clickMenudeadline)
+    function clickMenudeadline(e) { 
+        if (isModal == false) return    // Если МО отсутствует, то игнор
+    
+        timeVar_MO = 1;  
+        timevar2_MO = 1        // (для работы с доп функциями при клике на кнопку добавления нового срока выполнения)
+    
+        // Если ранее на каком-то из подзадач была нажата кнопка "NewDeadline" (иконка) и при этом СЕЙЧАС клик произошёл не на навигатор в календаре (месяцы/годы), не на кнопки календаря
+        // Этот код работает только если ранее на какой-то подзадачае было открыто скрытое меню через "назначить срок", а сейчас клик происходит по открытому аналогичному меню, но вызванному у подзадачи при её создании/редактировании
+        if ((currentLi_klick_MO != null) && !(e.target.closest(".air-datepicker--navigation") || e.target.closest(".-months-") || e.target.closest(".-years-") || e.target.closest(".air-datepicker--buttons"))) {
+            // Скрытое меню выбора срока выполнения у кнопки "Назначить срок" конкретно текущей подзадачи
+            const curHiddenMenuDeadlineNewDeadline = currentLi_klick_MO.querySelector(".subtask__dopFunction__hiddenMenu-deadline")
+    
+    
+            // Скрываю само меню и удаляю календарь в нём
+            curHiddenMenuDeadlineNewDeadline.classList.add("hide2")   
+            MyCalendar.destroy()    
+            MyCalendar = null
+    
+            // Отмечаю, что сейчас не нажиматся кнопка "Назначить срок" и можно скрывать все доп. функции
+            timevar2_MO = ''
+    
+    
+            // Скрываю все доп функции подзадачи
+            hide_subtask_dopFuncs_modal(currentLi_klick_MO.querySelector(".subtask__dopFuncs"))
+    
+    
+            // Удаляю отметку о текущем таске с отслеживателя по клику и с отслеживания от наведения
+            currentLi_klick_MO = null 
+            currentLi_modal = null
+    
+    
+            // Обнуляю элементы поля .formFromAddNewTask (поле для добавление новой подзадачи) и скрываю его
+            reloadFormAddTask()
+    
+    
+            // Разрешаю показ доп. функций подзадач
+            disabledShowDopTask = false
+        } 
+        // Если ранее ни на какой из подзадач не была нажата кнопка "NewDeadline" (иконка)
+        else if ((currentLi_klick_MO == null)) {
+            timevar2_MO = ""
+        }
+    
+        if (isObservHiddenMenus == false) {
+            isObservHiddenMenus = true     // Даётся разрешение на реакцию при изменении во время слежки за объектом
+            observFunc(selectDeadline)   // Начинается слежка за "selectDeadline", если ранее была отключена (либо повторно устанавливается. Старая удаляется)
+        }
+    }
 
+    // 2.2) При нажатии на само поле выбора (при создании/редактировании подзадачи и нажатии доп ф. "назначить срок")
+    subtaskOuter_modal.addEventListener("click", function(e) {
+        if (isModal == false) return    // Если МО отсутствует, то игнор
+
+        const target_container_subtask = e.target.closest(".subtask__dopFunction__hiddenMenu-deadline")   // Область скрытого меню выбора срока при нажатии на "Назначить срок"
+        const target_container_formSubtask = e.target.closest(".form-from-add-new-task__hiddenMenu-deadline")  // Область скрытого меню выбора срока при создании/редактировании задачи
+
+        // Если клик был не по меню выбора срока выполнения в функции "назначить срок" и не по аналогичному меню при создании/редактировании подзадачи, то игнор
+        if (!target_container_subtask && !target_container_formSubtask) return
+
+
+        timeVar_MO = 1;  
+        timevar2_MO = 1        // (для работы с доп функциями при клике на кнопку добавления нового срока выполнения)
+
+        // Если ранее на каком-то из тасков была нажата кнопка "NewDeadline" (иконка) и при этом СЕЙЧАС клик произошёл не на навигатор в календаре (месяцы/годы), не на кнопки календаря
+        // Этот код работает если клик был по меню выбора срока выполнения после нажатия на "Назначить срок" (только в этом случае нужно скрывать сразу меню выбора, ведь при создании/редактировании после выбора скрывать меню не нужно)
+        if ((currentLi_klick_MO != null) && !(e.target.closest(".air-datepicker--navigation") || e.target.closest(".-months-") || e.target.closest(".-years-") || e.target.closest(".air-datepicker--buttons"))) {
+            // Скрытое меню выбора срока выполнения у кнопки "Назначить срок" конкретно текущей подзадачи
+            const curHiddenMenuDeadlineNewDeadline = currentLi_klick_MO.querySelector(".subtask__dopFunction__hiddenMenu-deadline")
+    
+    
+            // Скрываю само меню и удаляю календарь в нём
+            curHiddenMenuDeadlineNewDeadline.classList.add("hide2")   
+            MyCalendar.destroy()    
+            MyCalendar = null
+    
+            // Отмечаю, что сейчас не нажиматся кнопка "Назначить срок" и можно скрывать все доп. функции
+            timevar2_MO = ''
+    
+    
+            // Скрываю все доп функции подзадачи
+            hide_subtask_dopFuncs_modal(currentLi_klick_MO.querySelector(".subtask__dopFuncs"))
+    
+    
+            // Удаляю отметку о текущем таске с отслеживателя по клику и с отслеживания от наведения
+            currentLi_klick_MO = null 
+            currentLi_modal = null
+    
+    
+            // Обнуляю элементы поля .formFromAddNewTask (поле для добавление новой подзадачи) и скрываю его
+            reloadFormAddTask()
+    
+    
+            // Разрешаю показ доп. функций подзадач
+            disabledShowDopTask = false
+        } 
+        // Если ранее ни на какой из подзадач не была нажата кнопка "NewDeadline" (иконка)
+        else if ((currentLi_klick_MO == null)) {
+            timevar2_MO = ""
+        }
+    
+        if (isObservHiddenMenus == false) {
+            isObservHiddenMenus = true     // Даётся разрешение на реакцию при изменении во время слежки за объектом
+            observFunc(selectDeadline)   // Начинается слежка за "selectDeadline", если ранее была отключена (либо повторно устанавливается. Старая удаляется)
+        }
+    
+    })
+
+
+    // 3) При нажатии вне поля выбора (при открытии меню срока выполнения у подзадачи при её редактировании/создании или при "Назначить срок" подзадачи)
+    body.addEventListener("click", clickOuterModal_deadlineSubtask)
+    function clickOuterModal_deadlineSubtask(e) {
+        console.log("Входик");
+        // Если доп. меню срока выполнения (и у меню редактирования/создания подзадачи; и у доп. функции "назначить срок") - скрыто, то игнорируем
+        if ((hiddenMenuDeadline.classList.contains("hide2") == true) && (!currentLi_klick_MO)) return
+
+        else if (currentLi_klick_MO) {
+            if (currentLi_klick_MO.querySelector(".subtask__dopFunction__hiddenMenu-deadline").classList.contains("hide2") == true) {
+                console.log("Странно");
+                return
+            }
+        }
+        console.log("вошло");
+
+        const targetLi_modal = e.target.closest(".subtask")     // Элемент  li для последующего определения нового срока выполнения подзадаче (одна из двух кнопок доп функций подзадачи)       
+        const targetBtn = e.target.closest(".subtask__btnNewDeadline")   // Была ли нажата кнопка "NewDeadline" 
+
+        // Скрытое меню выбора срока выполнения у кнопки "Назначить срок" конкретно текущей подзадачи
+        let curHiddenMenuDeadlineNewDeadline = null
+        // Если ранее была нажата кнопка "Назначить срок" у задачи, то переменной выше присваиваю нужное значение
+        if (currentLi_klick_MO != null) {
+            curHiddenMenuDeadlineNewDeadline = currentLi_klick_MO.querySelector(".subtask__dopFunction__hiddenMenu-deadline")
+        }
+
+
+        // Если клик был вне поля выбора и вне элемента подзадачи (li), и при этом ранее не была отмечена текущая ПОДЗАДАЧА по клику (перед этим кликом не нажалась кнопка ".subtask__btnNewDeadline" (иконка), после которой отображается меню выбора срока выполнения)
+        if (!timeVar_MO && targetLi_modal == null && currentLi_klick_MO == null) {     // Если клик был вне поля и не на кнопку ".subtask__btnNewDeadline" (на иконку) и ранее не был отмечена текущая подзадача по клику
+            console.log("1111111"); 
+            isObservHiddenMenus = false
+            observFunc(selectPriority)
+
+            // Скрываю само меню и удаляю календарь в нём
+            hiddenMenuDeadline.classList.add("hide2") 
+            MyCalendarForm.destroy()    
+            MyCalendarForm = null
+
+            // Разрешаю показ доп. функций подзадач
+            disabledShowDopTask = false
+
+            // Очищаю выделение срока в списке вариантов и в календаре (при создании/редактировании задачи)
+            reloadItemsAndCalendarDeadlineSubtask()
+        } 
+
+        // Если клик был вне поля выбора и вне элемента подзадачи (li), и при этом уже была отмечена текущая ПОДЗАДАЧА по клику (ранее уже нажалась кнопка ".subtask__btnNewDeadline" (иконку) и отобразилось меню выбора срока выполнения)
+        else if (!timeVar_MO && targetLi_modal == null && currentLi_klick_MO != null) {
+            console.log("2222222222222");
+            curHiddenMenuDeadlineNewDeadline.classList.add("hide2")
+            MyCalendar.destroy()
+            MyCalendar = null
+            
+            
+            // Отмечаю, что сейчас не нажиматся кнопка "Назначить срок" и можно скрывать все доп. функции
+            timevar2_MO = ''
+
+            // Скрываю доп функции подзадачи
+            hide_subtask_dopFuncs_modal(currentLi_klick_MO.querySelector(".subtask__dopFuncs"))
+
+            currentLi_klick_MO = null              // Удаляю отметку о текущей подзадаче с отслеживателя по клику
+
+            // Обнуляю элементы поля .formFromAddNewTask (поле для добавление новой подзадачи) и скрываю его
+            reloadFormAddTask()
+
+            // Разрешаю показ доп. функций подзадач
+            disabledShowDopTask = false
+
+            // Целиком список сроков из списка вариантов (ul) (в "Назначить срок") 
+            const deadlineHiddenList = curHiddenMenuDeadlineNewDeadline.querySelector(".subtask__dopFunction__deadline-list")
+            //Очищаю стиль выбранного элемента со всех, если он где-то был (удаляю со всех элементов класс "hovered_select_menu")
+            reloadItemsDeadlineSubtask(deadlineHiddenList)
+        } 
+
+        // Если клик был вне поля выбора, на элемент подзадачи (li), но не на кнопку ".subtask__btnNewDeadline" и при этом ранее не была отмечена подзадача (ранее не нажималась кнопка ".subtask__btnNewDeadline", при нажатии на которую отображается меню выбора срока выполнения) 
+        if (!timeVar_MO && targetLi_modal != null && !targetBtn && currentLi_klick_MO == null) {
+            console.log("3333333333333");
+            // Скрываю само меню и удаляю календарь в нём
+            hiddenMenuDeadline.classList.add("hide2") 
+            MyCalendarForm.destroy()    
+            MyCalendarForm = null
+
+
+            // Разрешаю показ доп. функций подзадач
+            disabledShowDopTask = false
+
+            // Показываю доп. функции у той подзадачи, на которую был совершён клик (которая была под курсором в момент клика)
+            show_subtask_dopFuncs_modal(currentLi_modal.querySelector(".subtask__dopFuncs"))
+
+
+            // Очищаю выделение срока в списке вариантов и в календаре
+            reloadItemsAndCalendarDeadlineSubtask()
+        }
+
+        // Если клик был вне поля выбора, на элемент подзадачи (li), но не на кнопку ".subtask__btnNewDeadline" и при этом ранее уже была отмечена подзадача (ранее уже нажалась кнопка ".subtask__btnNewDeadline" (иконку) и отобразилось меню выбора срока выполнения)
+        else if (!timeVar_MO && targetLi_modal != null && !targetBtn && currentLi_klick_MO != null) {
+            console.log("444444444");
+            // Скрываю само меню и удаляю календарь в нём
+            curHiddenMenuDeadlineNewDeadline.classList.add("hide2")
+            MyCalendar.destroy()
+            MyCalendar = null
+
+            // Отмечаю, что сейчас не нажиматся кнопка "Назначить срок" и можно скрывать все доп. функции
+            timevar2_MO = ''
+
+            // Скрываю доп функции у текущей подзадачи
+            hide_subtask_dopFuncs_modal(currentLi_klick_MO.querySelector(".subtask__dopFuncs"))
+
+            currentLi_klick_MO = null              // Удаляю отметку о текущей подзадачи с отслеживателя по клику
+
+            // Обнуляю элементы поля .formFromAddNewTask (поле для добавление новой подзадачи) и скрываю его
+            reloadFormAddTask()
+
+
+
+            // Разрешаю показ доп. функций подзадач
+            disabledShowDopTask = false
+
+
+            // Показываю доп. функции у той подзадачи, на которую был совершён клик (которая была под курсором в момент клика)
+            show_subtask_dopFuncs_modal(currentLi_modal.querySelector(".subtask__dopFuncs"))
+
+
+
+            // Целиком список сроков из списка вариантов (ul) (в "Назначить срок") 
+            const deadlineHiddenList = curHiddenMenuDeadlineNewDeadline.querySelector(".subtask__dopFunction__deadline-list")
+            //Очищаю стиль выбранного элемента со всех, если он где-то был (удаляю со всех элементов класс "hovered_select_menu")
+            reloadItemsDeadlineSubtask(deadlineHiddenList)
+        }
+
+        if (timeVar_MO) { 
+            setTimeout(() => timeVar_MO='', 100)
+        }  
+
+    }
 
 
 
     
     
 
+
+
+
+    
     // При наведении на один из пунктов выбора в modalAside
     modalAside.querySelectorAll(".itc-modal-body__select-setting").forEach(function(setting) {
         // При наведении
@@ -3230,7 +4303,7 @@ allTasksOuter.addEventListener("click", function(e) {
 
     // ИЗМЕНЕНИЕ ТИПА ТАСКА:
 
-    let timeVar_MO = ''
+
     // При клике на кнопку выбора типа таска в м.о.
     modalBtn_GroupTypeTask.addEventListener("click", function(e) {
         // Если скрытое меню выбора типа таска показано (не скрыто)
@@ -3263,6 +4336,12 @@ allTasksOuter.addEventListener("click", function(e) {
     
     // При нажатии вне поля выбора
     body.addEventListener("click", function(e) {
+        // Если скрытое меню типа таска (в aside) скрыто, а клик был не по одной из кнопке изменения параметра задачи (в aside), то игнор
+        if ((conteinerFromHiddenMenuTypesTasks_modal.classList.contains("hide2")) && (!e.target.closest(".itc-modal-body__select-setting"))) return
+
+
+
+        // Если клик был вне поля выбора типа таска, ИЛИ же клик был по одной из кнопке изменения параметра задачи (в aside), кроме текущей (изменения типа)
         if (!timeVar_MO || (e.target.closest(".itc-modal-body__select-setting") && !e.target.closest(".itc-modal-body__select-setting[data-title='Перенести в...']"))) {
             // Скрываю меню выбора типа таска
             conteinerFromHiddenMenuTypesTasks_modal.classList.add("hide2")
@@ -3309,27 +4388,20 @@ allTasksOuter.addEventListener("click", function(e) {
     
 
 
-    // ИЗМЕНЕНИЕ СРОКА ВЫПОЛНЕНИЯ ТАСКА:
+    // ИЗМЕНЕНИЕ СРОКА ВЫПОЛНЕНИЯ ТАСКА (не у подзадачи) :
 
     // 1) Появление и скрытие поля с выбором срока выполнения задачи:
     timeVar_MO = ''
 
     // 1.1) При клике на кнопку выбора срока выполнения таска в м.о.
     modalBtn_GroupDeadlineTask.addEventListener("click", function(e) {
-        // Если доп меню показано (не скрыто)
-        if (conteinerFromHiddenMenuDeadlineTasks_modal.classList.contains("hide2") == false) {
-            // Скрываю меню выбора срока выполнения таска
-            conteinerFromHiddenMenuDeadlineTasks_modal.classList.add("hide2")
+        const curBtnDeadline = e.target.closest(".itc-modal-body__group")
+        const curHiddenCalendarContainer = curBtnDeadline.querySelector(".itc-modal-body__hiddenMenu-deadline-calendare")
+        const curHiddenCalendar = curBtnDeadline.querySelector(".hiddenMenu-deadline-calendare")
 
-            // Изменяю класс с active на hover-hint
-            modalBtn_GroupDeadlineTask.classList.replace("active", "hover-hint")
-
-            
-            // Разрешаю показ доп. функций подзадач
-            disabledShowDopTask = false
-        }
-        // Иначе, если доп меню скрыто
-        else if (conteinerFromHiddenMenuDeadlineTasks_modal.classList.contains("hide2") == true) {
+        
+        // Если доп меню скрыто
+        if (conteinerFromHiddenMenuDeadlineTasks_modal.classList.contains("hide2") == true) {
             // Скрываю скрытые меню выбора типа таска и приоритета, если они были открыты
             conteinerFromHiddenMenuTypesTasks_modal.classList.add("hide2")
             conteinerFromHiddenMenuPriorityTasks_modal.classList.add("hide2")
@@ -3337,6 +4409,26 @@ allTasksOuter.addEventListener("click", function(e) {
 
             // Показываю скрытое меню срока выполнения
             conteinerFromHiddenMenuDeadlineTasks_modal.classList.remove("hide2") 
+
+
+            // Скрытое поле для вставки выбранной даты у таска (полной, с годом, и только числами)
+            const textAreaDeadlineHiddenNum = modalAside.querySelector(".itc-modal-body__text-settings_hidden-num")
+
+            // Полная дата, которая была перевёрнута (стала: "год.месяц.число")
+            const textAreaDeadlineHiddenNumReversed = textAreaDeadlineHiddenNum.innerHTML.split(".").reverse().join(".")
+
+            MyCalendar = new AirDatepicker(curHiddenCalendar, {
+                inline: false,  
+                buttons: ["today", "clear"],
+                minDate: currectEntryDate,
+                container: curHiddenCalendarContainer,
+                selectedDates: textAreaDeadlineHiddenNumReversed,
+                autoClose: true,
+                // isDestroyed: true
+            })
+            MyCalendar.show();
+
+
             
             // Удаляю класс для стилизации подсказки при наведении и добавляю "active" для постоянного выделения
             modalBtn_GroupDeadlineTask.classList.replace("hover-hint", "active")
@@ -3348,49 +4440,37 @@ allTasksOuter.addEventListener("click", function(e) {
             // Запрещаю показ доп. функций подзадач
             disabledShowDopTask = true
         }
+
+        // Если доп меню показано (не скрыто)
+        else if (conteinerFromHiddenMenuDeadlineTasks_modal.classList.contains("hide2") == false) {
+            // Скрываю меню выбора срока выполнения таска и уничтожаю созданный календарь
+            conteinerFromHiddenMenuDeadlineTasks_modal.classList.add("hide2")
+            MyCalendar.destroy()
+            MyCalendar = null
+
+            // Изменяю класс с active на hover-hint
+            modalBtn_GroupDeadlineTask.classList.replace("active", "hover-hint")
+
+            
+            // Разрешаю показ доп. функций подзадач
+            disabledShowDopTask = false
+        }
     })
 
-    // 1.2) При нажатии на само поля выбора
+    // 1.2) При нажатии на само поля выбора в скрытом меню "aside")
     conteinerFromHiddenMenuDeadlineTasks_modal.addEventListener("click", function(e) {     
-        // Родитель скрытого меню срока выполнения (что бы узнать в последствии, находится этот элемент внутри aside или внутри подзадачи)
-        let parentDeadlineHiddenMenu = conteinerFromHiddenMenuDeadlineTasks_modal.parentElement
-
         
         timeVar_MO = 1;
         timevar2_MO = 1     // (для работы с доп функциями при клике на кнопку добавления нового срока выполнения)
 
 
-        // Если клик произошёл на дату из списка ul, или на день в каллендаре; И при этом меню выбора срока выполнения находится внутри ПОДЗАДАЧИ
-        if ((e.target.closest(".itc-modal-body__deadline-item") || e.target.closest(".-day-")) && parentDeadlineHiddenMenu.classList.contains("subtask__btnNewDeadline") == true) {
-            // Скрываю само меню
-            conteinerFromHiddenMenuDeadlineTasks_modal.classList.add("hide2")       
-            // Перемещаю меню выбора обратно в aside меню для изменения срока выполнения таска
-            defaultLocationHiddenMenuDeadline_MO.append(conteinerFromHiddenMenuDeadlineTasks_modal)              
-
-
-            timevar2_MO = ''
-
-
-            // Скрываю все доп функции подзадачи
-            hide_subtask_dopFuncs_modal(currentLi_klick_MO.querySelector(".subtask__dopFuncs"))
-
-            // Разрешаю показ доп. функций подзадач
-            disabledShowDopTask = false
-
-
-            // Удаляю отметку о текущем таске с отслеживателя по клику и с отслеживания от наведения
-            currentLi_klick_MO = null 
-            currentLi_modal = null
-    
-    
-            // Обнуляю элементы поля .formFromAddNewTask (поле для добавление нового таска) и скрываю его
-            reloadFormAddTask()
-        }
- 
-        // Если клик произошёл на дату из списка ul, или на день в каллендаре; И при этом меню выбора срока выполнения находится внутри aside (в разделе изменения срока выполнения ТАСКА)
-        else if ((e.target.closest(".itc-modal-body__deadline-item") || e.target.closest(".-day-")) && parentDeadlineHiddenMenu.classList.contains("itc-modal-body__group") == true) {
-            // Скрываю меню выбора срока выполнения таска
+        // Если клик был после открытия окна срока в aside (в разделе изменения срока выполнения ТАСКА)
+        // Если клик произошёл на дату из списка ul, или на день в каллендаре;
+        if (e.target.closest(".itc-modal-body__deadline-item") || e.target.closest(".-day-")) {
+            // Скрываю меню выбора срока выполнения таска и удаляю календарь в нём
             conteinerFromHiddenMenuDeadlineTasks_modal.classList.add("hide2") 
+            MyCalendar.destroy()    
+            MyCalendar = null
 
             // Изменяю класс с active на hover-hint
             modalBtn_GroupDeadlineTask.classList.replace("active", "hover-hint")
@@ -3405,30 +4485,30 @@ allTasksOuter.addEventListener("click", function(e) {
 
 
 
-    // 1.3) При нажатии вне поля выбора
+    // 1.3) При нажатии вне поля выбора (для скрытого меню срока у aside)
     body.addEventListener("click", clickOuterModal_deadline)
     function clickOuterModal_deadline(e) {
-        // Нынешний родитель скрытого меню срока выполнения (что бы узнать в последствии, находится этот элемент внутри aside или внутри подзадачи)
-        let parentDeadlineHiddenMenu = conteinerFromHiddenMenuDeadlineTasks_modal.parentElement
+        if (isModal == false) return    // Если МО отсутствует, то игнор
 
-
-        // Если доп. меню срока выполнения - скрыто, то игнорируем
-        console.log(conteinerFromHiddenMenuDeadlineTasks_modal.classList.contains("hide2"));
+        // Если доп. меню срока выполнения ТАСКА - скрыто, то игнорируем
         if (conteinerFromHiddenMenuDeadlineTasks_modal.classList.contains("hide2") == true) return
-        
 
-        // Если клик был вне поля выбора ИЛИ на кнопку изменения типа/приоритета таска, И при этом, скрытое меню срока выполнения находится внутри aside (в разделе изменения срока выполнения ТАСКА)
-        console.log(e.target.closest(".itc-modal-body__select-setting"));
-        console.log(!e.target.closest(".itc-modal-body__select-setting[data-title='Назначить новой крайний срок...']"));
-        console.log(parentDeadlineHiddenMenu.classList.contains("itc-modal-body__group") == true);
-        if ((!timeVar_MO || (e.target.closest(".itc-modal-body__select-setting") && !e.target.closest(".itc-modal-body__select-setting[data-title='Назначить новой крайний срок...']"))) && parentDeadlineHiddenMenu.classList.contains("itc-modal-body__group") == true) {
+        
+        
+        
+        // Если клик был после открытия окна срока в aside (в разделе изменения срока выполнения ТАСКА)
+        // Если клик был вне поля выбора ИЛИ на кнопку изменения типа/приоритета таска
+        if (!timeVar_MO || (e.target.closest(".itc-modal-body__select-setting") && !e.target.closest(".itc-modal-body__select-setting[data-title='Назначить новой крайний срок...']"))) {
             console.log("дадада");
             // Если клик был по доп функции подзадачи "Назначить срок", то игнорировать
             if (e.target.closest(".subtask__btnNewDeadline")) return
 
 
-            // Скрываю меню выбора срока выполнения таска
-            conteinerFromHiddenMenuDeadlineTasks_modal.classList.add("hide2")
+            // Скрываю меню выбора срока выполнения таска и удаляю календарь в нём
+            conteinerFromHiddenMenuDeadlineTasks_modal.classList.add("hide2") 
+            MyCalendar.destroy()    
+            MyCalendar = null
+            
 
             // Изменяю класс с active на hover-hint
             modalBtn_GroupDeadlineTask.classList.replace("active", "hover-hint")
@@ -3440,33 +4520,44 @@ allTasksOuter.addEventListener("click", function(e) {
                 show_subtask_dopFuncs_modal(currentLi_modal.querySelector(".subtask__dopFuncs"))
             } 
         }
-        // Если клик был вне поля выбора ИЛИ на кнопку изменения типа/приоритета таска, И при этом, скрытое меню срока выполнения находится внутри ПОДЗАДАЧИ (в разделе "Назначить новый срок выполнения подзадаче")
-        else if ((!timeVar_MO || (e.target.closest(".itc-modal-body__select-setting") && !e.target.closest(".itc-modal-body__select-setting[data-title='Назначить новой крайний срок...']"))) && parentDeadlineHiddenMenu.classList.contains("subtask__btnNewDeadline") == true) {
-            // Если клик был по этой доп. функции подзадачи "Назначить срок", то игнорировать
-            if (e.target.closest(".subtask__btnNewDeadline")) return
 
-            conteinerFromHiddenMenuDeadlineTasks_modal.classList.add("hide2")               // Скрываю это меню выбора
-            defaultLocationHiddenMenuDeadline_MO.append(conteinerFromHiddenMenuDeadlineTasks_modal)              // Перемещаю меню выбора обратно в aside область для изменения срока выполнения таска
+        // Если клик был после открытия доп. функции "Назначить срок"
+        // Если клик был вне поля выбора ИЛИ на кнопку изменения типа/приоритета таска
+        // else if (!timeVar_MO || (e.target.closest(".itc-modal-body__select-setting") && !e.target.closest(".itc-modal-body__select-setting[data-title='Назначить новой крайний срок...']"))) {
+        //     console.log("PAPAP");
+        //     // Если клик был по этой доп. функции подзадачи "Назначить срок", то игнорировать
+        //     if (e.target.closest(".subtask__btnNewDeadline")) return
 
-            timevar2_MO=''
+        //     // Скрытое меню выбора срока выполнения у кнопки "Назначить срок" конкретно текущей подзадачи
+        //     const curHiddenMenuDeadlineNewDeadline = currentLi_klick_MO.querySelector(".subtask__dopFunction__hiddenMenu-deadline")
+
+        //     // Скрываю само меню и удаляю календарь в нём
+        //     curHiddenMenuDeadlineNewDeadline.classList.add("hide2")   
+        //     MyCalendar.destroy()    
+        //     MyCalendar = null         
+
+
+        //     // Отмечаю, что сейчас не нажиматся кнопка "Назначить срок" и можно скрывать все доп. функции
+        //     timevar2_MO = ''
+
             
-            hide_subtask_dopFuncs_modal(currentLi_klick_MO.querySelector(".subtask__dopFuncs"))
+        //     hide_subtask_dopFuncs_modal(currentLi_klick_MO.querySelector(".subtask__dopFuncs"))
 
-            currentLi_klick_MO = null                                  // Удаляю отметку о текущей подзадаче
+        //     currentLi_klick_MO = null                                  // Удаляю отметку о текущей подзадаче
 
-            // Разрешаю показ доп. функций подзадач
-            disabledShowDopTask = false
+        //     // Разрешаю показ доп. функций подзадач
+        //     disabledShowDopTask = false
 
             
-            if (currentLi_modal != null) {
-                show_subtask_dopFuncs_modal(currentLi_modal.querySelector(".subtask__dopFuncs"))
-            } 
+        //     if (currentLi_modal != null) {
+        //         show_subtask_dopFuncs_modal(currentLi_modal.querySelector(".subtask__dopFuncs"))
+        //     } 
 
 
-            // Обнуляю элементы поля .formFromAddNewTask (поле для добавление нового таска) и скрываю его
-            reloadFormAddTask()
-        }
-        console.log(conteinerFromHiddenMenuDeadlineTasks_modal.classList.contains("hide2"));
+        //     // Обнуляю элементы поля .formFromAddNewTask (поле для добавление нового таска) и скрываю его
+        //     reloadFormAddTask()
+        // }
+
 
         if (timeVar_MO) { 
             setTimeout(() => timeVar_MO='', 100)
@@ -3478,13 +4569,13 @@ allTasksOuter.addEventListener("click", function(e) {
 
 
 
-
+    
 
 
 
     
-    // Функция для очистки стиля "выбранного элемента" со всех deadlineItem, если он где-то был (удаляю со всех элементов класс "hovered_select_menu"). И ставлю этот класс (стиль "выбранного элемента") тому, на который был произведён клик.
-    function reloadItemsDeadline_modal(currentItemDeadline) {
+    // Функция для очистки стиля "выбранного элемента" со всех deadlineItem в скрытом меню у aside, если он где-то был (удаляю со всех элементов класс "hovered_select_menu"). И ставлю этот класс (стиль "выбранного элемента") тому, на который был произведён клик.
+    function reloadItemsDeadline_modal_aside(currentItemDeadline) {
         deadlineItem_modal.forEach(function(itemDeadline) { 
             itemDeadline.classList.remove("hovered_select_menu")
         })
@@ -3495,192 +4586,89 @@ allTasksOuter.addEventListener("click", function(e) {
 
     // 2.1) Выбор срока выполнения ТАСКА (внутри МО) (при выборе из СПИСКА ВАРИАНТОВ):
     deadlineItem_modal.forEach(function(item) {
-        item.addEventListener("click", function(e) {
-            // Родитель скрытого меню срока выполнения (что бы узнать в последствии, находится этот элемент внутри aside или внутри подзадачи в кнопке "назначить срок")
-            let parentDeadlineHiddenMenu = conteinerFromHiddenMenuDeadlineTasks_modal.parentElement
-            
+        item.addEventListener("click", function(e) {  
             // Если меню выбора срока выполнения находится внутри aside (в разделе изменения срока выполнения ТАСКА).
-            if (parentDeadlineHiddenMenu.classList.contains("itc-modal-body__group") == true) {
-                // Убираю выделение выбранного дня в календаре, если ранее там было что-то выбрано
-                if (selectedDay_modal && selectedDay_modal != "") {
-                    selectedDay_modal.classList.remove("-selected-")
-                }
 
-                const nowData2 = new Date()
-
-
-                // Название выбранного дня (из списка)
-                const nameItemDeadline_modal = item.querySelector(".itc-modal-body__deadline-name").innerHTML 
-
-                // Поле с текстом для выбранного срока 
-                const textAreaDeadline_modal = modalBtn_GroupDeadlineTask.querySelector(".itc-modal-body__text-settings")  
-
-                // Поле с числовым полным значением для выбранного срока
-                const textAreaDeadlineHiddenNum_modal = modalBtn_GroupDeadlineTask.querySelector(".itc-modal-body__text-settings_hidden-num")     
-
-                // Поле с текстом со сроком выполнения данного таска, которое внизу слева (вне мо, на основной странице)
-                const deadlineThisTask = targetLi.querySelector(".task__deadline__date_visible") 
-                // Поле с числовым полным значением со сроком выполнения данного таска (вне мо, на основной странице)    
-                const deadlineThisTaskFullNum = targetLi.querySelector(".task__deadline_date_hidden")     
-    
-    
-                if (nameItemDeadline_modal == "Сегодня") {
-                    textAreaDeadline_modal.innerHTML = `${nowDay} ${nowMonth}`
-
-                    textAreaDeadlineHiddenNum_modal.innerHTML = nowData2.toLocaleDateString()
-                    deadlineThisTaskFullNum.innerHTML = nowData2.toLocaleDateString()
-                } else if (nameItemDeadline_modal == "Завтра") {
-                    textAreaDeadline_modal.innerHTML = `${nowDay+1} ${nowMonth}`  // Обновляю срок данной задачи внутри мо
-
-                    nowData2.setDate(nowDay+1)
-                    textAreaDeadlineHiddenNum_modal.innerHTML = nowData2.toLocaleDateString()
-                    deadlineThisTaskFullNum.innerHTML = nowData2.toLocaleDateString()
-                } else if (nameItemDeadline_modal == "На выходных") {
-                    let dataWeekend_modal = new Date()    // Создаю новый объект даты
-
-                    // Если сегодня уже суббота, то передвигаю счётчик на 1 вперёд что бы сработал следующий цикл и дошёл до субботы следующей недели
-                    if (Intl.DateTimeFormat(localLanguage, options3).format(dataWeekend_modal) != "суббота") {
-                        dataWeekend_modal.setDate(dataWeekend_modal.getDate() + 1)
-                    }
-                    // Увеличиваю дату пока не достигну субботы
-                    while (Intl.DateTimeFormat(localLanguage, options3).format(dataWeekend_modal) != "суббота") {
-                        dataWeekend_modal.setDate(dataWeekend_modal.getDate() + 1)
-                    }
-
-
-                    textAreaDeadline_modal.innerHTML = `${dataWeekend_modal.getDate()} ${Intl.DateTimeFormat(localLanguage, options2).format(dataWeekend_modal)}`
-
-                    textAreaDeadlineHiddenNum_modal.innerHTML = dataWeekend_modal.toLocaleDateString()
-                    deadlineThisTaskFullNum.innerHTML = dataWeekend_modal.toLocaleDateString()
-                } else if (nameItemDeadline_modal == "След. неделя") {
-                    let dataNextWeek_modal = new Date()   // Создаю новый объект даты
-                    dataNextWeek_modal.setDate(dataNextWeek_modal.getDate() + 7)    // Увеличиваю дату ровно на неделю (7 дней)
-        
-                    if (textAreaDeadline_modal.innerHTML != `${dataNextWeek_modal.getDate()} ${Intl.DateTimeFormat(localLanguage, options2).format(dataNextWeek_modal)}`) {
-                        textAreaDeadline_modal.innerHTML = `${dataNextWeek_modal.getDate()} ${Intl.DateTimeFormat(localLanguage, options2).format(dataNextWeek_modal)}`
-
-
-                        textAreaDeadlineHiddenNum_modal.innerHTML = dataNextWeek_modal.toLocaleDateString()
-                        deadlineThisTaskFullNum.innerHTML = dataNextWeek_modal.toLocaleDateString()
-                    }
-        
-                } else if (nameItemDeadline_modal == "Без срока" && textAreaDeadline_modal.innerHTML != "Срок выполнения") {
-                    textAreaDeadline_modal.innerHTML = "Срок выполнения"
-
-                    textAreaDeadlineHiddenNum_modal.innerHTML = "Срок выполнения"
-                    deadlineThisTaskFullNum.innerHTML = "Срок выполнения"
-                }
-    
-                // Обновляю срок выполнения в массиве текущего таска
-                currentTask_arr.newTask_deadlineTask = textAreaDeadline_modal.innerHTML
-                currentTask_arr.newTask_deadlineFullDataTask = textAreaDeadlineHiddenNum_modal.innerHTML
-
-                // Обновляю срок задачи внутри элементов таска (вне мо)(внизу слева у таска)
-                deadlineThisTask.innerHTML = textAreaDeadline_modal.innerHTML
-
-                //Очищаю стиль выбранного элемента со всех, если он где-то был (удаляю со всех элементов класс "hovered_select_menu")
-                reloadItemsDeadline_modal()
+            // Убираю выделение выбранного дня в календаре, если ранее там было что-то выбрано
+            if (selectedDay_modal && selectedDay_modal != "") {
+                selectedDay_modal.classList.remove("-selected-")
             }
 
+            const nowData2 = new Date()
 
 
-            // Если меню выбора срока выполнения находится внутри ПОДЗАДАЧИ (Была нажата кнопка NewDeadlineSubtusk)
-            if (parentDeadlineHiddenMenu.classList.contains("subtask__btnNewDeadline") == true) {
-                targetLi_subtask = e.target.closest(".subtask")
+            // Название выбранного дня (из списка)
+            const nameItemDeadline_modal = item.querySelector(".itc-modal-body__deadline-name").innerHTML 
 
-                
-                // Убираю выделение выбранного дня в календаре, если ранее там было что-то выбрано
-                if (selectedDay_modal && selectedDay_modal != "") {
-                    selectedDay_modal.classList.remove("-selected-")
+            // Поле с текстом для выбранного срока 
+            const textAreaDeadline_modal = modalBtn_GroupDeadlineTask.querySelector(".itc-modal-body__text-settings")  
+
+            // Поле с числовым полным значением для выбранного срока
+            const textAreaDeadlineHiddenNum_modal = modalBtn_GroupDeadlineTask.querySelector(".itc-modal-body__text-settings_hidden-num")     
+
+            // Поле с текстом со сроком выполнения данного таска, которое внизу слева (вне мо, на основной странице)
+            const deadlineThisTask = targetLi.querySelector(".task__deadline__date_visible") 
+            // Поле с числовым полным значением со сроком выполнения данного таска (вне мо, на основной странице)    
+            const deadlineThisTaskFullNum = targetLi.querySelector(".task__deadline__date_hidden")     
+
+
+            if (nameItemDeadline_modal == "Сегодня") {
+                textAreaDeadline_modal.innerHTML = `${nowDay} ${nowMonth}`
+
+                textAreaDeadlineHiddenNum_modal.innerHTML = nowData2.toLocaleDateString()
+                deadlineThisTaskFullNum.innerHTML = nowData2.toLocaleDateString()
+            } else if (nameItemDeadline_modal == "Завтра") {
+                textAreaDeadline_modal.innerHTML = `${nowDay+1} ${nowMonth}`  // Обновляю срок данной задачи внутри мо
+
+                nowData2.setDate(nowDay+1)
+                textAreaDeadlineHiddenNum_modal.innerHTML = nowData2.toLocaleDateString()
+                deadlineThisTaskFullNum.innerHTML = nowData2.toLocaleDateString()
+            } else if (nameItemDeadline_modal == "На выходных") {
+                let dataWeekend_modal = new Date()    // Создаю новый объект даты
+
+                // Если сегодня уже суббота, то передвигаю счётчик на 1 вперёд что бы сработал следующий цикл и дошёл до субботы следующей недели
+                if (Intl.DateTimeFormat(localLanguage, options3).format(dataWeekend_modal) != "суббота") {
+                    dataWeekend_modal.setDate(dataWeekend_modal.getDate() + 1)
                 }
-                
-
-                const nowData2 = new Date()
-
-
-                // Название выбранного дня (из списка)
-                const nameItemDeadline_modal = item.querySelector(".itc-modal-body__deadline-name").innerHTML   
-
-                // Поле с текстом со сроком выполнения данной подзадачи (внизу слева у каждой подзадачи)
-                const textAreaDeadline_subtusk = currentLi_klick_MO.querySelector(".subtask__deadline__date_visible")   
-
-                // Поле с полной датой в числовом формате у данной подзадачи
-                const deadlineThisSubtaskFullNum = currentLi_klick_MO.querySelector(".subtask__deadline__date_hidden")
-
-                let selectedDayFromMenu_modal = ""
-    
-    
-                if (nameItemDeadline_modal == "Сегодня" && selectedDayFromMenu_modal != `${nowDay} ${nowMonth}`) {
-                    selectedDayFromMenu_modal = `${nowDay} ${nowMonth}`
-
-                    deadlineThisSubtaskFullNum.innerHTML = nowData2.toLocaleDateString()
-        
-                } else if (nameItemDeadline_modal == "Завтра" && selectedDayFromMenu_modal != `${nowDay+1} ${nowMonth}`) {
-                    selectedDayFromMenu_modal = `${nowDay+1} ${nowMonth}`
-
-                    nowData2.setDate(nowDay+1)
-                    deadlineThisSubtaskFullNum.innerHTML = nowData2.toLocaleDateString()
-                } else if (nameItemDeadline_modal == "На выходных") {
-                    let dataWeekend_modal = new Date()    // Создаю новый объект даты
-
-                    // Если сегодня уже суббота, то передвигаю счётчик на 1 вперёд что бы сработал следующий цикл и дошёл до субботы следующей недели
-                    if (Intl.DateTimeFormat(localLanguage, options3).format(dataWeekend_modal) != "суббота") {
-                        dataWeekend_modal.setDate(dataWeekend_modal.getDate() + 1)
-                    }
-                    // Увеличиваю дату пока не достигну субботы
-                    while (Intl.DateTimeFormat(localLanguage, options3).format(dataWeekend_modal) != "суббота") {
-                        dataWeekend_modal.setDate(dataWeekend_modal.getDate() + 1)
-                    }
-        
-                    // Если ближайшая суббота уже не была выбрана, то...
-                    if (selectedDayFromMenu_modal != `${dataWeekend_modal.getDate()} ${Intl.DateTimeFormat(localLanguage, options2).format(dataWeekend_modal)}`) {
-                        selectedDayFromMenu_modal = `${dataWeekend_modal.getDate()} ${Intl.DateTimeFormat(localLanguage, options2).format(dataWeekend_modal)}`
-
-                        deadlineThisSubtaskFullNum.innerHTML = dataWeekend_modal.toLocaleDateString()
-                    }
-        
-                } else if (nameItemDeadline_modal == "След. неделя") {
-                    let dataNextWeek_modal = new Date()   // Создаю новый объект даты
-                    dataNextWeek_modal.setDate(dataNextWeek_modal.getDate() + 7)    // Увеличиваю дату ровно на неделю (7 дней)
-        
-                    if (selectedDayFromMenu_modal != `${dataNextWeek_modal.getDate()} ${Intl.DateTimeFormat(localLanguage, options2).format(dataNextWeek_modal)}`) {
-                        selectedDayFromMenu_modal = `${dataNextWeek_modal.getDate()} ${Intl.DateTimeFormat(localLanguage, options2).format(dataNextWeek_modal)}`
-
-                        deadlineThisSubtaskFullNum.innerHTML = dataNextWeek_modal.toLocaleDateString()
-                    }
-        
-                } else if (nameItemDeadline_modal == "Без срока" && selectedDayFromMenu_modal != "Срок выполнения") {
-
-                    selectedDayFromMenu_modal = "Срок выполнения"
-                    deadlineThisSubtaskFullNum.innerHTML = "Срок выполнения"
+                // Увеличиваю дату пока не достигну субботы
+                while (Intl.DateTimeFormat(localLanguage, options3).format(dataWeekend_modal) != "суббота") {
+                    dataWeekend_modal.setDate(dataWeekend_modal.getDate() + 1)
                 }
 
 
+                textAreaDeadline_modal.innerHTML = `${dataWeekend_modal.getDate()} ${Intl.DateTimeFormat(localLanguage, options2).format(dataWeekend_modal)}`
 
-                let idCurSubtask = ""     // Id подзадачи из массива
-                // Перебираю массив подзадач и сохраняю в "liFromArr" id того, что совпадает с id выбранной для изменения срока выполнения подзадачи (li)
-                for (let i = 0; i < all_subtasks.length; i++) {
-                    if (all_subtasks[i].newSubtask_ID == targetLi_subtask.getAttribute("data-subtask-id")) { 
-                        idCurSubtask = i
-                        break
-                    }
-                } 
+                textAreaDeadlineHiddenNum_modal.innerHTML = dataWeekend_modal.toLocaleDateString()
+                deadlineThisTaskFullNum.innerHTML = dataWeekend_modal.toLocaleDateString()
+            } else if (nameItemDeadline_modal == "След. неделя") {
+                let dataNextWeek_modal = new Date()   // Создаю новый объект даты
+                dataNextWeek_modal.setDate(dataNextWeek_modal.getDate() + 7)    // Увеличиваю дату ровно на неделю (7 дней)
+    
+                if (textAreaDeadline_modal.innerHTML != `${dataNextWeek_modal.getDate()} ${Intl.DateTimeFormat(localLanguage, options2).format(dataNextWeek_modal)}`) {
+                    textAreaDeadline_modal.innerHTML = `${dataNextWeek_modal.getDate()} ${Intl.DateTimeFormat(localLanguage, options2).format(dataNextWeek_modal)}`
 
 
-                // Обновляю срок выполнения в массиве текущей ПОДЗАДАЧИ
-                all_subtasks[idCurSubtask].newSubtask_deadlineSubtask = selectedDayFromMenu_modal
-                all_subtasks[idCurSubtask].newSubtask_deadlineFullDataSubtask = deadlineThisSubtaskFullNum.innerHTML
+                    textAreaDeadlineHiddenNum_modal.innerHTML = dataNextWeek_modal.toLocaleDateString()
+                    deadlineThisTaskFullNum.innerHTML = dataNextWeek_modal.toLocaleDateString()
+                }
+    
+            } else if (nameItemDeadline_modal == "Без срока" && textAreaDeadline_modal.innerHTML != "Срок выполнения") {
+                textAreaDeadline_modal.innerHTML = "Срок выполнения"
 
-                // Вписываю в поле со сроком выполнения данной подзадачи выбранноу дату
-                textAreaDeadline_subtusk.innerHTML = selectedDayFromMenu_modal
-
-                // Удаляю отметку о текущей подзадачи с отслеживания при наведении
-                currentLi_modal = null
-                targetLi_subtask = null
-
-                //Очищаю стиль выбранного элемента со всех, если он где-то был (удаляю со всех элементов класс "hovered_select_menu")
-                reloadItemsDeadline_modal()
+                textAreaDeadlineHiddenNum_modal.innerHTML = "Срок выполнения"
+                deadlineThisTaskFullNum.innerHTML = "Срок выполнения"
             }
+
+            // Обновляю срок выполнения в массиве текущего таска
+            currentTask_arr.newTask_deadlineTask = textAreaDeadline_modal.innerHTML
+            currentTask_arr.newTask_deadlineFullDataTask = textAreaDeadlineHiddenNum_modal.innerHTML
+
+            // Обновляю срок задачи внутри элементов таска (вне мо)(внизу слева у таска)
+            deadlineThisTask.innerHTML = textAreaDeadline_modal.innerHTML
+
+            //Очищаю стиль выбранного элемента со всех, если он где-то был (удаляю со всех элементов класс "hovered_select_menu")
+            reloadItemsDeadline_modal_aside()
+            
             
         })
     })
@@ -3698,20 +4686,9 @@ allTasksOuter.addEventListener("click", function(e) {
         if (!target.classList.contains("air-datepicker-cell")) return       // Если клик был не на элементе с ячейкой даты, то клик игнорируется
 
 
-        // Если меню выбора срока выполнения находится внутри aside (в разделе изменения срока выполнения ТАСКА).
-        if (parentDeadlineHiddenMenu.classList.contains("itc-modal-body__group") == true) {
-            // Если клик был по ячейке с датой, до запускается функция, где уже будет произведена работа с выбранной ячейкой
-            showElCalentare_modal(target)
-        }
-
-
-        // Если меню выбора срока было открыто через доп. функцию подзадачи "Назначить срок", то ...
-        else if (parentDeadlineHiddenMenu.classList.contains("subtask__btnNewDeadline")) {
-            // Если клик был по ячейке с датой, до запускается функция, где уже будет произведена работа с выбранной ячейкой
-            targetLi_subtask = e.target.closest(".subtask")
-            showElCalentareNewDeadline_modal(target) 
-        }
-
+        // Если клик был по ячейке с датой, до запускается функция, где уже будет произведена работа с выбранной ячейкой
+        showElCalentare_modal(target)
+        
         
     })
 
@@ -3729,20 +4706,20 @@ allTasksOuter.addEventListener("click", function(e) {
         // Поле с текстом со сроком выполнения данного таска, которое внизу слева (вне мо, на основной странице)
         const deadlineThisTask = targetLi.querySelector(".task__deadline__date_visible") 
         // Поле с числовым полным значением со сроком выполнения данного таска (вне мо, на основной странице)    
-        const deadlineThisTaskFullNum = targetLi.querySelector(".task__deadline_date_hidden")     
+        const deadlineThisTaskFullNum = targetLi.querySelector(".task__deadline__date_hidden")     
     
 
 
         selectedDay_modal = currData
 
         //Очищаю стиль выбранного элемента со всех, если он где-то был (удаляю со всех элементов класс "hovered_select_menu")
-        reloadItemsDeadline_modal()
+        reloadItemsDeadline_modal_aside()
         selectedDay_modal.classList.add("-selected-")
     
         
         const dateDay = selectedDay_modal.getAttribute("data-date")   // Выбранный номер дня месяца
         const dateMonth = selectedDay_modal.getAttribute("data-month")    // Выбранный месяц (числом)
-        const dateYear = selectedDay.getAttribute("data-year") // Выбранный год
+        const dateYear = selectedDay_modal.getAttribute("data-year") // Выбранный год
     
 
         // Создаю каллендарь на основании выбранного дня и месяца
@@ -3754,29 +4731,29 @@ allTasksOuter.addEventListener("click", function(e) {
         const selectMonthDataCalendare = (Intl.DateTimeFormat(localLanguage, optionsSelection).format(selectDataCalendare))
 
 
-        // Если меню выбора срока выполнения находится внутри aside (в разделе изменения срока выполнения ТАСКА)
-        if (parentDeadlineHiddenMenu.classList.contains("itc-modal-body__group") == true) {
-            // Ввожу в поле с выбором срока выполнения - выбранную в календаре дату (число + месяц)
-            textAreaDeadline.innerHTML = dateDay + " " + selectMonthDataCalendare
-            // Ввожу в скрытое поле с полным числовым значением (в мо в aside)
-            textAreaDeadlineHiddenNum_modal.innerHTML = selectDataCalendare.toLocaleDateString()
-
-
-            // Обновляю срок задачи внутри элементов таска (вне мо)(внизу слева у таска)
-            deadlineThisTask.innerHTML = dateDay + " " + selectMonthDataCalendare
-            // Ввожу в скрытое поле с полным числовым значением у таска (вне мо)
-            deadlineThisTaskFullNum.innerHTML = selectDataCalendare.toLocaleDateString()
-            
         
-            // Обновляю срок выполнения в массиве этого таска
-            currentTask_arr.newTask_deadlineTask = dateDay + " " + selectMonthDataCalendare
-        }
+        // Ввожу в поле с выбором срока выполнения - выбранную в календаре дату (число + месяц)
+        textAreaDeadline.innerHTML = dateDay + " " + selectMonthDataCalendare
+        // Ввожу в скрытое поле с полным числовым значением (в мо в aside)
+        textAreaDeadlineHiddenNum_modal.innerHTML = selectDataCalendare.toLocaleDateString()
+
+
+        // Обновляю срок задачи внутри элементов таска (вне мо)(внизу слева у таска)
+        deadlineThisTask.innerHTML = dateDay + " " + selectMonthDataCalendare
+        // Ввожу в скрытое поле с полным числовым значением у таска (вне мо)
+        deadlineThisTaskFullNum.innerHTML = selectDataCalendare.toLocaleDateString()
+        
+    
+        // Обновляю срок выполнения в массиве текущего таска
+        currentTask_arr.newTask_deadlineTask = dateDay + " " + selectMonthDataCalendare
+        currentTask_arr.newTask_deadlineFullDataTask = selectDataCalendare.toLocaleDateString()
+        
     }
 
 
     function showElCalentareNewDeadline_modal(currData) {
         //Очищаю стиль выбранного элемента со всех, если он где-то был (удаляю со всех элементов класс "hovered_select_menu")
-        reloadItemsDeadline_modal()
+        reloadItemsDeadline_modal_aside()
 
         selectedDay = currData  
 
@@ -3862,7 +4839,10 @@ allTasksOuter.addEventListener("click", function(e) {
     })
 
     // 1.3) При нажатии вне поля выбора - скрывается
-    body.addEventListener("click", function(e) {    
+    body.addEventListener("click", function(e) {   
+        // Если скрытое меню приоритета таска (в aside) скрыто, а клик был не по одной из кнопке изменения параметра задачи (в aside), то игнор
+        if ((conteinerFromHiddenMenuPriorityTasks_modal.classList.contains("hide2")) && (!e.target.closest(".itc-modal-body__select-setting"))) return
+
         if (!timeVar_MO || (e.target.closest(".itc-modal-body__select-setting") && !e.target.closest(".itc-modal-body__select-setting[data-title='Назначить приоритет...']"))) {
             // Скрываю меню выбора приоритета таска
             conteinerFromHiddenMenuPriorityTasks_modal.classList.add("hide2")
@@ -3932,8 +4912,7 @@ allTasksOuter.addEventListener("click", function(e) {
 
 
 
-    // document.querySelector(".itc-modal-btn-close").setAttribute("data-title", "Закрыть задачу")
-    // document.querySelector(".itc-modal-btn-close").classList.add("hover-hint_black")
+
     modal.show()
     isModal = true
 
@@ -3957,9 +4936,16 @@ allTasksOuter.addEventListener("click", function(e) {
         buttonSaveTask.removeEventListener("click", buttonSaveSubtask)
   
 
-        chestForCalendar.append(document.querySelector(".itc-modal-body__hiddenMenu-deadline-calendare"))
+        
         modal.dispose();  // Удаляю модальное окно из html документа
         body.removeEventListener("click", clickOuterModal_deadline)
+        hiddenMenuDeadline.removeEventListener("click", clickMenudeadline)
+        body.removeEventListener("click", clickOuterModal_deadlineSubtask)
+        deadlineItem.forEach(function(item) {
+            item.removeEventListener("click", deadlineItemSubtaskFormClick)
+        })
+        DeadlineCalendare.removeEventListener("click", deadlineClickCalendar)
+        selectDeadline.removeEventListener("click", selectDeadlineFunc) 
         body.removeAttribute("style")
     }
 })

@@ -2,7 +2,6 @@
 @import "./base/base.css";
 
 
-
 #todolist_block {
     display: flex;
     overflow: hidden;
@@ -247,6 +246,7 @@ aside {
 .calendar {
     margin: 10px 0;
 }
+
 
 
 .asideUserMenu__my-group-projects {
@@ -646,8 +646,8 @@ aside {
         .form-from-add-new-task__setting-deadline {
             position: relative;
         }
-            /* Скрытое меню выбора срока выполнения у таска и подзадачи (общие) */
-            .form-from-add-new-task__hiddenMenu-deadline, .itc-modal-body__hiddenMenu-deadline {
+            /* Скрытое меню выбора срока выполнения у таска и подзадачи (и вне мо, и внутри мо везде) (общие) */
+            .form-from-add-new-task__hiddenMenu-deadline, .task__dopFunction__hiddenMenu-deadline, .subtask__dopFunction__hiddenMenu-deadline, .itc-modal-body__hiddenMenu-deadline {
                 position: absolute;
                 z-index: 3;
                 background-color: #FFFFFF;
@@ -657,26 +657,26 @@ aside {
                 width: 250px;
             }
 
-            /* Скрытое меню выбора срока выполнения у таска (вне мо) по кнопке "назначить срок" */
+            /* Скрытое меню выбора срока выполнения у таска (вне мо) при редактировании/создании задачи */
             .form-from-add-new-task__bnt-settings .form-from-add-new-task__hiddenMenu-deadline {
                 left: 112px;
                 top: -207px;
             }
 
-            /* Скрытое меню выбора срока выполнения у таска (вне мо) по кнопке "назначить срок" */
-            .task__btnNewDeadline .form-from-add-new-task__hiddenMenu-deadline {
+            /* Скрытое меню выбора срока выполнения у таска (вне мо) и у подзадач по кнопке "назначить срок" */
+            .task__btnNewDeadline .task__dopFunction__hiddenMenu-deadline, .subtask__btnNewDeadline .subtask__dopFunction__hiddenMenu-deadline {
                 left: -250px;
                 top: -237px;
             }
 
-            /* Скрытое меню выбора срока выполнения для нового создаваемого таска (в МО у подзадач) */
+            /* Скрытое меню выбора срока выполнения для новой создаваемой подзадачи (в МО у подзадач) */
             .itc-modal-body .form-from-add-new-task__hiddenMenu-deadline {
                 left: 90px;
                 top: -180px;
             } 
             
                 /* Список ul из всех коротких текстовых вариантов выбора срока (сегодня, завтра, след неделя и тд) */
-                .form-from-add-new-task__deadline-list, .itc-modal-body__deadline-list {
+                .form-from-add-new-task__deadline-list, .task__dopFunction__deadline-list, .itc-modal-body__deadline-list, .subtask__dopFunction__deadline-list {
                     position: relative;
                     list-style: none;
                     font-size: 13px;
@@ -685,38 +685,39 @@ aside {
                     padding-bottom: 20px;
                 }   
                     /* Отдельный элемент li этого списка */
-                    .form-from-add-new-task__deadline-item, .itc-modal-body__deadline-item {
+                    .form-from-add-new-task__deadline-item, .task__dopFunction__deadline-item, .itc-modal-body__deadline-item, .subtask__dopFunction__deadline-item {
                         padding: 8px 12px;
                         display: flex;
                         align-items: center;
                         align-content: space-between;
                     }
                         /* Уникальные иконки этих элементов */
-                        .form-from-add-new-task__deadline-icon, .itc-modal-body__deadline-icon {
+                        .form-from-add-new-task__deadline-icon, .task__dopFunction__deadline-icon, .itc-modal-body__deadline-icon, .subtask__dopFunction__deadline-icon {
                             display: block;
                             width: 20px;
                             margin-right: 10px;
                         }
                         /* span с названием этого элемента */
-                        .form-from-add-new-task__deadline-name, .itc-modal-body__deadline-name {
+                        .form-from-add-new-task__deadline-name, .task__dopFunction__deadline-name,  .itc-modal-body__deadline-name, .subtask__dopFunction__deadline-name {
                             font-weight: 500;
                             white-space: nowrap;
                         }
                         /* Пояснение с указанием даты в виде числа и месяца */
-                        .form-from-add-new-task__deadline-info, .itc-modal-body__deadline-info {
+                        .form-from-add-new-task__deadline-info, .task__dopFunction__deadline-info,  .itc-modal-body__deadline-info, .subtask__dopFunction__deadline-info {
                             color: #979797;
                             flex: 1;
                             text-align: right;
                         }
                 /* Календарь для выбора срока выполнения */
-                .form-from-add-new-task__hiddenMenu-deadline-calendare, .itc-modal-body__hiddenMenu-deadline-calendare {
+                .form-from-add-new-task__hiddenMenu-deadline-calendare, .task__dopFunction__hiddenMenu-deadline-calendare, .subtask__dopFunction__hiddenMenu-deadline-calendare,  .itc-modal-body__hiddenMenu-deadline-calendare {
                     position: relative;
                     width: 250px;
                     margin-top: 5px;
                     border-right: 1px solid #eee;
                 }   
                     /* Внутренний блок этого календаря */
-                    .form-from-add-new-task__hiddenMenu-deadline-calendare .air-datepicker, .itc-modal-body__hiddenMenu-deadline-calendare .air-datepicker {
+                    .form-from-add-new-task__hiddenMenu-deadline-calendare .air-datepicker, .task__dopFunction__hiddenMenu-deadline-calendare .air-datepicker, .subtask__dopFunction__hiddenMenu-deadline-calendare .air-datepicker, .itc-modal-body__hiddenMenu-deadline-calendare .air-datepicker {
+                        position: unset;
                         border: none;
                         box-shadow: none;
                     }

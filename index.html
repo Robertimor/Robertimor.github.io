@@ -4,7 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="css/main.css">
-    <link rel="stylesheet" href="Air Datepicker/air-datepicker.css">
+    <!-- <link rel="stylesheet" href="Air Datepicker/air-datepicker.css"> -->
+    <link href="https://cdn.jsdelivr.net/npm/air-datepicker@3.5.3/air-datepicker.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/air-datepicker@3.5.3/air-datepicker.min.js"></script>
+
     <link rel="stylesheet" href="modal/css/modal.css">
     <title>JoJo_ToDo_List</title>
 </head>
@@ -76,7 +79,9 @@
             <img class="asideUserMenu__img-today-list" src="./icon/today.png" alt="" width="20px">
             <span class="asideUserMenu__text-today-list">Сегодня</span>
         </div>      
-        <div class="calendar"></div>
+        <div class="asideUserMenu__calendar">
+            <input type="text" id="aside-calendar" class="hide2">
+        </div>
         <div class="asideUserMenu__my-group-projects">
             <h2>Мои проекты:</h2>
             <ul class="my-type-projects">
@@ -168,6 +173,38 @@
                             <div class="task__dopFunction_iconWrap">
                                 <img src="./icon/deadline_task.png" alt="">
                             </div>
+                            <div class="task__dopFunction__hiddenMenu-deadline hide2">
+                                <ul class="task__dopFunction__deadline-list">
+                                    <li class="task__dopFunction__deadline-item hovered1_3">
+                                        <img src="./icon/sun.png" alt="" class="task__dopFunction__deadline-icon">
+                                        <span class="task__dopFunction__deadline-name">Сегодня</span>
+                                        <span class="task__dopFunction__deadline-info">#</span>
+                                    </li>
+                                    <li class="task__dopFunction__deadline-item hovered1_3">
+                                        <img src="./icon/deadlineNewTask_3.png" alt="" class="task__dopFunction__deadline-icon">
+                                        <span class="task__dopFunction__deadline-name">Завтра</span>
+                                        <span class="task__dopFunction__deadline-info">#</span>
+                                    </li>
+                                    <li class="task__dopFunction__deadline-item hovered1_3">
+                                        <img src="./icon/divan.png" alt="" class="task__dopFunction__deadline-icon">
+                                        <span class="task__dopFunction__deadline-name">На выходных</span>
+                                        <span class="task__dopFunction__deadline-info">#</span>
+                                    </li>
+                                    <li class="task__dopFunction__deadline-item hovered1_3">
+                                        <img src="./icon/nextWeek.png" alt="" class="task__dopFunction__deadline-icon">
+                                        <span class="task__dopFunction__deadline-name">След. неделя</span>
+                                        <span class="task__dopFunction__deadline-info">#</span>
+                                    </li>
+                                    <li class="task__dopFunction__deadline-item hovered1_3">
+                                        <img src="./icon/noDeadline.png" alt="" class="task__dopFunction__deadline-icon">
+                                        <span class="task__dopFunction__deadline-name">Без срока</span>
+                                        <span class="task__dopFunction__deadline-info">#</span>
+                                    </li>
+                                </ul>
+                                <!-- <div class="task__dopFunction__hiddenMenu-deadline-calendare">
+                                    <input type="text" class="hiddenMenu-deadline-calendare hide2">
+                                </div> -->
+                            </div>
                         </div> 
                     </div>
                 </div>
@@ -231,6 +268,11 @@
                 </ul>
             </div> -->
 
+            <button class="openCalendar">Открыть календарь</button>
+            <div class="conteinerForCalendar">
+                <input type="text" id="calendar1" class="hide1">
+            </div>
+
             <div class="form-from-add-new-task hide2">
                 <textarea name="name-new-task" class="form-from-add-new-task__name-new-task form-from-add-new-task__textarea-from-add-new-task" placeholder="Название задачи"></textarea>
                 <textarea name="description-new-task" class="form-from-add-new-task__description form-from-add-new-task__textarea-from-add-new-task" placeholder="Описание"></textarea>
@@ -270,7 +312,9 @@
                                     <span class="form-from-add-new-task__deadline-info">#</span>
                                 </li>
                             </ul>
-                            <div class="form-from-add-new-task__hiddenMenu-deadline-calendare"></div>
+                            <div class="form-from-add-new-task__hiddenMenu-deadline-calendare">
+                                <input type="text" class="hiddenMenu-deadline-calendare-input hide2">
+                            </div>
                         </div>
                     </div>      
                     <div class="form-from-add-new-task__setting-priority form-from-add-new-task__bnt-settings">
@@ -371,37 +415,27 @@
 
 
 
-<!-- <div class="itc-modal-body__group">
-    <div class="itc-modal-body__name-setting">Проект</div>
-    <div class="itc-modal-body__select-setting">select</div>
+<!-- <div class="chest-for-calendar hide2">
+    <div class="itc-modal-body__hiddenMenu-deadline-calendare"><input type="text" class="hide1"></div>
 </div> -->
 
 
-
-
-<div class="chest-for-calendar hide2">
-    <div class="itc-modal-body__hiddenMenu-deadline-calendare"></div>
-</div>
-
-
 <script type="module" src="./js/scripts.js"></script>
-<script src="./Air Datepicker/air-datepicker.js"></script>
-<!-- <script type="module" src="modal/js/modal.js"></script> -->
-<script>
+<script src="https://cdn.jsdelivr.net/npm/air-datepicker@3.5.3/air-datepicker.min.js"></script>
+<!-- <script src="./Air Datepicker/air-datepicker.js"></script> -->        <!--  Было до того как я решил переделать всю систему с календарём -->
+<!-- <script>
 new AirDatepicker('.calendar', {
-    // classes: "myCal",
     buttons: ["today", "clear"]
 })
 
 new AirDatepicker('.form-from-add-new-task__hiddenMenu-deadline-calendare', {
-    // classes: "myCal",
     buttons: ["today", "clear"]
 })
 
 new AirDatepicker(".itc-modal-body__hiddenMenu-deadline-calendare", {
     buttons: ["today"]
 })
-</script>
+</script> -->
 
 
 

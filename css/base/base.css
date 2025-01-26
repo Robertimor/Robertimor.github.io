@@ -182,3 +182,7 @@ input {
 
 
 
+
+.air-datepicker--pointer {
+    display: none !important;
+}
