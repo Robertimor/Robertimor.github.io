@@ -21,6 +21,12 @@ hr {
 }
 
 
+.hiddenFiltered {
+    display: none !important;
+}
+
+
+
 .conteiner_for_flex {      /* Контейнеры для "display:flex" */
     display: flex;
     align-items: center;

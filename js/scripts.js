@@ -25,6 +25,23 @@ const hideAndShow_Sidebar = document.querySelector(".asideUserMenu__btn-hideAndS
 
 
 
+const overlay = document.querySelector(".overlay")  // Подложка для модального окна, которое появится при нажатии на кнопку добавления задачи из aside главной страницы
+const asideAddTask = document.querySelector(".asideUserMenu__add-new-task")    // Кнопка добавления задачи из aside главной страницы
+const modalCloseButtonNewTask = document.querySelector('.js-modal-close')   // Кнопка для закрытия подального окна для создания новой задачи
+
+
+
+const asideAllTasks = document.querySelector(".asideUserMenu__allTasks-list")   // Кнопка для отображения ВСЕХ тасков на странице
+
+
+
+const asideTodayTasks = document.querySelector(".asideUserMenu__today-list")    // Кнопка для показа на странице лишь тасков на СЕГОДНЯ
+const asideFilterItems = document.querySelectorAll(".asideFilterItem")  // Все элементы aside, которые выполняют роль фильтра отображения тасков на странице (по сроку, по типу)
+
+
+
+
+
 const countAllTasks = document.querySelector(".header-block__countNum-tasks-allTasks")      // Поле с количеством заданий (всего, кроме просроченных)
 const sectionContentBlock_viewContent = document.querySelector(".section-content-block__view-content")  // Основная область. С текущей датой, со списком тасков, с меню добавления новой задачи
 const nameToday = document.querySelector(".section-content-block__nameToday")          // Поле для отображения текущей даты
@@ -158,10 +175,304 @@ hideAndShow_Sidebar.addEventListener("click", function (e) {
 
 
 
+
 let all_tasks = []     // Массив из созданных тасков
 countAllTasks.innerHTML = all_tasks.length   // Вписывание количество тасков в поле для их подсчёта
 
 let tasksId = 0     // Счётчик для присваивания уникальных id создаваемым таскам
+
+
+
+
+
+
+
+
+
+
+
+// Создаю текущую дату
+const localLanguage = navigator.language
+const nowData = new Date() 
+const options = {
+    month: "long",
+    day: "numeric",
+    weekday: "long",
+}
+const options2 = {
+    month: "short"
+}
+const options3 = {
+    weekday: "long"
+}
+const options4 = {
+    day: "numeric",
+    month: "numeric",
+    year: "numeric",
+}
+const nowDataRu = Intl.DateTimeFormat(localLanguage, options).format(nowData)
+
+
+const nowDay = nowData.getDate()    // Сегодняшнее число
+const nowMonth = Intl.DateTimeFormat(localLanguage, options2).format(nowData)   // Сегодняшний месяц словами
+const nowMonthNum = nowData.getMonth()
+const nowYear = nowData.getFullYear()   // Сегодняшний год
+const nowWeekday = (Intl.DateTimeFormat(localLanguage, options3).format(nowData))       // Сегодняшний день недели
+const correctWeekday = (String(nowWeekday.split("").splice(0, 1)).toLocaleUpperCase()) + (nowWeekday.split("").splice(1, 10).join(""))
+
+
+
+nameToday.innerHTML = `${nowDay} ${nowMonth} ‧ Сегодня ‧ ${correctWeekday}`     // Записываю в html код текущую дату
+
+// Записываю сегодняшнее число в окно выбора срока выполнения для новой создаваемой задачи
+selectDeadline.querySelector(".form-from-add-new-task__text-settings").innerHTML = `${nowDay} ${nowMonth}`
+selectDeadline.querySelector(".form-from-add-new-task__text-settings_hidden-num").innerHTML = nowData.toLocaleDateString()
+
+// Сегодняшняя дата в формате "год.месяц.число". Нужно для установки минимальной даты всем календарям
+const currectEntryDate = `${nowYear}.${nowMonthNum + 1}.${nowDay}`
+
+const containerAsideCalendar = document.querySelector(".asideUserMenu__calendar")
+const inpAsideCalendar = document.querySelector("#aside-calendar")
+const MyCalendarAside = new AirDatepicker(inpAsideCalendar, {
+    inline: true,  
+    buttons: ["today", "clear"],
+    minDate: currectEntryDate,
+    container: containerAsideCalendar,
+    autoClose: false,
+    onSelect({date, formattedDate, datepicker}) {
+        // Если после выбора даты в календаре окажется, что ни одна не выделена (т.е. если я нажму на уже выбранную дату)
+        if (!containerAsideCalendar.querySelector(".-selected-")) {
+            console.log("Снял выделение");
+            
+            // Если какой-то из фильтров уже был выделен, то игнорирую (эта проверка необходима для избежания бесконечного зацикливания при сбросе дат)
+            if (aside.querySelector(".hovered_select_menu")) {
+                return
+            }
+
+            
+            // Убираю скрытие со всех тасков, которые были скрыты фильтром
+            reloadAllTasksFiltered()
+
+            //Очищаю стиль выбранного элемента со всех фильтров, если он где-то был (удаляю со всех элементов класс "hovered_select_menu"). И ставлю его на выбранном ("Все задачи")
+            reloadItemsAsideFilterItems(asideAllTasks)
+        } 
+        else {
+            console.log("Выделил");
+            // Отфильтровываю все таски на странице, скрыв те, у которых срок не равен выбранному в календарю дню
+            filterByDeadline(formattedDate)
+
+            //Очищаю стиль выбранного элемента со всех фильтров, если он где-то был (удаляю со всех элементов класс "hovered_select_menu").
+            reloadItemsAsideFilterItems()
+        }  
+    }
+}) 
+
+MyCalendarAside.show()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* Открытие модального окна для создания новой задачи (при клике на кнопку в aside главной страницы). */
+asideAddTask.addEventListener('click', function(e) {
+    const modalNewTaskElem = document.querySelector('.modalAddNewTask');
+
+    modalNewTaskElem.classList.add('active');
+    overlay.classList.add('active');
+
+
+    // В область модального окна добавляется поле для добавления нового таска
+    modalNewTaskElem.append(formFromAddNewTask)  
+    // Убирает скрытие с формы добавления таска, которая перенеслась в МО
+    formFromAddNewTask.classList.remove("hide2")    
+
+    // Обнуляю элементы поля .formFromAddNewTask (поле для добавление нового таска) и скрываю его
+    reloadFormAddTask()
+
+    // Убирается скрытие li со всех тасков (если до этого какой-то скрылся, из-за незаконченного редактирования)
+    allTasksOuter.querySelectorAll(".task__wrapper").forEach(function(task) {
+        task.classList.remove("hide2")      
+    })
+
+
+}); 
+
+/* Закрытие модального окна для создания новой задачи (которое открывается при клике на кнопку в aside главной страницы) */
+modalCloseButtonNewTask.addEventListener('click', function(e) {
+    closeModalNewTask()
+});
+
+/* Закрытие по ESC (Закрытие модального окна для создания новой задачи (которое открывается при клике на кнопку в aside главной страницы)) */
+document.body.addEventListener('keyup', function (e) {
+    const modalNewTaskElem = document.querySelector('.modalAddNewTask');
+    // Если модальное окно закрыто (Закрытие модального окна для создания новой задачи (которое открывается при клике на кнопку в aside главной страницы)) - игнор
+    if (!modalNewTaskElem.classList.contains('active')) return
+
+
+    const key = e.key;  // Нажатая клавиша
+
+
+    if (key == "Escape") {
+        closeModalNewTask()
+    };
+}, false);
+
+/* скрытие окна при клике на подложку */
+overlay.addEventListener('click', function() {
+
+    const modalNewTaskElem = document.querySelector('.modalAddNewTask');
+    // Если модальное окно закрыто (Закрытие модального окна для создания новой задачи (которое открывается при клике на кнопку в aside главной страницы)) - игнор
+    if (!modalNewTaskElem.classList.contains('active')) return
+
+    closeModalNewTask()
+});
+
+// Функция для закрытия модального окна для создания новой задачи (которое открывается при клике на кнопку в aside главной страницы)
+function closeModalNewTask() {
+    const modalNewTaskElem = document.querySelector('.modalAddNewTask');
+
+    modalNewTaskElem.classList.remove('active');
+    overlay.classList.remove('active');
+
+    // Разрешаю показ доп. функций
+    disabledShowDopTask = false
+}
+
+
+
+// При нажатии на кнопку фильтрации тасков - "Все задачи"
+asideAllTasks.addEventListener("click", function(e) {
+    // Если фильтр "Все задачи" уже выбран, то игнор
+    if (asideAllTasks.classList.contains("hovered_select_menu")) return
+
+    //Очищаю стиль выбранного элемента со всех фильтров, если он где-то был (удаляю со всех элементов класс "hovered_select_menu"). И ставлю его на выбранном ("Все задачи")
+    reloadItemsAsideFilterItems(asideAllTasks)
+
+    // Убираю скрытие со всех тасков, которые были скрыты фильтром
+    reloadAllTasksFiltered()
+})
+
+
+// При нажатии на кнопку фильтрации тасков по сроку - "Сегодня"
+asideTodayTasks.addEventListener("click", function(e) {
+    // Если на текущем фильтре уже есть класс выделения (уже выбран этот фильтр)
+    if (asideTodayTasks.classList.contains("hovered_select_menu")) {
+        // Убираю выделение со всех фильтров, где оно было ранее и выделяю фильтр - "Все задачи"
+        reloadItemsAsideFilterItems(asideAllTasks)
+
+        // Убираю скрытие со всех тасков, которые были скрыты фильтром
+        reloadAllTasksFiltered()
+    }
+    else {
+        //Очищаю стиль выбранного элемента со всех фильтров, если он где-то был (удаляю со всех элементов класс "hovered_select_menu"). И ставлю его на выбранном ("Сегодня")
+        reloadItemsAsideFilterItems(asideTodayTasks)
+
+        // Отфильтровываю все таски на странице, скрыв те, у которых срок не равен сегодняшнему дню
+        filterByDeadline(nowData.toLocaleDateString())
+    }
+})
+
+
+
+
+
+
+
+
+
+
+
+
+// Функция фильтра тасков по выбранной дате
+function filterByDeadline(curDate) {
+    // Сперва убираю ранее стоявшие фильтры на таски
+    reloadAllTasksFiltered()
+    
+    // Все таски на странице
+    const allTasks = document.querySelectorAll(".task")
+
+    // Перебираю все таски
+    allTasks.forEach(function(task) {
+        // Если дата текущего таска не равна выбранной фильтром, то присваиваю элементу таска специальный класс скрытия
+        if (task.querySelector(".task__deadline__date_hidden").innerHTML != curDate) {
+            task.classList.add("hiddenFiltered")
+        }
+    })
+}
+
+
+// Функция для сброса фильтра с тасков. (Убирает скрытие со всех задач)
+function reloadAllTasksFiltered() {
+    document.querySelectorAll(".task").forEach(function(task) {
+        if (task.classList.contains("hiddenFiltered")) {
+            task.classList.remove("hiddenFiltered")
+        }
+    })
+}
+ 
+
+
+//Функция для очистки стиля "выбранного элемента" со всех asideFilterItem, если он где-то был (удаляю со всех элементов класс "hovered_select_menu"). И ставлю этот класс (стиль "выбранного элемента") тому, на который был произведён клик.
+function reloadItemsAsideFilterItems(curItem) {
+    // Перебираю все фильтры и убираю у всех выделение (если было)
+    asideFilterItems.forEach(function(item) {
+        item.classList.remove("hovered_select_menu")
+    })
+
+    // Если в функцию был передан какой-либо фильтр
+    if (curItem) {
+        // Ставлю класс выделения на выбранный фильтр
+        curItem.classList.add("hovered_select_menu")
+
+        // Очищаю выбранные в календаре дни (если были)
+        MyCalendarAside.clear()
+    }
+    
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -197,8 +508,8 @@ const myJobTask2 = {
     newTask_description: "qqqqqqqqqqqqqqqqqqqqqq", 
     newTask_typeTask_name: "Работа",
     newTask_typeTask_icon_src: "./icon/job.png",
-    newTask_deadlineTask: "24 июнь",
-    newTask_deadlineFullDataTask: "24.06.2025",
+    newTask_deadlineTask: `${nowDay} ${nowMonth}`,
+    newTask_deadlineFullDataTask: nowData.toLocaleDateString(),
     newTask_priority_name: "P2",
     newTask_priority_color: "orange",
     newTask_ID: tasksId,
@@ -237,8 +548,8 @@ const myJobTask4 = {
     newTask_description: "№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№", 
     newTask_typeTask_name: "Работа",
     newTask_typeTask_icon_src: "./icon/job.png",
-    newTask_deadlineTask: "7 сентября",
-    newTask_deadlineFullDataTask: "07.09.2025",
+    newTask_deadlineTask: `${nowDay} ${nowMonth}`,
+    newTask_deadlineFullDataTask: nowData.toLocaleDateString(),
     newTask_priority_name: "P1",
     newTask_priority_color: "red",
     newTask_ID: tasksId,
@@ -292,58 +603,7 @@ countAllTasks.innerHTML = all_tasks.length
 
 
 
-// Создаю текущую дату
-const localLanguage = navigator.language
-const nowData = new Date() 
-const options = {
-    month: "long",
-    day: "numeric",
-    weekday: "long",
-}
-const options2 = {
-    month: "short"
-}
-const options3 = {
-    weekday: "long"
-}
-const options4 = {
-    day: "numeric",
-    month: "numeric",
-    year: "numeric",
-}
-const nowDataRu = Intl.DateTimeFormat(localLanguage, options).format(nowData)
 
-
-const nowDay = nowData.getDate()    // Сегодняшнее число
-const nowMonth = Intl.DateTimeFormat(localLanguage, options2).format(nowData)   // Сегодняшний месяц словами
-const nowMonthNum = nowData.getMonth()
-const nowYear = nowData.getFullYear()   // Сегодняшний год
-const nowWeekday = (Intl.DateTimeFormat(localLanguage, options3).format(nowData))       // Сегодняшний день недели
-const correctWeekday = (String(nowWeekday.split("").splice(0, 1)).toLocaleUpperCase()) + (nowWeekday.split("").splice(1, 10).join(""))
-
-
-
-nameToday.innerHTML = `${nowDay} ${nowMonth} ‧ Сегодня ‧ ${correctWeekday}`     // Записываю в html код текущую дату
-
-// Записываю сегодняшнее число в окно выбора срока выполнения для новой создаваемой задачи
-selectDeadline.querySelector(".form-from-add-new-task__text-settings").innerHTML = `${nowDay} ${nowMonth}`
-selectDeadline.querySelector(".form-from-add-new-task__text-settings_hidden-num").innerHTML = nowData.toLocaleDateString()
-
-// Сегодняшняя дата в формате "год.месяц.число". Нужно для установки минимальной даты всем календарям
-const currectEntryDate = `${nowYear}.${nowMonthNum + 1}.${nowDay}`
-
-const containerAsideCalendar = document.querySelector(".asideUserMenu__calendar")
-const inpAsideCalendar = document.querySelector("#aside-calendar")
-const MyCalendarAside = new AirDatepicker(inpAsideCalendar, {
-    inline: true,  
-    buttons: ["today", "clear"],
-    minDate: currectEntryDate,
-    container: containerAsideCalendar,
-    // selectedDates: [new Date("2025.03.26")],
-    autoClose: false,
-}) 
-
-MyCalendarAside.show()
 
 
 
@@ -446,11 +706,15 @@ allTasksOuter.addEventListener("click", function(e) {
     // Блокирую возможность открытия м.о.
     isModal_block = true 
 
+    
+
 
     // В область выбранного таска добавляется поле для внесение изменений (вместо самого li, который скрывается)
-    targetLi.append(formFromAddNewTask)     
+    targetLi.append(formFromAddNewTask)   
+
+    // Убирается скрытие li со всех элементов (если до этого какой-то скрылся, из-за незаконченного редактирования)
     allTasksOuter.querySelectorAll(".task__wrapper").forEach(function(task) {
-        task.classList.remove("hide2")      // Убирается скрытие li со всех элементов (если до этого какой-то скрылся, из-за незаконченного редактирования)
+        task.classList.remove("hide2")      
     })
     targetLi.querySelector(".task__wrapper").classList.add("hide2")        // Скрывается li
     formFromAddNewTask.classList.remove("hide2")    // Убирает скрытие с формы изменения таска, которая перенеслась в место элемента li
@@ -472,6 +736,9 @@ allTasksOuter.addEventListener("click", function(e) {
 
     // Вставляю данные у выбранного таска в меню редактирования
     copyAndPushLabelsTask(liFromArr)
+
+    // Блокирую показ доп. функций
+    disabledShowDopTask = true
 })
 
 // Функция для вставки полей у таска, в форму для редактирования этого выбранного таска
@@ -779,6 +1046,12 @@ addNewTask.addEventListener("click", function(e) {
     
     // Обнуляю элементы поля .formFromAddNewTask (поле для добавление нового таска) и скрываю его
     reloadFormAddTask()
+ 
+
+    // Блокирую возможность открытия м.о.
+    isModal_block = true
+    // Разрешаю показ доп. функций тасков
+    disabledShowDopTask = true
 })
 
 
@@ -918,6 +1191,7 @@ body.addEventListener("click", function(e) {      // При нажатии вн�
             isModal_block = false  
             // Разрешаю показ доп. функций задач/подзадач
             disabledShowDopTask = false
+            
         } 
         // Иначе, если клик был вне поля выбора и на элемент подзадачи (li)
         else if (!timeVar && targetLi_modal != null) {
@@ -933,6 +1207,7 @@ body.addEventListener("click", function(e) {      // При нажатии вн�
             isModal_block = false  
             // Разрешаю показ доп. функций задач/подзадач
             disabledShowDopTask = false
+            
     
             // Показываю доп. функции у той подзадачи, на которую был совершён клик (которая была под курсором в момент клика)
             targetLi_modal.querySelector(".subtask__dopFuncs").querySelector(".subtask__btnEdit").classList.remove("hide1")
@@ -2049,6 +2324,8 @@ priorityItem.forEach(function(item) {
 
 
 
+console.log("МЕТКААА");
+
 // При нажатии на кнопку добавления нового таска в меню создания
 buttonAddNewTask.addEventListener("click", function(e) {
     if (buttonAddNewTask.getAttribute("aria-disabled") == "false" && isModal == false) {
@@ -2087,11 +2364,11 @@ buttonAddNewTask.addEventListener("click", function(e) {
         countAllTasks.innerHTML = all_tasks.length    // Обновляю поле на странице с количеством существующих тасков
 
         // Обнуляю элементы поля .formFromAddNewTask (поле для добавление нового таска) и скрываю его
-        reloadFormAddTask()
+        reloadFormAddTask() 
 
         
         // Целиком список сроков из списка вариантов (ul) (при создании/редактировании задачи) 
-        const deadlineHiddenList = e.target.closest(".form-from-add-new-task__hiddenMenu-deadline").querySelector(".form-from-add-new-task__deadline-list")
+        const deadlineHiddenList = e.target.closest(".form-from-add-new-task").querySelector(".form-from-add-new-task__deadline-list")
 
         //Очищаю стиль выбранного элемента со всех, если он где-то был (удаляю со всех элементов класс "hovered_select_menu")
         reloadItemsDeadline(deadlineHiddenList)
@@ -2101,6 +2378,20 @@ buttonAddNewTask.addEventListener("click", function(e) {
             task.classList.remove("hide2")
         })
         formFromAddNewTask.classList.add("hide2")
+
+
+        // Если модальное окно для создания новой задачи открыто (которое открывается при клике на кнопку в aside главной страницы)
+        const modalNewTaskElem = document.querySelector('.modalAddNewTask');
+        if (modalNewTaskElem.classList.contains('active')) {
+            // Функция для закрытия модального окна для создания новой задачи (которое открывается при клике на кнопку в aside главной страницы)
+            closeModalNewTask()
+        }
+        
+
+        // Снимаю блокировку с открытия м.о.
+        isModal_block = false  
+        // Разрешаю показ доп. функций тасков
+        disabledShowDopTask = false
     }
 })
 
@@ -2229,6 +2520,7 @@ buttonCloseMenuNewTask.addEventListener("click", function(e) {
     if (isModal == false) {
         formFromAddNewTask.classList.add("hide2")   // Скрывается Блок "formFromAddNewTask"
         sectionContentBlock_viewContent.append(formFromAddNewTask)  // Блок "formFromAddNewTask" перемещается в конец
+
         // Удаляется скрытие элемента таска, вместо которого ранее был перемещён блок "formFromAddNewTask"
         allTasksOuter.querySelectorAll(".task__wrapper").forEach(function(task) {
             task.classList.remove("hide2")
@@ -2237,6 +2529,24 @@ buttonCloseMenuNewTask.addEventListener("click", function(e) {
         // Обнуляю элементы поля .formFromAddNewTask (поле для добавление нового таска) и скрываю его
         reloadFormAddTask()
 
+
+        // Снимаю блокировку с открытия м.о.
+        isModal_block = false
+
+        // Разрешаю показ доп. функций тасков
+        disabledShowDopTask = false
+
+
+        
+        // Если модальное окно для создания новой задачи открыто (которое открывается при клике на кнопку в aside главной страницы)
+        const modalNewTaskElem = document.querySelector('.modalAddNewTask');
+        if (modalNewTaskElem.classList.contains('active')) {
+            // Функция для закрытия модального окна для создания новой задачи (которое открывается при клике на кнопку в aside главной страницы)
+            closeModalNewTask()
+        }
+
+
+
         if (!currentLi) return  // Если кнопка отмены была нажата вне поля редактирования таска, то игнорировать
 
         // Скрываю все доп функции таска
@@ -2244,13 +2554,6 @@ buttonCloseMenuNewTask.addEventListener("click", function(e) {
 
         // Удаляю отметку о текущем таске с отслеживания при наведении
         currentLi = null
-
-
-        // Снимаю блокировку с открытия м.о.
-        isModal_block = false
-
-        // Разрешаю показ доп. функций тасков
-        disabledShowDopTask = false
     }
 })
 
@@ -2267,6 +2570,12 @@ formFromAddNewTask.addEventListener("keydown", function(e) {
 
         // Обнуляю элементы поля .formFromAddNewTask (поле для добавление нового таска) и скрываю его
         reloadFormAddTask()
+
+        // Снимаю блокировку с открытия м.о.
+        isModal_block = false
+
+        // Разрешаю показ доп. функций тасков
+        disabledShowDopTask = false
     }
 })
 
@@ -2564,7 +2873,7 @@ allTasksOuter.addEventListener("click", function(e) {
     const typesProjectForSelect_modal = document.querySelectorAll(".itc-modal-body__hiddenMenuTypesTask .my-type-projects__type-project")   // Элементы li с типом таска
 
     const modalWindow = document.querySelector(".itc-modal-content")      // Само модальное окно
-    const buttonCloseEdit = modalWindow.querySelector(".buttuns-closeSave-task .btn-close")     // Кнопка закрытия редактирования в м.о.
+    const buttonCloseEdit = modalWindow.querySelector(".buttuns-closeSave-task .btn-close")     // Кнопка закрытия редактирования ТАСКА (не подзадачи) в м.о.
     const buttonSaveEdit = modalWindow.querySelector(".buttuns-closeSave-task .btn-save")       // Кнопка сохранения редактирования в м.о.
 
 
@@ -2860,6 +3169,10 @@ allTasksOuter.addEventListener("click", function(e) {
         el_textarea_description.style.height = "auto";
         el_textarea_description.style.height = Math.max(el_textarea_description.scrollHeight, el_textarea_description.offsetHeight)+"px"   
 
+
+        // Запрещаю показ доп. функций подзадач
+        disabledShowDopTask = true
+
     }
 
     // Функция для настройки изменяемой (растягивающейся) высоты поля - textarea, по мере его заполнения
@@ -2934,6 +3247,9 @@ allTasksOuter.addEventListener("click", function(e) {
         if (buttonCloseMenuNewTask.closest(".itc-modal-body__subtask-outer-block")) {
             currentLi_modal = null
         }
+        
+        // Разрешаю показ доп. функций тасков
+        disabledShowDopTask = false
     } 
 
 
@@ -2968,6 +3284,9 @@ allTasksOuter.addEventListener("click", function(e) {
         // Скрываю кнопку "Отмена" и "Сохранить"
         buttonCloseEdit.classList.add("hide2")
         buttonSaveEdit.classList.add("hide2")
+
+        // Разрешаю показ доп. функций тасков
+        disabledShowDopTask = false
     }
     
 
@@ -3030,6 +3349,15 @@ allTasksOuter.addEventListener("click", function(e) {
         addSubtask.classList.add("hide2")   // Скрывает кнопку "Добавить подзадачу"
         modalContent_main.append(formFromAddNewTask)    // Перемещает форму для создания таска внутрь ".itc-modal-body__main-content"
         formFromAddNewTask.classList.remove("hide2")    // Убирает скрытие с формы изменения таска, которая перенеслась в место элемента "addSubtask"
+
+
+        // Убираю скрытие со всех подзадач, если где-то оно было (если до этого было открыто меню редактирование подзадачи, после чего сразу нажалась кнопка для добавлений новой подзадачи)
+        subtaskOuter_modal.querySelectorAll(".subtask__wrapper").forEach(function(subtask) {
+            subtask.classList.remove("hide2")
+        })
+
+        // Блокирую показ доп. функций подзадач
+        disabledShowDopTask = true
     })
     
     // Функция, вызываемая при нажатии на "Отмена" в форме создания подзадачи
@@ -3042,22 +3370,27 @@ allTasksOuter.addEventListener("click", function(e) {
 
 
         // Если переменная, отвечающей за выбранную подзадачу, внутри которой должна находиться кнопка "отмена" - существует, (т.е. если "отмена прожата именно при редактировании существующей, а не при создании новой"), то 
-        if (targetLi_subtask !=null) {  
-            targetLi_subtask.querySelector(".subtask__wrapper").classList.remove("hide2")        // Скрывается li
+        if (targetLi_subtask !=null && currentLi_modal !=null) {  
+            targetLi_subtask.querySelector(".subtask__wrapper").classList.remove("hide2")        // Показывается скрытый li (подзадача)
 
             // Скрываю все доп функции подзадачи
             hide_subtask_dopFuncs_modal(currentLi_modal.querySelector(".subtask__dopFuncs"))
 
             // Удаляю отметку о текущей подзадаче с отслеживания при наведении
             currentLi_modal = null
-
-            // Разрешаю показ доп. функций тасков
-            disabledShowDopTask = false
         }
-        
+        // В ином случае (если отмена была при добавлении новой подзадачи) убираю скрытие со всех подзадач, если где-то оно было (если до этого было открыто меню редактирование подзадачи, после чего сразу нажалась кнопка для добавлений новой подзадачи)
+        else {
+            subtaskOuter_modal.querySelectorAll(".subtask__wrapper").forEach(function(subtask) {
+                subtask.classList.remove("hide2")
+            })
+        }
 
         // Обнуляю элементы поля .formFromAddNewTask (поле для добавление нового таска/подзадачи) и скрываю его
         reloadFormAddTask()
+
+        // Разрешаю показ доп. функций подзадач
+        disabledShowDopTask = false
     }
     // Функция, вызываемая при нажатии на "Добавить задачу" в форме создания таска
     function addSubtaskForm() {
@@ -3098,7 +3431,7 @@ allTasksOuter.addEventListener("click", function(e) {
             reloadFormAddTask()
 
 
-
+            // Убираю скрытие со всех подзадач, если где-то оно было (если до этого было открыто меню редактирование подзадачи, после чего сразу нажалась кнопка для добавлений новой подзадачи)
             subtaskOuter_modal.querySelectorAll(".subtask__wrapper").forEach(function(subtask) {
                 subtask.classList.remove("hide2")
             })
@@ -3106,6 +3439,9 @@ allTasksOuter.addEventListener("click", function(e) {
 
             // Удаляется скрытие кнопки "addSubtask", вместо которого ранее был перемещён блок "formFromAddNewTask"
             addSubtask.classList.remove("hide2")
+
+            // Разрешаю показ доп. функций тасков
+            disabledShowDopTask = false
         }
     }
 
@@ -3276,12 +3612,17 @@ allTasksOuter.addEventListener("click", function(e) {
 
     
         // В область выбранного таска добавляется поле для внесение изменений (вместо самого li, который скрывается)
-        targetLi_subtask.append(formFromAddNewTask)     
+        targetLi_subtask.append(formFromAddNewTask) 
+
+        // Убирается скрытие li со всех элементов (если до этого какой-то скрылся, из-за незаконченного редактирования)
         subtaskOuter_modal.querySelectorAll(".subtask__wrapper").forEach(function(subtask) {
-            subtask.classList.remove("hide2")      // Убирается скрытие li со всех элементов (если до этого какой-то скрылся, из-за незаконченного редактирования)
+            subtask.classList.remove("hide2")      
         })
-        targetLi_subtask.querySelector(".subtask__wrapper").classList.add("hide2")        // Скрывается li
-        formFromAddNewTask.classList.remove("hide2")    // Убирает скрытие с формы изменения таска, которая перенеслась в место элемента li
+
+        // Скрывается li
+        targetLi_subtask.querySelector(".subtask__wrapper").classList.add("hide2") 
+        // Убирает скрытие с формы изменения таска, которая перенеслась в место элемента li      
+        formFromAddNewTask.classList.remove("hide2")   
     
     
         // Скрываю кнопку для создания таска. И показываю кнопку для сохранения изменений при редактированини таска
@@ -3300,7 +3641,10 @@ allTasksOuter.addEventListener("click", function(e) {
         }
     
         // Вставляю данные у выбранной подзадачи в меню редактирования
-        copyAndPushLabelsSubtask(liFromArr)   
+        copyAndPushLabelsSubtask(liFromArr)
+        
+        // Блокирую показ доп. функций
+        disabledShowDopTask = true
     })
 
     // Функция для вставки полей у подзадачи, в форму для редактирования этого выбранного подзадачи
@@ -3340,6 +3684,7 @@ allTasksOuter.addEventListener("click", function(e) {
             formFromAddNewTask.classList.add("hide2")   
             // Блок "formFromAddNewTask" перемещается в конец
             sectionContentBlock_viewContent.append(formFromAddNewTask)  
+            
             // Удаляется скрытие элемента таска, вместо которого ранее был перемещён блок "formFromAddNewTask"
             subtaskOuter_modal.querySelectorAll(".subtask__wrapper").forEach(function(subtask) {
                 subtask.classList.remove("hide2")
@@ -3357,6 +3702,9 @@ allTasksOuter.addEventListener("click", function(e) {
             // Удаляю отметку о текущей подзадачи с отслеживания при наведении
             currentLi_modal = null
             targetLi_subtask = null
+
+            // Разрешаю показ доп. функций тасков
+            disabledShowDopTask = false
         }
     }
 

@@ -242,6 +242,9 @@ aside {
     }
 
 
+.asideUserMenu__calendar {
+    margin-top: 15px;
+}
 
 .calendar {
     margin: 10px 0;
@@ -273,6 +276,83 @@ aside {
             width: 16px;
         }
 
+
+
+
+
+/* Стили для подложки */
+
+.overlay {
+
+    /* Скрываем подложку  */
+    opacity: 0;
+    visibility: hidden;
+ 
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, .5);
+    z-index: 20;
+    transition: .3s all;
+ }
+ 
+ 
+
+ /* Стили для модального окна создания новой задачи (при клике на кнопку из aside главной страницы */
+ .modalAddNewTask {
+ 
+    /* Скрываем окна  */
+    opacity: 0;
+    visibility: hidden;
+ 
+ 
+    /*  Установаем ширину окна  */
+    width: 100%;
+    max-width: 500px;
+ 
+    /*  Центрируем и задаем z-index */
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 30; /* Должен быть выше чем у подложки*/
+ 
+    /*  Побочные стили   */
+    box-shadow: 0 3px 10px -.5px rgba(0, 0, 0, .2);
+    text-align: center;
+    padding: 30px;
+    border: 5px solid rgb(138, 87, 97);
+    border-radius: 3px;
+    background-color: #fff;
+    transition: 0.3s all;
+ }
+
+ .modalAddNew__title {
+    color: rgb(138, 87, 97);
+    margin-bottom: 30px;
+ }
+ 
+ /* Стили для кнопки закрытия мо */
+ 
+ .modalAddNew__cross {
+    width: 15px;
+    height: 15px;
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    fill: #444;
+    cursor: pointer;
+ }
+ 
+ 
+
+/* Стиль для активного мадального окна добавления задачи */
+.modalAddNewTask.active, .overlay.active{
+   opacity: 1;
+   visibility: visible;
+}
 
 
 

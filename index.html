@@ -13,6 +13,16 @@
 </head>
 <body>
 
+<div class="overlay"></div>
+<div class="modalAddNewTask">
+    <!--   Svg иконка для закрытия окна  -->
+    <svg class="modalAddNew__cross js-modal-close" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M23.954 21.03l-9.184-9.095 9.092-9.174-2.832-2.807-9.09 9.179-9.176-9.088-2.81 2.81 9.186 9.105-9.095 9.184 2.81 2.81 9.112-9.192 9.18 9.1z"/></svg>
+    <p class="modalAddNew__title">Создание новое задачи</p>
+</div>
+
+
+
+
 <div id="todolist_block">
 <aside class="aside">
     <div class="log-reg hide2">
@@ -71,11 +81,11 @@
             <img class="asideUserMenu__icon-search-task" src="./icon/search.png" alt="" width="20px">
             <span class="asideUserMenu__text-search">Поиск</span>
         </div>
-        <div class="asideUserMenu__allTasks-list hovered_aside-items hovered_select_menu">  <!-- Все проекты (+завершённые) -->
+        <div class="asideUserMenu__allTasks-list asideFilterItem hovered_aside-items hovered_select_menu">  <!-- Все проекты (+завершённые) -->
             <img class="asideUserMenu__img-allTasks-list" src="./icon/allTasks.png" alt="" width="20px">
             <span class="asideUserMenu__text-allTasks-list">Все задачи</span>
         </div>   
-        <div class="asideUserMenu__today-list hovered_aside-items">  <!-- Проекты на сегодня (+завершённые) -->
+        <div class="asideUserMenu__today-list asideFilterItem hovered_aside-items">  <!-- Проекты на сегодня (+завершённые) -->
             <img class="asideUserMenu__img-today-list" src="./icon/today.png" alt="" width="20px">
             <span class="asideUserMenu__text-today-list">Сегодня</span>
         </div>      
@@ -85,17 +95,17 @@
         <div class="asideUserMenu__my-group-projects">
             <h2>Мои проекты:</h2>
             <ul class="my-type-projects">
-                <li class="wrapper-type-task my-type-projects__type-project hovered_aside-items">
+                <li class="wrapper-type-task my-type-projects__type-project asideFilterItem hovered_aside-items">
                     <img class="wrapper-type-task__icon-grid" src="./icon/grid_0.png" alt="">
                     <span class="wrapper-type-task__name">Дом</span>
                     <img class="wrapper-type-task__icon-type-project" src="./icon/home.png" alt="">
                 </li>
-                <li class="wrapper-type-task my-type-projects__type-project hovered_aside-items">
+                <li class="wrapper-type-task my-type-projects__type-project asideFilterItem hovered_aside-items">
                     <img class="wrapper-type-task__icon-grid" src="./icon/grid_0.png" alt="">
                     <span class="wrapper-type-task__name">Работа</span>
                     <img class="wrapper-type-task__icon-type-project" src="./icon/job.png" alt="">
                 </li>
-                <li class="wrapper-type-task my-type-projects__type-project hovered_aside-items">
+                <li class="wrapper-type-task my-type-projects__type-project asideFilterItem hovered_aside-items">
                     <img class="wrapper-type-task__icon-grid" src="./icon/grid_0.png" alt="">
                     <span class="wrapper-type-task__name">Учёба</span>
                     <img class="wrapper-type-task__icon-type-project" src="./icon/study.png" alt="">
@@ -138,7 +148,7 @@
             </div>
             <div class="section-content-block__nameToday"></div>
             <ul class="allTasks-outer-block">
-                <li class="task" id="-1">
+                <!-- <li class="task" id="-1">
                 <div class="task__wrapper">
                     <div class="task__wrapper-button-task-checkbox">
                         <button class="task__button-task-checkbox"><img src="./icon/MarkOk_ser.png" alt="" class="hide2"></button>
@@ -201,14 +211,11 @@
                                         <span class="task__dopFunction__deadline-info">#</span>
                                     </li>
                                 </ul>
-                                <!-- <div class="task__dopFunction__hiddenMenu-deadline-calendare">
-                                    <input type="text" class="hiddenMenu-deadline-calendare hide2">
-                                </div> -->
                             </div>
                         </div> 
                     </div>
                 </div>
-                </li>
+                </li> -->
             </ul>
             <div class="add-new-task">
                 <img class="add-new-task__imgAddTask1" src="./icon/add2_1.png" alt="" width="25px">
@@ -217,61 +224,8 @@
             </div>
 
 
-            <!-- <div class="itc-modal-body__subtask-content">
-                <div class="itc-modal-body__subtask-count">
-                    <img src="./icon/down.png" alt="">
-                    <img src="./icon/right2.png" alt="" class="hide2">
-                    <span>Подзадачи:</span>
-                    <span class="itc-modal-body__subtasks-count"></span>
-                </div>
-                <ul class="itc-modal-body__subtask-outer-block">
-                    <li class="subtask"></li>
-                    <li class="subtask" data-subtask-id = "-1">
-                    <div class="subtask__wrapper">
-                        <div class="subtask__wrapper-button-subtask-checkbox">
-                            <button class="subtask__button-subtask-checkbox"><img src="./icon/MarkOk_ser.png" alt="" class="hide2"></button>
-                        </div>
-                        <div class="subtask__subtask-list-itemsContent-wrapper">
-                            <div class="subtask__outerWrap-name-description">
-                                <div class="subtask__innerWrap-name-description">
-                                    <div class="subtask__name-subtask" aria-label="Название задачи">Задача 1</div>
-                                    <div class="subtask__description-subtask" aria-label="описание">
-                                        <span class="subtask__description-subtask-text">Простая задача !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!</span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="subtask__typeTask">
-                                <span>Работа</span>
-                                <div class="subtask__imgBlock-typeTask"><img src="./icon/job.png" alt=""></div>
-                                <img class="subtask__imgBlock-typeTask_grid" src="./icon/grid_0.png" alt="">
-                            </div>
-                        </div>
-                        <div class="subtask__dopFuncs" aria-label="Дополнительные функции для управления задачей">
-                            <div class="subtask__dopFunction subtask__btnEdit hover-hint hide1" data-title="Редактировать задачу">
-                                <div class="subtask__dopFunction_iconWrap">
-                                    <img src="./icon/edit.png" alt="">
-                                </div>
-                            </div>
-                            <div class="subtask__dopFunction subtask__btnNewDeadline hover-hint hide1" data-title="Назначить срок">
-                                <div class="subtask__dopFunction_iconWrap">
-                                    <img src="./icon/deadline_task.png" alt="">
-                                </div>
-                            </div>
-                            <div class="subtask__dopFunction subtask__addComment hover-hint hide1" data-title="Прокомментировать задачу">
-                                <div class="subtask__dopFunction_iconWrap">
-                                    <img src="./icon/addComment_task.png" alt="">
-                                </div>
-                            </div>  
-                        </div>
-                    </div>
-                    </li>
-                </ul>
-            </div> -->
+    
 
-            <button class="openCalendar">Открыть календарь</button>
-            <div class="conteinerForCalendar">
-                <input type="text" id="calendar1" class="hide1">
-            </div>
 
             <div class="form-from-add-new-task hide2">
                 <textarea name="name-new-task" class="form-from-add-new-task__name-new-task form-from-add-new-task__textarea-from-add-new-task" placeholder="Название задачи"></textarea>
@@ -403,10 +357,6 @@
 
 
 
-<!-- <div class="modalWindow__btn-new-dop-task">
-    <img src="./icon/add2_1.png" alt="">
-    <span>Добавить подзадачу</span>
-</div> -->
 
 
 
@@ -415,27 +365,10 @@
 
 
 
-<!-- <div class="chest-for-calendar hide2">
-    <div class="itc-modal-body__hiddenMenu-deadline-calendare"><input type="text" class="hide1"></div>
-</div> -->
 
 
 <script type="module" src="./js/scripts.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/air-datepicker@3.5.3/air-datepicker.min.js"></script>
-<!-- <script src="./Air Datepicker/air-datepicker.js"></script> -->        <!--  Было до того как я решил переделать всю систему с календарём -->
-<!-- <script>
-new AirDatepicker('.calendar', {
-    buttons: ["today", "clear"]
-})
-
-new AirDatepicker('.form-from-add-new-task__hiddenMenu-deadline-calendare', {
-    buttons: ["today", "clear"]
-})
-
-new AirDatepicker(".itc-modal-body__hiddenMenu-deadline-calendare", {
-    buttons: ["today"]
-})
-</script> -->
 
 
 
