@@ -77,9 +77,12 @@
             <img class="asideUserMenu__img-add-new-task" src="./icon/add2_2.png" alt="" width="20px">
             <span class="asideUserMenu__text-add-new-task">Добавить задачу</span>
         </div>
-        <div class="asideUserMenu__search-task hovered_aside-items">
+        <div class="asideUserMenu__search-task asideFilterItem hovered_aside-items">
             <img class="asideUserMenu__icon-search-task" src="./icon/search.png" alt="" width="20px">
-            <span class="asideUserMenu__text-search">Поиск</span>
+            <form action="" class="asideUserMenu__form-search-tasks">
+                <input type="text" name="" id="inpSearchTasks" placeholder="Поиск...">
+            </form>
+            <!-- <span class="asideUserMenu__text-search">Поиск</span> -->
         </div>
         <div class="asideUserMenu__allTasks-list asideFilterItem hovered_aside-items hovered_select_menu">  <!-- Все проекты (+завершённые) -->
             <img class="asideUserMenu__img-allTasks-list" src="./icon/allTasks.png" alt="" width="20px">
@@ -95,17 +98,17 @@
         <div class="asideUserMenu__my-group-projects">
             <h2>Мои проекты:</h2>
             <ul class="my-type-projects">
-                <li class="wrapper-type-task my-type-projects__type-project asideFilterItem hovered_aside-items">
+                <li class="asideUserMenu__type-home wrapper-type-task my-type-projects__type-project asideFilterItem hovered_aside-items">
                     <img class="wrapper-type-task__icon-grid" src="./icon/grid_0.png" alt="">
                     <span class="wrapper-type-task__name">Дом</span>
                     <img class="wrapper-type-task__icon-type-project" src="./icon/home.png" alt="">
                 </li>
-                <li class="wrapper-type-task my-type-projects__type-project asideFilterItem hovered_aside-items">
+                <li class="asideUserMenu__type-job wrapper-type-task my-type-projects__type-project asideFilterItem hovered_aside-items">
                     <img class="wrapper-type-task__icon-grid" src="./icon/grid_0.png" alt="">
                     <span class="wrapper-type-task__name">Работа</span>
                     <img class="wrapper-type-task__icon-type-project" src="./icon/job.png" alt="">
                 </li>
-                <li class="wrapper-type-task my-type-projects__type-project asideFilterItem hovered_aside-items">
+                <li class="asideUserMenu__type-study wrapper-type-task my-type-projects__type-project asideFilterItem hovered_aside-items">
                     <img class="wrapper-type-task__icon-grid" src="./icon/grid_0.png" alt="">
                     <span class="wrapper-type-task__name">Учёба</span>
                     <img class="wrapper-type-task__icon-type-project" src="./icon/study.png" alt="">
@@ -131,10 +134,15 @@
                         </div>
                     </div>
                 </div>
-                <div class="header-block__filterTasks ser">
+                <div class="header-block__image">
+                    <!-- <img src="img/JUST DO IT.jpg" alt=""> -->
+                    <img src="img/JUST DO IT.png" alt="">
+                </div>
+                <!-- Возможно не нужный блок и лучше удалить, не реализовывать -->
+                <!-- <div class="header-block__filterTasks ser">
                     <img class="header-block__icon-filter" src="./icon/filter.png" alt="" width="14px">
                     <span>Отображение</span>
-                </div>
+                </div> -->
             </div>
         </div>
     </header>

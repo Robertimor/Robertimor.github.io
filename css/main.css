@@ -211,6 +211,18 @@ aside {
     padding: 8px 5px;
     border-radius: 10px;
 }
+    .asideUserMenu__form-search-tasks {
+        margin-left: 6px;
+    }
+        #inpSearchTasks {
+            padding: 2.5px 3px 2.5px 3.5px;
+            border-radius: 6px;
+            color: black !important;
+        }
+        
+    .asideUserMenu__icon-search {
+        margin-right: 7px;
+    }
     .asideUserMenu__text-search {
         margin-left: 7px;
     }
@@ -408,6 +420,11 @@ aside {
                 margin-left: 5px;
                 padding: 2.5px;
             }
+
+        .header-block__image img {
+            max-width: 200px;
+        }
+
         .header-block__filterTasks {   /* Поле с настройками сортировки тасков */
             display: flex;
             align-items: center;
