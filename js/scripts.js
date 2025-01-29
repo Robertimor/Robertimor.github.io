@@ -16,7 +16,7 @@ const butLogin = document.querySelector(".btn-login");          // Кнопка 
 const butReg = document.querySelector(".btn-register");          // Кнопка регистрации
 
 
-const userMenu = document.querySelector("#asideUserMenu")       // Поле aside-а авторизированного пользователя
+const userMenu = document.querySelector(".asideUserMenu")       // Поле aside-а авторизированного пользователя
 const nicknameUser = document.querySelector(".asideUserMenu__nicknameUser")    // Отображаемый nickname (login) пользователя
 const buttonMenuProfile = document.querySelector(".asideUserMenu__button_menuProfile");   // Поле с фото и логином, при нажатии на которое открывается скрытое меню профиля
 const menuProfile = document.querySelector(".hidden-menu-profile");         // Скрытое меню профиля
@@ -48,6 +48,7 @@ const asideStudyTasks = document.querySelector(".asideUserMenu__type-study")    
 
 
 
+const mainContent = document.querySelector(".block-allTasks")
 
 
 const countAllTasks = document.querySelector(".header-block__countNum-tasks-allTasks")      // Поле с количеством заданий (всего, кроме просроченных)
@@ -55,7 +56,19 @@ const sectionContentBlock_viewContent = document.querySelector(".section-content
 const nameToday = document.querySelector(".section-content-block__nameToday")          // Поле для отображения текущей даты
 
 
-const allTasksOuter = document.querySelector(".allTasks-outer-block")        // Область со всеми созданными тасками (кроме просроченных)
+const buttonSortAllTaskUP = document.querySelector(".section-content-block__sort-icon-up")      // Кнопка для сортировки тасков (кроме просроченных) по возрастанию
+const buttonSortAllTaskDOWN = document.querySelector(".section-content-block__sort-icon-down")      // Кнопка для сортировки тасков (кроме просроченных) по убыванию
+
+const buttonSortOverdueTaskUP = document.querySelector(".section-content-block__sort-overdue-icon-up")      // Кнопка для сортировки просроченных тасков по возрастанию
+const buttonSortOverdueTaskDOWN = document.querySelector(".section-content-block__sort-overdue-icon-down")      // Кнопка для сортировки просроченных тасков по убыванию
+
+
+
+
+const allOverdueTasks = document.querySelector(".allOverdueTasks-outer-block")  // Область со всеми ПРОСРОЧЕННЫМИ тасками
+
+
+const allСurrentTasksOuter = document.querySelector(".allTasks-outer-block")        // Область со всеми актуальными созданными тасками (кроме просроченных)
 
 
 
@@ -160,6 +173,7 @@ butLogin.addEventListener("click", function(e) {    // При нажатии н�
         alert(`Вы успешно авторизировались. Добро пожаловать, ${currentAccount.login}`)
         logReg.classList.add("hide2")
         userMenu.classList.remove("hide2")
+        mainContent.classList.remove("hide2")
         nicknameUser.innerHTML = currentAccount.login
     } else {
         alert("Неверное имя пользователя или пароль!")
@@ -321,7 +335,7 @@ asideAddTask.addEventListener('click', function(e) {
     reloadFormAddTask()
 
     // Убирается скрытие li со всех тасков (если до этого какой-то скрылся, из-за незаконченного редактирования)
-    allTasksOuter.querySelectorAll(".task__wrapper").forEach(function(task) {
+    sectionContentBlock_viewContent.querySelectorAll(".task__wrapper").forEach(function(task) {
         task.classList.remove("hide2")      
     })
 
@@ -612,7 +626,7 @@ function reloadItemsAsideFilterItems(curItem) {
 // Задача 1
 tasksId += 1
 const myJobTask1 = {
-    newTask_name: "Добавить автоматическое выделение выбранного в задаче приоритета и срока выполнения, при открытии меню редактирования таска и подзадачи", 
+    newTask_name: "Добавить автоматическое выделение выбранного в задаче приоритета и срока выполнения, при открытии меню редактирования таска и подзадачи.   24.06.2025", 
     newTask_description: "При открытии меню выбора приоритета и срока выполнения, ничего не выделено и не понятно визуально какой из пунктов выбран. Нужно что бы при открытии скрытых меню выбора, сразу ставилось выделение на текущем выборе", 
     newTask_typeTask_name: "Работа",
     newTask_typeTask_icon_src: "./icon/job.png",
@@ -624,7 +638,6 @@ const myJobTask1 = {
     newTask_countSubtask: 0,
     newTask_Subtasks_arr: []
 }
-funcAddNewTask (myJobTask1)
 all_tasks.push(myJobTask1)
 countAllTasks.innerHTML = all_tasks.length
 
@@ -633,7 +646,7 @@ countAllTasks.innerHTML = all_tasks.length
 // Задача 2
 tasksId += 1
 const myJobTask2 = {
-    newTask_name: "aawdwacsefwddw", 
+    newTask_name: `aawdwacsefwddw ${nowData.toLocaleDateString()}`, 
     newTask_description: "qqqqqqqqqqqqqqqqqqqqqq", 
     newTask_typeTask_name: "Работа",
     newTask_typeTask_icon_src: "./icon/job.png",
@@ -645,7 +658,6 @@ const myJobTask2 = {
     newTask_countSubtask: 0,
     newTask_Subtasks_arr: []
 }
-funcAddNewTask (myJobTask2)
 all_tasks.push(myJobTask2)
 countAllTasks.innerHTML = all_tasks.length
 
@@ -653,19 +665,18 @@ countAllTasks.innerHTML = all_tasks.length
 // Задача 3
 tasksId += 1
 const myJobTask3 = {
-    newTask_name: "Возможно запретить отображение и возможность выбора доп. функций, когда открыто меню создания/редактирования задачи/подзадачи", 
+    newTask_name: "dada2312ed123213ч Чугунка  24.03.2025", 
     newTask_description: "awdawl21lekd1x2ew2d1x213d", 
     newTask_typeTask_name: "Работа",
     newTask_typeTask_icon_src: "./icon/job.png",
-    newTask_deadlineTask: "24 июнь",
-    newTask_deadlineFullDataTask: "24.06.2025",
+    newTask_deadlineTask: "24 март",
+    newTask_deadlineFullDataTask: "24.03.2025",
     newTask_priority_name: "P2",
     newTask_priority_color: "orange",
     newTask_ID: tasksId,
     newTask_countSubtask: 0,
     newTask_Subtasks_arr: []
 }
-funcAddNewTask (myJobTask3)
 all_tasks.push(myJobTask3)
 countAllTasks.innerHTML = all_tasks.length
 
@@ -673,7 +684,7 @@ countAllTasks.innerHTML = all_tasks.length
 // Задача 4
 tasksId += 1
 const myJobTask4 = {
-    newTask_name: "#@$№№№№№№№№№№№№№№№№'", 
+    newTask_name: `#@$№№№№№№№№№№№№№№№№  ${ nowData.toLocaleDateString()}`, 
     newTask_description: "№№№№№№№№№№№№№№№№№№№№№№№№№№№№№№", 
     newTask_typeTask_name: "Работа",
     newTask_typeTask_icon_src: "./icon/job.png",
@@ -685,7 +696,6 @@ const myJobTask4 = {
     newTask_countSubtask: 0,
     newTask_Subtasks_arr: []
 }
-funcAddNewTask (myJobTask4)
 all_tasks.push(myJobTask4)
 countAllTasks.innerHTML = all_tasks.length
 
@@ -694,7 +704,7 @@ countAllTasks.innerHTML = all_tasks.length
 tasksId += 1
 const myJobTask5 = {
     newTask_name: "#########", 
-    newTask_description: "#######################", 
+    newTask_description: "#######################   01.05.2025", 
     newTask_typeTask_name: "Работа",
     newTask_typeTask_icon_src: "./icon/job.png",
     newTask_deadlineTask: "1 мая",
@@ -705,7 +715,6 @@ const myJobTask5 = {
     newTask_countSubtask: 0,
     newTask_Subtasks_arr: []
 }
-funcAddNewTask (myJobTask5)
 all_tasks.push(myJobTask5)
 countAllTasks.innerHTML = all_tasks.length
 
@@ -714,7 +723,7 @@ countAllTasks.innerHTML = all_tasks.length
 tasksId += 1
 const myJobTask6 = {
     newTask_name: "##########", 
-    newTask_description: "############################", 
+    newTask_description: "############################  02.12.2025", 
     newTask_typeTask_name: "Работа",
     newTask_typeTask_icon_src: "./icon/job.png",
     newTask_deadlineTask: "2 декабря",
@@ -725,8 +734,46 @@ const myJobTask6 = {
     newTask_countSubtask: 0,
     newTask_Subtasks_arr: []
 }
-funcAddNewTask (myJobTask6)
 all_tasks.push(myJobTask6)
+countAllTasks.innerHTML = all_tasks.length
+
+
+// Задача 7
+tasksId += 1
+const myJobTask7 = {
+    newTask_name: "Старая задачка", 
+    newTask_description: "Что-то уже ненужное 15.01.2025", 
+    newTask_typeTask_name: "Работа",
+    newTask_typeTask_icon_src: "./icon/job.png",
+    newTask_deadlineTask: "15 дек.",
+    newTask_deadlineFullDataTask: "15.01.2025",
+    newTask_priority_name: "P1",
+    newTask_priority_color: "red",
+    newTask_ID: tasksId,
+    newTask_countSubtask: 0,
+    newTask_Subtasks_arr: []
+}
+all_tasks.push(myJobTask7)
+countAllTasks.innerHTML = all_tasks.length
+
+
+
+// Задача 8
+tasksId += 1
+const myJobTask8 = {
+    newTask_name: "Старая задачка 2", 
+    newTask_description: "Что-то ещё более ненужное 23.11.2024", 
+    newTask_typeTask_name: "Работа",
+    newTask_typeTask_icon_src: "./icon/job.png",
+    newTask_deadlineTask: "23 нояб.    ",
+    newTask_deadlineFullDataTask: "23.11.2024",
+    newTask_priority_name: "P1",
+    newTask_priority_color: "red",
+    newTask_ID: tasksId,
+    newTask_countSubtask: 0,
+    newTask_Subtasks_arr: []
+}
+all_tasks.push(myJobTask8)
 countAllTasks.innerHTML = all_tasks.length
 
 
@@ -734,7 +781,176 @@ countAllTasks.innerHTML = all_tasks.length
 
 
 
+// При запуске страницы создаю дубль массива с существующими тасками, где сразу сортирую по сроку и добавляю их на страницу
+// Дубль массива со всеми тасками
+let allTasksDoubleStart = all_tasks.slice()
+// Сортирую массив по сроку выполнения
+allTasksDoubleStart.sort(function(a, b) {
+    let numA = a.newTask_deadlineFullDataTask.split(".").reverse().join(".")
+    let numB = b.newTask_deadlineFullDataTask.split(".").reverse().join(".")
 
+    if (numA > numB) return -1
+    if (numA < numB) return 1
+    return 0
+})
+// Добавляю все элементы этого массива (таски) на html страницу 
+allTasksDoubleStart.forEach(function(el) {
+    funcAddNewTask(el)
+})
+
+
+
+// Функция для распределения тасков для добавления в "Просрочено"
+function raspredTasks() {
+    allСurrentTasksOuter.querySelectorAll(".task").forEach(function(task) {
+        const dateTask = task.querySelector(".task__deadline__date_hidden").innerHTML.split(".").reverse().join(".")
+        const todayDateReverse = nowData.toLocaleDateString().split(".").reverse().join(".")
+        if (dateTask < todayDateReverse) {
+            allOverdueTasks.append(task)
+        }
+    })
+}
+
+// При запуске страницы запускаю функцию для переноса задачи в раздел просроченных, если её дата выполнения меньше чем сегодняшний день
+raspredTasks()
+
+
+// Функция для сортировки тасков на странице (кроме просроченных) в порядке возрастания их срока выполнения
+function sortAllTasksUP() {
+    // Все таски на странице, кроме просроченных
+    let tasksItems = allСurrentTasksOuter.querySelectorAll(".task")
+    // Временный массив для этих тасков
+    let tasksItemsArr = []
+    // Родитель этих тасков (ul)
+    let parentTasks = tasksItems[0].parentNode
+
+    // Перебираю все таски и добавляю их в массив, попутно удаляя их со страницы
+    for (let i = 0; i < tasksItems.length; i++) {
+        tasksItemsArr.push(parentTasks.removeChild(tasksItems[i]))
+    }
+
+    // Сортирую массив из тасков в порядке их даты выполнения
+    tasksItemsArr.sort(function(nodeA, nodeB) {
+        let textA = nodeA.querySelector(".task__deadline__date_hidden").innerHTML
+        let textB = nodeB.querySelector(".task__deadline__date_hidden").innerHTML
+        let numA = textA.split(".").reverse().join(".") 
+        let numB = textB.split(".").reverse().join(".")
+        if (numA < numB) return -1
+        if (numA > numB) return 1
+        return 0
+    })
+
+    // Перебираю массив и добавляю на страницу все отсортированные таски из него в порядке возрастания
+    tasksItemsArr.forEach(function(node) {
+        parentTasks.appendChild(node)
+      });
+}
+
+
+// Функция для сортировки ПРОСРОЧЕННЫХ тасков на странице в порядке возрастания их срока выполнения
+function sortAllOverdueTasksUP() {
+    // Все просроченных таски на странице
+    let tasksItems = allOverdueTasks.querySelectorAll(".task")
+    // Временный массив для этих тасков
+    let tasksItemsArr = []
+    // Родитель этих тасков (ul)
+    let parentTasks = tasksItems[0].parentNode
+
+    // Перебираю все таски и добавляю их в массив, попутно удаляя их со страницы
+    for (let i = 0; i < tasksItems.length; i++) {
+        tasksItemsArr.push(parentTasks.removeChild(tasksItems[i]))
+    }
+
+    // Сортирую массив из тасков в порядке их даты выполнения
+    tasksItemsArr.sort(function(nodeA, nodeB) {
+        let textA = nodeA.querySelector(".task__deadline__date_hidden").innerHTML
+        let textB = nodeB.querySelector(".task__deadline__date_hidden").innerHTML
+        let numA = textA.split(".").reverse().join(".") 
+        let numB = textB.split(".").reverse().join(".")
+        if (numA < numB) return -1
+        if (numA > numB) return 1
+        return 0
+    })
+
+    // Перебираю массив и добавляю на страницу все отсортированные таски из него в порядке возрастания
+    tasksItemsArr.forEach(function(node) {
+        parentTasks.appendChild(node)
+      });
+}
+
+
+// Функция для сортировки тасков на странице (кроме просроченных) в порядке убывания их срока выполнения
+function sortAllTasksDOWN() {
+    // Все таски на странице, кроме просроченных
+    let tasksItems = allСurrentTasksOuter.querySelectorAll(".task")
+    // Временный массив для этих тасков
+    let tasksItemsArr = []
+    // Родитель этих тасков (ul)
+    let parentTasks = tasksItems[0].parentNode
+
+    // Перебираю все таски и добавляю их в массив, попутно удаляя их со страницы
+    for (let i = 0; i < tasksItems.length; i++) {
+        tasksItemsArr.push(parentTasks.removeChild(tasksItems[i]))
+    }
+
+    // Сортирую массив из тасков в порядке их даты выполнения
+    tasksItemsArr.sort(function(nodeA, nodeB) {
+        let textA = nodeA.querySelector(".task__deadline__date_hidden").innerHTML
+        let textB = nodeB.querySelector(".task__deadline__date_hidden").innerHTML
+        let numA = textA.split(".").reverse().join(".") 
+        let numB = textB.split(".").reverse().join(".")
+        if (numA > numB) return -1
+        if (numA < numB) return 1
+        return 0
+    })
+
+    // Перебираю массив и добавляю на страницу все отсортированные таски из него в порядке возрастания
+    tasksItemsArr.forEach(function(node) {
+        parentTasks.appendChild(node)
+      });
+}
+
+// Функция для сортировки ПРОСРОЧЕННЫХ тасков на странице в порядке убывания их срока выполнения
+function sortAllOverdueTasksDOWN() {
+    // Все просроченных таски на странице
+    let tasksItems = allOverdueTasks.querySelectorAll(".task")
+    // Временный массив для этих тасков
+    let tasksItemsArr = []
+    // Родитель этих тасков (ul)
+    let parentTasks = tasksItems[0].parentNode
+
+    // Перебираю все таски и добавляю их в массив, попутно удаляя их со страницы
+    for (let i = 0; i < tasksItems.length; i++) {
+        tasksItemsArr.push(parentTasks.removeChild(tasksItems[i]))
+    }
+
+    // Сортирую массив из тасков в порядке их даты выполнения
+    tasksItemsArr.sort(function(nodeA, nodeB) {
+        let textA = nodeA.querySelector(".task__deadline__date_hidden").innerHTML
+        let textB = nodeB.querySelector(".task__deadline__date_hidden").innerHTML
+        let numA = textA.split(".").reverse().join(".") 
+        let numB = textB.split(".").reverse().join(".")
+        if (numA > numB) return -1
+        if (numA < numB) return 1
+        return 0
+    })
+
+    // Перебираю массив и добавляю на страницу все отсортированные таски из него в порядке возрастания
+    tasksItemsArr.forEach(function(node) {
+        parentTasks.appendChild(node)
+      });
+}
+
+
+
+
+
+// События по клику на стрелочки для сортировки тасков
+buttonSortAllTaskUP.addEventListener("click", sortAllTasksUP)
+buttonSortAllTaskDOWN.addEventListener("click", sortAllTasksDOWN)
+
+buttonSortOverdueTaskUP.addEventListener("click", sortAllOverdueTasksUP)
+buttonSortOverdueTaskDOWN.addEventListener("click", sortAllOverdueTasksDOWN)
 
 
 
@@ -761,13 +977,13 @@ let disabledShowDopTask = false
 // Отображение поля с доп функциями при наведении на поле с таском
 
 let currentLi = null    // Элемент li под курсором в данный момент (если есть)
-allTasksOuter.addEventListener("mouseover", function(e) {
+sectionContentBlock_viewContent.addEventListener("mouseover", function(e) {
     // перед тем, как войти на следующий элемент, курсор всегда покидает предыдущий если currentLi есть, то мы ещё не ушли с предыдущего <li>, это переход внутри - игнорируем такое событие
     if (currentLi) return
     let target = e.target.closest("li.task")
 
     if (!target) return;    // переход не на <li> - игнорировать
-    if (!allTasksOuter.contains(target)) return    // переход на <li>, но вне .allTasksOuter (возможно при вложенных списках) - игнорировать
+    if (!sectionContentBlock_viewContent.contains(target)) return    // переход на <li>, но вне .sectionContentBlock_viewContent (возможно при вложенных списках) - игнорировать
 
     // ура, мы зашли на новый <li>
 
@@ -776,8 +992,8 @@ allTasksOuter.addEventListener("mouseover", function(e) {
     show_task_dopFuncs(currentLi.querySelector(".task__dopFuncs"))     // Показываем скрытое меню с доп func этого элемента
 })
 
-allTasksOuter.addEventListener("mouseout", function(e) {
-    // если мы вне <li>, то игнорируем уход мыши. Это какой-то переход внутри .allTasksOuter, но вне <li>
+sectionContentBlock_viewContent.addEventListener("mouseout", function(e) {
+    // если мы вне <li>, то игнорируем уход мыши. Это какой-то переход внутри .sectionContentBlock_viewContent, но вне <li>
     if (!currentLi) return
     
     // мы покидаем элемент – но куда? Возможно, на потомка?
@@ -824,7 +1040,7 @@ function hide_task_dopFuncs(thisDopFuncs) {
 
 
 // Кнопка редактирования тасков
-allTasksOuter.addEventListener("click", function(e) {
+sectionContentBlock_viewContent.addEventListener("click", function(e) {
 
     let target = e.target.closest(".task__btnEdit")   // Нажатая кнопка "edit"
     // Если нажатие было не по кнопке редактирования, то игнор
@@ -842,7 +1058,7 @@ allTasksOuter.addEventListener("click", function(e) {
     targetLi.append(formFromAddNewTask)   
 
     // Убирается скрытие li со всех элементов (если до этого какой-то скрылся, из-за незаконченного редактирования)
-    allTasksOuter.querySelectorAll(".task__wrapper").forEach(function(task) {
+    sectionContentBlock_viewContent.querySelectorAll(".task__wrapper").forEach(function(task) {
         task.classList.remove("hide2")      
     })
     targetLi.querySelector(".task__wrapper").classList.add("hide2")        // Скрывается li
@@ -909,7 +1125,7 @@ buttonSaveTask.addEventListener("click", function (e) {
         // Блок "formFromAddNewTask" перемещается в конец
         sectionContentBlock_viewContent.append(formFromAddNewTask)  
         // Удаляется скрытие элемента таска, вместо которого ранее был перемещён блок "formFromAddNewTask"
-        allTasksOuter.querySelectorAll(".task__wrapper").forEach(function(task) {
+        sectionContentBlock_viewContent.querySelectorAll(".task__wrapper").forEach(function(task) {
             task.classList.remove("hide2")
         })
 
@@ -970,7 +1186,7 @@ function updateDataTask_element(taskEl, taskArr) {
 
 // Кнопка добавления нового срока выполнения таску (одна из 2 доп функций таска)
 // (При нажатии на доп функцию "Назначить срок" у таска)
-allTasksOuter.addEventListener("click", function(e) {
+sectionContentBlock_viewContent.addEventListener("click", function(e) {
     const targetBtn = e.target.closest(".task__btnNewDeadline")   // Нажатая кнопка "NewDeadline" 
     const targetBtnIcon = e.target.closest(".task__dopFunction_iconWrap")
 
@@ -1069,7 +1285,7 @@ allTasksOuter.addEventListener("click", function(e) {
 // Отображение галочки в кружке-конпке при наведении на кружок:
 
 let currentBtnCheckbox = null   // Элемент task__button-task-checkbox под курсором в данный момент (если есть)
-allTasksOuter.addEventListener("mouseover", function(e) {
+sectionContentBlock_viewContent.addEventListener("mouseover", function(e) {
     // перед тем, как войти на следующий элемент, курсор всегда покидает предыдущий если currentBtnCheckbox есть, то мы ещё не ушли с предыдущего кружка, это переход внутри - игнорируем такое событие
     if (currentBtnCheckbox) return
     let target2 = e.target.closest(".task__button-task-checkbox")
@@ -1080,8 +1296,8 @@ allTasksOuter.addEventListener("mouseover", function(e) {
     show_mark_OK(currentBtnCheckbox.querySelector("img"))     // Показываем галочку внутри этого элемента   
 })
 
-allTasksOuter.addEventListener("mouseout", function(e) { 
-     // если мы вне кружка, то игнорируем уход мыши. Это какой-то переход внутри .allTasksOuter, но вне кружка
+sectionContentBlock_viewContent.addEventListener("mouseout", function(e) { 
+     // если мы вне кружка, то игнорируем уход мыши. Это какой-то переход внутри .sectionContentBlock_viewContent, но вне кружка
     if (!currentBtnCheckbox) return
 
     // мы покидаем элемент – но куда? Возможно, на потомка?
@@ -1105,7 +1321,7 @@ function show_mark_OK (thisMark) {
 }
 
 // Функция удаления тасков при нажатии на кружок
-allTasksOuter.addEventListener("click", function(e) {
+sectionContentBlock_viewContent.addEventListener("click", function(e) {
     let target = e.target.closest(".task__button-task-checkbox")   //Нажатый кружок
     let targetLi = e.target.closest(".task")       // Задача, внутри которой был нажат кружок
     if (!target) return
@@ -1168,7 +1384,7 @@ addNewTask.addEventListener("mouseleave", function(e) {
 addNewTask.addEventListener("click", function(e) {
     sectionContentBlock_viewContent.append(formFromAddNewTask)
     // Убираю скрытие у элемента li, вместо которого ранее могло подставляться поле для редактирования
-    allTasksOuter.querySelectorAll(".task__wrapper").forEach(function(task) {
+    sectionContentBlock_viewContent.querySelectorAll(".task__wrapper").forEach(function(task) {
         task.classList.remove("hide2")
     })
     formFromAddNewTask.classList.remove("hide2")
@@ -1539,7 +1755,7 @@ function reloadItemsAndCalendarDeadline() {
 
 // 1.1) Если меню выбора срока было открыто через доп. функцию таска "Назначить срок", то ...
 // (При клике на один из пунктов выбора срока выполнения задачи (из списка вариантов), при выборе через "Назначить срок")
-allTasksOuter.addEventListener("click", function(e) {
+sectionContentBlock_viewContent.addEventListener("click", function(e) {
     const targetBtn = e.target.closest(".task__btnNewDeadline")   // Нажатая кнопка "NewDeadline" 
 
     // Если клик был вне контейнера с кнопкой "NewDeadline" у ТАСКА, то игнорируем
@@ -1551,7 +1767,6 @@ allTasksOuter.addEventListener("click", function(e) {
 
     // Запускаю функцию для создания одноразового обработчика события на каждом из элементов и сразу его вызова на элементе
     deadlineItemsClick(deadlineItemNewDeadline)
-
 })
 // Функция для создания обработчика событий на все элементы списка выбора срока выполнения. При нажатии на какой-то из них, сразу происходит работа.
 function deadlineItemsClick(items) {
@@ -1659,6 +1874,13 @@ function deadlineItemsClick(items) {
             // Обновляю срок выполнения в массиве текущего таска
             liFromArr.newTask_deadlineTask = deadlineThisTask.innerHTML
             liFromArr.newTask_deadlineFullDataTask = deadlineThisTaskFullNum.innerHTML
+
+            
+            // Если текущий таск находится внутри просроченных, то переношу его ко всем остальным
+            console.log(targetLi);
+            if (targetLi.closest(".allOverdueTasks-outer-block")) {
+                allСurrentTasksOuter.append(targetLi)
+            }
             
         }, { once: true })
     })
@@ -1770,7 +1992,7 @@ let selectedDay
 
 // 2.1) Если меню выбора открыто через "Назначить срок", то...
 // (При клике на день в календаре, при выборе из "task__dopFunction__hiddenMenu-deadline") 
-allTasksOuter.addEventListener("click", function(e) {
+sectionContentBlock_viewContent.addEventListener("click", function(e) {
     if (isModal != false) return    // Если МО открыто, то игнор
 
     let target = e.target       // Где был совершён клик?
@@ -2040,7 +2262,7 @@ hiddenMenuDeadline.addEventListener("click", function(e) {
 })
 
 // 2.2) При нажатии на само поле выбора (при создании/редактировании задачи и нажатии доп ф. "назначить срок")
-allTasksOuter.addEventListener("click", function(e) {
+sectionContentBlock_viewContent.addEventListener("click", function(e) {
     if (isModal != false) return    // Если МО открыто, то игнор
 
     const target_container_task = e.target.closest(".task__dopFunction__hiddenMenu-deadline")   // Область скрытого меню выбора срока при нажатии на "Назначить срок"
@@ -2501,7 +2723,7 @@ buttonAddNewTask.addEventListener("click", function(e) {
         reloadItemsDeadline(deadlineHiddenList)
 
         
-        allTasksOuter.querySelectorAll(".task__wrapper").forEach(function(task) {
+        sectionContentBlock_viewContent.querySelectorAll(".task__wrapper").forEach(function(task) {
             task.classList.remove("hide2")
         })
         formFromAddNewTask.classList.add("hide2")
@@ -2596,7 +2818,9 @@ function funcAddNewTask(content) {
     </div>
     </li>
     `
-    allTasksOuter.insertAdjacentHTML("afterbegin", html)     // Добавляю новый html элемент таска в начало
+    allСurrentTasksOuter.insertAdjacentHTML("afterbegin", html)     // Добавляю новый html элемент таска в начало
+
+    sortAllTasksUP()
 }
 
 function reloadFormAddTask() {
@@ -2649,7 +2873,7 @@ buttonCloseMenuNewTask.addEventListener("click", function(e) {
         sectionContentBlock_viewContent.append(formFromAddNewTask)  // Блок "formFromAddNewTask" перемещается в конец
 
         // Удаляется скрытие элемента таска, вместо которого ранее был перемещён блок "formFromAddNewTask"
-        allTasksOuter.querySelectorAll(".task__wrapper").forEach(function(task) {
+        sectionContentBlock_viewContent.querySelectorAll(".task__wrapper").forEach(function(task) {
             task.classList.remove("hide2")
         })
 
@@ -2691,7 +2915,7 @@ formFromAddNewTask.addEventListener("keydown", function(e) {
         formFromAddNewTask.classList.add("hide2")   // Скрывается Блок "formFromAddNewTask"
         sectionContentBlock_viewContent.append(formFromAddNewTask)  // Блок "formFromAddNewTask" перемещается в конец
         // Удаляется скрытие элемента таска, вместо которого ранее был перемещён блок "formFromAddNewTask"
-        allTasksOuter.querySelectorAll(".task__wrapper").forEach(function(task) {
+        sectionContentBlock_viewContent.querySelectorAll(".task__wrapper").forEach(function(task) {
             task.classList.remove("hide2")
         })
 
@@ -2748,7 +2972,7 @@ formFromAddNewTask.addEventListener("keydown", function(e) {
 
 
 let modal = ""
-allTasksOuter.addEventListener("click", function(e) {
+sectionContentBlock_viewContent.addEventListener("click", function(e) {
     let targetLi = e.target.closest(".task")
 
 
@@ -5426,7 +5650,6 @@ allTasksOuter.addEventListener("click", function(e) {
 
 
 // checkbox_modal_color.slice(0, 26)
-
 
 
 

@@ -453,10 +453,10 @@ aside {
 }
 
 .section-content-block__overdue {      /* внешнее поле с секциеей просроченных тасков */
-    display: flex;
-    align-items: center;
+    /* display: flex; */
+    /* align-items: center; */
     /* padding-bottom: 15px; */
-    border-bottom: 1px solid #eee;
+    /* border-bottom: 1px solid #eee; */
     margin-top: 35px;
 }
     .section-content-block__prosrocheno {      /* внутреннее поле с секциеей просроченных тасков */
@@ -465,6 +465,7 @@ aside {
         align-items: center;
         height: min-content;
         padding-bottom: 5px;
+        border-bottom: 1px solid #eee;
         flex-grow: 1;
     }
         .section-content-block__icon-prosrocheno {      /* иконка стрелочки вправо */
@@ -482,16 +483,40 @@ aside {
 
 /* /// */
 
-.section-content-block__nameToday {        /* Поле с сегодняшней датой */
+
+.section-content-block__nameToday-Sortirovka {      /* Поле с сегодняшней датой и с кнопкой сортировки тасков */
     margin-top: 30px;
-    padding: 6px 30px 5px 0;
+    padding: 6px 6px 5px 0;
     border-bottom: 1px solid #eee;
-    font-weight: bold;
+    display: flex;
+    align-items: center;
 }
+    .section-content-block__nameToday {        /* Поле с сегодняшней датой */
+        font-weight: bold;
+    }
+    .section-content-block__sort, .section-content-block__sort-overdue {             /* Поле c кнопкой сортировки тасков */
+        flex: 1;
+        text-align: right;
+    }
+        .section-content-block__sort-name, .section-content-block__sort-overdue-name {
+            color: #a9a9a9fd;
+        }
+        .sort-icon-container {
+            /* padding: 12px 15px 12px 17px; */
+            padding: 3px 7px 3px 7px;
+            border-radius: 5px;
+        }
+            .section-content-block__sort img, .section-content-block__sort-overdue img {
+                width: 12px;
+                
+                /* scale: 0.6; */
+                
+            }
 
 
 
-.allTasks-outer-block {       /* Поле со всеми тасками */
+
+.allTasks-outer-block, .allOverdueTasks-outer-block {       /* Поле со всеми тасками */
     list-style: none;
 }
 .task, .subtask {    /* Поле с таском */
