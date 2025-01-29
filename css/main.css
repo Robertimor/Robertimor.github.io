@@ -468,14 +468,24 @@ aside {
         border-bottom: 1px solid #eee;
         flex-grow: 1;
     }
-        .section-content-block__icon-prosrocheno {      /* иконка стрелочки вправо */
+        .section-content-block__button-overdue {
             position: absolute;
-            left: -36px;
-            scale: 0.6;
-            box-sizing: content-box;
-            padding: 12px 15px 12px 17px;
+            left: -25px;
+            padding: 3px 7px 3px 7px;
             border-radius: 5px;
         }
+            .section-content-block__icon-overdue {      /* иконка стрелочки вправо */
+                scale: 0.6;
+                box-sizing: content-box;
+            }
+            .iconOverdue-rotateR {
+                transform: rotate(90deg);
+                transition: transform 0.5s ease-in-out;
+            }
+            .iconOverdue-rotateL {
+                transform: rotate(0deg);
+                transition: transform 0.5s ease-in-out;
+            }
         .section-content-block__text-prosrocheno {
             font-weight: bold;
         }
@@ -519,6 +529,8 @@ aside {
 .allTasks-outer-block, .allOverdueTasks-outer-block {       /* Поле со всеми тасками */
     list-style: none;
 }
+
+
 .task, .subtask {    /* Поле с таском */
     padding: 10px 0px 15px 0px;
     border-bottom: 1px solid #eee;

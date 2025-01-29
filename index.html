@@ -25,7 +25,7 @@
 
 <div id="todolist_block">
 <aside class="aside">
-    <div class="log-reg">
+    <div class="log-reg hide2">
         <img class="log-reg__img" src="./icon/unknownUser.png" alt="unknownUser" width="60px">
         <p class="log-reg__text">Введите данные аккаунта:</p>
         <form class="log-reg__form" action="">
@@ -40,7 +40,7 @@
         <p class="log-reg__successfulReg hide2">Вы успешно зарегистрировались!</p>
         <p class="log-reg__empty-field hide2">Заполните оба поля</p>
     </div>
-    <div class="asideUserMenu hide2">
+    <div class="asideUserMenu">
         <div class="asideUserMenu__header_Nav">  
                 <div class="asideUserMenu__button_menuProfile hover-hint" data-title="Открыть пользовательское меню">
                     <img class="asideUserMenu__icon-user" src="./icon/jojo.png" alt="unknownUser" width="28px" style="margin-right: 10px;">
@@ -120,7 +120,7 @@
 
 
 <main class="main-content">
-<div class="block-allTasks hide2">
+<div class="block-allTasks">
     <header class="header-block">
         <div class="header-block__view-header-content">
             <div class="header-block__header-wrapper">
@@ -150,7 +150,9 @@
         <div class="section-content-block__view-content">
             <div class="section-content-block__overdue">   
                 <div class="section-content-block__prosrocheno">    
-                    <img class="section-content-block__icon-prosrocheno hovered1_2" src="./icon/right.png" alt="" width="8px">
+                    <div class="section-content-block__button-overdue hovered1_2">
+                        <img class="section-content-block__icon-overdue" src="./icon/right.png" alt="" width="8px">
+                    </div>
                     <span class="section-content-block__text-prosrocheno">Просрочено</span>
                     <div class="section-content-block__sort-overdue">
                         <span class="section-content-block__sort-overdue-name">Сортировка:</span>
@@ -158,7 +160,7 @@
                         <span class="section-content-block__sort-overdue-icon-down sort-icon-container hovered1_2"><img src="icon/down.png" alt="" class=""></span>
                     </div>
                 </div>
-                <ul class="allOverdueTasks-outer-block">
+                <ul class="allOverdueTasks-outer-block transition-show">
 
                 </ul>
             </div>

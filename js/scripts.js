@@ -68,6 +68,11 @@ const buttonSortOverdueTaskDOWN = document.querySelector(".section-content-block
 const allOverdueTasks = document.querySelector(".allOverdueTasks-outer-block")  // Область со всеми ПРОСРОЧЕННЫМИ тасками
 
 
+const butHideOverdue = document.querySelector(".section-content-block__button-overdue")   // Кнопка для скрытия просроченных задач
+const iconHideOverdue = document.querySelector(".section-content-block__icon-overdue")   // Кнопка для скрытия просроченных задач
+
+
+
 const allСurrentTasksOuter = document.querySelector(".allTasks-outer-block")        // Область со всеми актуальными созданными тасками (кроме просроченных)
 
 
@@ -953,7 +958,39 @@ buttonSortOverdueTaskUP.addEventListener("click", sortAllOverdueTasksUP)
 buttonSortOverdueTaskDOWN.addEventListener("click", sortAllOverdueTasksDOWN)
 
 
+// При нажатии на кнопку скрытия просроченных тасков
+butHideOverdue.addEventListener("click", function(e) {
+    // Если иконка скрытия уже перевёрнута
+    if (iconHideOverdue.classList.contains("iconOverdue-rotateR")) {
+        // Поворачиваем в обратную сторону (сменяя класс)
+        iconHideOverdue.classList.replace("iconOverdue-rotateR", "iconOverdue-rotateL")
+        // Запускаю функцию для возвращения нужной высоты для имеющихся тасков
+        showTaskTransition()
+        // Плавно показываю ранее скрытые таски
+        allOverdueTasks.classList.replace("transition-hide", "transition-show")
 
+        // Спустя почти пол секунды удаляю класс "iconOverdue-rotateR" с икноки
+        setTimeout(removeRotate, 400);
+    } 
+    // Иначе, если таски не были скрыты (если на иконке нету никаког класса, обозначающего перевёрнутость)
+    else if (!iconHideOverdue.classList.contains("iconOverdue-rotateR") && !iconHideOverdue.classList.contains("iconOverdue-rotateL")) {
+        // Добавляю иконке класс переворачивания
+        iconHideOverdue.classList.add("iconOverdue-rotateR")
+        // Плавно скрываю все таски
+        allOverdueTasks.classList.replace("transition-show", "transition-hide")
+        // Спустя 400мс убираю высоту, которую занимали таски
+        setTimeout(showTaskTransition, 400);
+    }
+})
+
+// Функция для удаления класса "iconOverdue-rotateR" с иконки (переворота стрелки) 
+function removeRotate() {
+    iconHideOverdue.classList.remove("iconOverdue-rotateL")
+}
+// Функция для скрытия/показа области, которую занимают просроченные задачи
+function showTaskTransition() {
+    allOverdueTasks.classList.toggle("hide3")
+}
 
 
 let timeVar2 = ''           // (для работы с доп функциями при клике на кнопку добавления нового срока выполнения)
