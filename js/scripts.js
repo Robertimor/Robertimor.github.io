@@ -514,14 +514,14 @@ asideStudyTasks.addEventListener("click", function(e) {
 function filterSearchNameTasks(curName) {
     document.querySelectorAll(".task").forEach(function(task) {
         // Содержимое имени таска
-        const nameTask = task.querySelector(".task__name-task").innerHTML
+        const nameTask = task.querySelector(".task__name-task").innerHTML.toLocaleLowerCase()
 
         // Если в строке имени таска нет введённых символов, то скрываю этот таск
-        if (!nameTask.includes(curName)) {
+        if (!nameTask.includes(curName.toLocaleLowerCase())) {
             task.classList.add("hiddenFiltered")
         } 
         // Иначе, если в строке имени таска есть введённые символы - убираю класс скрытия с таска (если он был)
-        else if (nameTask.includes(curName)) {
+        else if (nameTask.includes(curName.toLocaleLowerCase())) {
             task.classList.remove("hiddenFiltered")
         }
     })
@@ -950,6 +950,8 @@ function sortAllOverdueTasksDOWN() {
 
 
 
+
+
 // События по клику на стрелочки для сортировки тасков
 buttonSortAllTaskUP.addEventListener("click", sortAllTasksUP)
 buttonSortAllTaskDOWN.addEventListener("click", sortAllTasksDOWN)
@@ -991,6 +993,9 @@ function removeRotate() {
 function showTaskTransition() {
     allOverdueTasks.classList.toggle("hide3")
 }
+
+
+
 
 
 let timeVar2 = ''           // (для работы с доп функциями при клике на кнопку добавления нового срока выполнения)
