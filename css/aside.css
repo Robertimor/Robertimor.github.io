@@ -1,0 +1,351 @@
+aside {
+    box-sizing: content-box;
+    height: 100vh;
+    width: 260px;
+    transition: transform .60s ease-in-out;
+    background-color: #FAF8F7;
+    padding: 10px;
+    /* float: left; */
+}
+
+.log-reg {
+    font-size: 14px;
+}
+    .log-reg__form {
+        display: flex;
+        flex-direction: column;
+    }
+
+        .log-reg__input {
+            border: 1px solid black;
+            border-radius: 5px;
+            padding: 5px;
+            margin-top: 10px;
+            width: 70%;
+        }
+
+        .log-reg__buttons {
+            margin-top: 10px;
+            display: flex;
+        }
+            .log-reg__btn {
+                border-radius: 10px;
+                padding: 7px 10px;
+                background-color:#DC4C3E;
+                color: white;
+                margin-right: 30px;
+                
+            }
+
+    .log-reg__empty-field {
+        margin-top: 10px;
+        color: red;
+    }
+
+    .log-reg__successfulReg {
+        color: green;
+        font-size: 20px;
+        font-weight: bold;
+        margin-top: 10px;
+        text-align: center;
+    }
+
+
+
+
+
+
+
+
+
+.aside-user-menu {
+    position: relative;
+    font-size: 14px;
+    color: #202020;
+}
+
+
+/* Верхняя шапка бокового меню: */ 
+/*   <--   */
+.aside-user-menu__header-Nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    /* padding-left: 5px; */
+    padding-bottom: 7px;
+    margin-bottom: 10px;
+    border-bottom: 0.2px solid rgb(200, 194, 194);
+}
+    .aside-user-menu__btn_menu-profile {      /* Поле с фото профиля, ником и кнопкой открытия доп меню профиля*/
+        display: flex; 
+        align-items: center;
+        font-size: 14px;
+        padding: 6px 5px;
+        border-radius: 5px;
+    }
+        .aside-user-menu__icon-user {
+            box-sizing: content-box;
+        }
+        .aside-user-menu__nickname-user {
+            font-size: 14px;
+            font-weight: bold;
+        }
+        .aside-user-menu__icon-down {
+            margin-left: 7px;
+        }
+
+    .aside-user-menu__conteiner-from-notifications-hideAndShow {
+        display: flex;
+        align-items: center;
+    }
+    .aside-user-menu__btn-notifications, .aside-user-menu__btn-hideAndShow-sidebar {  /* Кнопка уведомления и скрытия сайдбара */
+        margin-right: 5px;
+        transition: transform 0.4s ease-in-out;
+    }
+        .aside-user-menu__icons-notifications-and-hideAndShow-sidebar {
+            display:block;
+            box-sizing: content-box;
+            padding: 9px;
+            border-radius: 5px;
+        }
+
+
+
+._hide-sidebar {     /* перемещение сайдбара влево   (добавляемый в js стиль) */
+    transform: translate3d(-300px, 0px, 0px);
+}
+._moved-btn-hide-and-show-sidebar {      /* Перемещение кнопки скрытия сайтбара вправа, сразу после скрытия сайтбара (добавляемый в js стиль) */
+    transition: transform .60s ease-in-out;
+    transform: translate3d(70px, 0px, 0px);
+}
+
+
+.hidden-menu-profile {      /*  Изначально скрытое меню профиля   */
+    position: absolute;
+    top: 45px;
+    /* margin-left: 8px; */
+    /* border: 0.2px solid black; */
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.5);
+    background-color: rgb(255, 255, 255);
+    z-index: 2;
+}
+    .hidden-menu-profile ul {
+        list-style: none;
+    }
+
+    .hidden-menu-profile__links-from-menu-profile {    /* Кнопки доп. меню профиля */
+        display: flex;
+        align-items: center;
+        border-bottom: 1px solid rgb(140, 136, 136);
+        padding: 10px 15px 10px 10px;
+    }
+        .hidden-menu-profile__icons {
+            margin-right: 10px;
+        }
+        
+    .hidden-menu-profile__links-from-menu-profile:last-of-type {
+        border: none;
+    }
+    .hidden-menu-profile__links-from-menu-profile:hover {
+        cursor: pointer;
+        -webkit-transition: all 1s ease;
+        transition: all 1s ease;
+        background-color: #4f4c4c2a;
+    }
+
+
+
+/*  -->  */
+
+
+
+.aside-user-menu__add-new-task {
+    display: flex;
+    align-items: center;
+    padding: 8px 5px;
+    border-radius: 10px;
+    font-size: 14px; 
+    margin-bottom: 5px;
+}
+    .aside-user-menu__text-add-new-task {
+        margin-left: 5px;
+        color: #DC4C3E;
+    }
+
+.aside-user-menu__search-task {
+    display: flex;
+    align-items: center;
+    padding: 8px 5px;
+    border-radius: 10px;
+}
+    .aside-user-menu__form-search-tasks {
+        margin-left: 6px;
+    }
+        #input-search-tasks {
+            padding: 2.5px 3px 2.5px 3.5px;
+            border-radius: 6px;
+            color: black !important;
+        }
+        
+    .aside-user-menu__icon-search {
+        margin-right: 7px;
+    }
+    .aside-user-menu__text-search {
+        margin-left: 7px;
+    }
+
+
+.aside-user-menu__all-tasks-list {
+    display: flex;
+    align-items: center;
+    padding: 8px 5px;
+    border-radius: 10px;
+}
+
+    .aside-user-menu__text-all-tasks-list {
+        font-size: 14px;
+        margin-left: 5px;
+    }
+
+
+.aside-user-menu__today-list {
+    display: flex;
+    align-items: center;
+    padding: 8px 5px;
+    border-radius: 10px;
+}
+
+    .aside-user-menu__text-today-list {
+        font-size: 14px;
+        margin-left: 5px;
+    }
+
+
+.aside-user-menu__calendar {
+    margin-top: 15px;
+}
+
+.calendar {
+    margin: 10px 0;
+}
+
+
+
+.aside-user-menu__my-group-projects {
+    border-top: 1px solid rgb(200, 194, 194);
+    padding-top: 15px;
+    margin-top: 25px;
+}
+    .aside-user-menu__my-group-projects h2 {
+        margin-bottom: 10px;
+        font-size: 14px;
+        color: #666666;
+    }
+    .my-type-projects__type-project {
+        margin-bottom: 3px;
+    }
+        .my-type-projects__icon-grid {
+            width: 15px;
+        }
+        /* .my-type-projects__name {
+            margin-left: 5px;
+            margin-right: 5px;
+        } */
+        .my-type-projects__icon-type-project {
+            width: 16px;
+        }
+
+
+.wrapper-type-task {
+    display: flex;
+    align-items: center;
+    padding: 5px;
+    font-size: 12px;
+}
+    .wrapper-type-task__icon-grid {
+        width: 15px;
+    }
+    .wrapper-type-task__name {
+        margin: 0px 5px;
+    }
+    .wrapper-type-task__icon-type-project {
+        width: 16px;
+    }
+
+
+
+
+/* Стили для подложки */
+
+.overlay {
+
+    /* Скрываем подложку  */
+    opacity: 0;
+    visibility: hidden;
+ 
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, .5);
+    z-index: 20;
+    transition: .3s all;
+ }
+ 
+ 
+
+ /* Стили для модального окна создания новой задачи (при клике на кнопку из aside главной страницы */
+ .modalAddNewTask {
+ 
+    /* Скрываем окна  */
+    opacity: 0;
+    visibility: hidden;
+ 
+ 
+    /*  Установаем ширину окна  */
+    width: 100%;
+    max-width: 500px;
+ 
+    /*  Центрируем и задаем z-index */
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 30; /* Должен быть выше чем у подложки*/
+ 
+    /*  Побочные стили   */
+    box-shadow: 0 3px 10px -.5px rgba(0, 0, 0, .2);
+    text-align: center;
+    padding: 30px;
+    border: 5px solid rgb(138, 87, 97);
+    border-radius: 3px;
+    background-color: #fff;
+    transition: 0.3s all;
+ }
+
+ .modalAddNew__title {
+    color: rgb(138, 87, 97);
+    margin-bottom: 30px;
+ }
+ 
+ /* Стили для кнопки закрытия мо */
+ 
+ .modalAddNew__cross {
+    width: 15px;
+    height: 15px;
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    fill: #444;
+    cursor: pointer;
+ }
+ 
+ 
+
+/* Стиль для активного мадального окна добавления задачи */
+.modalAddNewTask.active, .overlay.active{
+   opacity: 1;
+   visibility: visible;
+}

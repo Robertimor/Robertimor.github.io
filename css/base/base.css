@@ -146,15 +146,11 @@ fieldset {          /* (поле у form) */
 .darkned {
     filter: brightness(40%)
 }
-.darkned1_2 {
-    filter: brightness(40%)
-}
+
 
 
 
 .disabled img {
-    /* filter: grayscale(100%); */
-    /* --reactist-btn-disabled-tint: #b2b2b2; */
     filter: invert(80%) !important;
     color: #b2b2b2;
 }

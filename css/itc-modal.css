@@ -1,0 +1,233 @@
+.itc-modal-title {
+    display: flex;
+    align-items: center;
+    flex: 1;
+}
+    .itc-modal-title .wrapper-type-task {
+        flex: 1;
+        align-items: center;
+        display: flex;
+    }
+        .itc-modal-title .wrapper-type-task__icon-type-project {
+            /* filter: contrast(200%) !important; */
+            /* filter: invert(30%) !important; */
+            /* filter: hue-rotate(40deg); */
+            filter: contrast(200%);
+        }
+    .itc-modal-header__nav-prev-next {
+        height: fit-content;
+        height: 100%;
+        text-align: right;
+        margin-right: 20px;
+        
+        /* box-sizing: content-box; */
+        box-sizing: border-box;
+        display: flex;
+        align-items: center;
+    }
+        .itc-modal-header__nav-prev-next button {
+            align-items: center;
+            /* width: 100%;
+            height: 100%; */
+
+            padding: 5px;
+            box-sizing: content-box;
+            /* margin: 5px; */
+            border-radius: 5px;
+            width: 15px;
+        }
+        .itc-modal-header__nav-prev-next button:first-of-type {
+            margin-right: 10px;
+        }
+        .itc-modal-header__nav-prev-next img {
+            display: flex;
+            filter: invert(50%);
+        }
+
+
+.itc-modal-body {
+    display: flex;
+    
+}
+    .itc-modal-body__main-content {
+        flex: 1;
+        padding: 22px;
+    }
+        .itc-modal-body .task__button-task-checkbox {
+            margin-top: 3px;
+        }
+            .itc-modal-body .task__wrapper-button-task-checkbox img {
+                top: 7.8px;
+                left: 4.5px;
+            }
+            .itc-modal-body .task__wrapper-button-task-checkbox img[src="./icon/MarkOk_ser.png"] {
+                top: 7.2px;
+                left: 3.5px;            
+            }
+        
+            .itc-modal-body__name_description {
+                display: flex;
+                flex-direction: column;
+                height: unset !important;
+            }
+                .itc-modal-body textarea {
+                    border: none;
+                    outline: none!important;
+                    resize: none;
+                }
+                .itc-modal-content__textarea-name-task {
+                    font-weight: bold;
+                    font-size: 19px;
+                    padding-bottom: 30px;
+                    width: 100%;
+                    min-height: 40px;
+                    /* margin-bottom: 30px; */
+                    border-bottom: 1px black solid;
+                    
+                    overflow: hidden;
+                }
+                .itc-modal-content__textarea-description-task {
+                    font-size: 14px;
+                    width: 100%;
+                    min-height: 40px;
+                }
+
+            .task__maxLenght_name_description {
+                margin-top: 30px;
+                font-size: 10px;
+                color: #ADADAD;
+            }
+
+            .buttuns-closeSave-task {
+                display: flex;
+                align-items: center;
+                align-self: self-end;
+            }
+        .itc-modal-body__btn-new-dop-task {
+            display: flex;
+            align-items: center;
+            width: fit-content;
+            margin-top: 15px;
+            padding: 5px 8px 5px 5px;
+            border-radius: 10px;
+            font-size: 13px;
+            color: #666;
+            font-weight: 500;
+        }
+            .itc-modal-body__btn-new-dop-task div {
+                /* box-sizing: border-box; */
+                margin-right: 3px;
+                margin-top: 0.5px;
+            }
+                .itc-modal-body__btn-new-dop-task img {
+                    width: 20px;
+                    display: flex;
+                    filter: grayscale(100%);
+                    /* filter: invert(100%); */
+                }
+
+
+        /* Область для подзадач */
+        .itc-modal-body__subtask-content {
+            font-size: 14px;
+            /* margin: 0 auto 0 20px; */
+            margin: 20px auto 0 0;
+            /* max-width: 300px; */
+            max-width: 100%;
+        }   
+            .itc-modal-body__subtask-count {    /* Заголовок + подсчёт подзадач */
+                display: flex;
+                align-items: center;
+            }
+                .itc-modal-body__subtask-count img {
+                    width: 12px;
+                    margin-right: 5px;
+                }
+                .itc-modal-body__subtasks-count {
+                    margin-left: 4px;
+                }
+           .itc-modal-body__subtask-outer-block {
+                list-style: none;
+                margin-top: 6px;
+                margin-left: 20px;
+           }
+
+                        .subtask__dopFunction::after {
+                            width: max-content;
+                        }
+           
+
+
+
+
+    .itc-modal-body__aside {
+        width: 230px;
+        height: 100%;
+        background-color: #FAF8F7;
+    }
+        .itc-modal-body__group {
+            position: relative;
+            height: 110px;
+            padding: 20px;
+            box-sizing: border-box;
+            /* margin-bottom: 10px; */
+        }
+            .itc-modal-body__name-setting {
+                margin-bottom: 15px;
+                color: #666;
+                font-size: 13px;
+                font-weight: 500;
+            }
+            .itc-modal-body__select-setting {
+                color: #202020;
+                padding: 5px 8px;
+                border-radius: 5px;
+                font-size: 12px;
+                display: flex;
+                align-items: center;
+            }
+                .itc-modal-body__select-setting .wrapper-type-task {
+                    padding: unset;
+                }
+                    .itc-modal-body__icon-down_wrapper {
+                        flex: 1;
+                        text-align: right;
+                    }
+                        .itc-modal-body__icon-down {
+                            width: 10px;
+                        }
+            .itc-modal-body__hidden-menuTypesTask {
+                top: 80px;
+                /* left: -20px; */
+                left: -20px;
+            }
+
+                .itc-modal-body__select-deadline {
+                    position: relative;
+                    display: flex;
+                    align-items: center;
+                    /* padding: 5px; */
+                    /* border: 0.3px solid #e6e6e5; */
+                    /* border-radius: 5px; */
+                    margin-right: 10px;
+                }
+            .itc-modal-body__hidden-menu-deadline {
+                left: -250px;
+                top: -80px;
+            }
+
+            .itc-modal-body__hidden-menu-priority {
+                left: 18px;
+                top: 80px;
+            }
+
+
+                .itc-modal-body__wrapper-priority {
+                    display: flex;
+                    align-items: center;
+                }
+                    .itc-modal-body__wrapper-priority img {
+                        width: 15px;
+                        margin-right: 10px;
+                    }
+
