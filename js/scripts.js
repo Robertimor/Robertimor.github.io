@@ -411,144 +411,42 @@ function raspredTasks() {
 raspredTasks()
 
 
-// Функция для сортировки тасков на странице (кроме просроченных) в порядке возрастания их срока выполнения
-function sortAllTasksUP() {
-    // Все таски на странице, кроме просроченных
-    let tasksItems = allСurrentTasksOuter.querySelectorAll(".task")
-    // Временный массив для этих тасков
-    let tasksItemsArr = []
-    // Родитель этих тасков (ul)
-    let parentTasks = tasksItems[0].parentNode
+// Функция для сортировки тасков на странице (и обычных и просроченных) в порядке возрастания/убывания их срока выполнения
+function sortTasks(container, ascending = true) {
+    //  Получаем все элементы задач из контейнера
+    // [...] — превращаем HTMLCollection в массив для удобной работы с sort().
+    let tasks = [...container.children];
 
-    // Перебираю все таски и добавляю их в массив, попутно удаляя их со страницы
-    for (let i = 0; i < tasksItems.length; i++) {
-        tasksItemsArr.push(parentTasks.removeChild(tasksItems[i]))
-    }
+    tasks.sort((a, b) => {
+        // Преобразуем строку с датой в объект Date.
+        let dateA = new Date(a.querySelector(".task__deadline__date_hidden").textContent.split(".").reverse().join("-"));
+        let dateB = new Date(b.querySelector(".task__deadline__date_hidden").textContent.split(".").reverse().join("-"));
 
-    // Сортирую массив из тасков в порядке их даты выполнения
-    tasksItemsArr.sort(function(nodeA, nodeB) {
-        let textA = nodeA.querySelector(".task__deadline__date_hidden").innerHTML
-        let textB = nodeB.querySelector(".task__deadline__date_hidden").innerHTML
-        let numA = textA.split(".").reverse().join(".") 
-        let numB = textB.split(".").reverse().join(".")
-        if (numA < numB) return -1
-        if (numA > numB) return 1
-        return 0
+        //Если ascending === true, то сортируем по возрастанию (от ранних дат к поздним).
+        //Если ascending === false, то сортируем по убыванию (от поздних дат к ранним).
+        return ascending ? dateA - dateB : dateB - dateA;
     })
-
-    // Перебираю массив и добавляю на страницу все отсортированные таски из него в порядке возрастания
-    tasksItemsArr.forEach(function(node) {
-        parentTasks.appendChild(node)
-      });
+    // Перебираем отсортированные <li class="task"> в массиве tasks.
+    // appendChild(task) перемещает задачу в конец списка container, сохраняя ее в новом порядке.
+    tasks.forEach(task => container.appendChild(task));
 }
-
-
-// Функция для сортировки ПРОСРОЧЕННЫХ тасков на странице в порядке возрастания их срока выполнения
-function sortAllOverdueTasksUP() {
-    // Все просроченных таски на странице
-    let tasksItems = allOverdueTasks.querySelectorAll(".task")
-    // Временный массив для этих тасков
-    let tasksItemsArr = []
-    // Родитель этих тасков (ul)
-    let parentTasks = tasksItems[0].parentNode
-
-    // Перебираю все таски и добавляю их в массив, попутно удаляя их со страницы
-    for (let i = 0; i < tasksItems.length; i++) {
-        tasksItemsArr.push(parentTasks.removeChild(tasksItems[i]))
-    }
-
-    // Сортирую массив из тасков в порядке их даты выполнения
-    tasksItemsArr.sort(function(nodeA, nodeB) {
-        let textA = nodeA.querySelector(".task__deadline__date_hidden").innerHTML
-        let textB = nodeB.querySelector(".task__deadline__date_hidden").innerHTML
-        let numA = textA.split(".").reverse().join(".") 
-        let numB = textB.split(".").reverse().join(".")
-        if (numA < numB) return -1
-        if (numA > numB) return 1
-        return 0
-    })
-
-    // Перебираю массив и добавляю на страницу все отсортированные таски из него в порядке возрастания
-    tasksItemsArr.forEach(function(node) {
-        parentTasks.appendChild(node)
-      });
-}
-
-
-// Функция для сортировки тасков на странице (кроме просроченных) в порядке убывания их срока выполнения
-function sortAllTasksDOWN() {
-    // Все таски на странице, кроме просроченных
-    let tasksItems = allСurrentTasksOuter.querySelectorAll(".task")
-    // Временный массив для этих тасков
-    let tasksItemsArr = []
-    // Родитель этих тасков (ul)
-    let parentTasks = tasksItems[0].parentNode
-
-    // Перебираю все таски и добавляю их в массив, попутно удаляя их со страницы
-    for (let i = 0; i < tasksItems.length; i++) {
-        tasksItemsArr.push(parentTasks.removeChild(tasksItems[i]))
-    }
-
-    // Сортирую массив из тасков в порядке их даты выполнения
-    tasksItemsArr.sort(function(nodeA, nodeB) {
-        let textA = nodeA.querySelector(".task__deadline__date_hidden").innerHTML
-        let textB = nodeB.querySelector(".task__deadline__date_hidden").innerHTML
-        let numA = textA.split(".").reverse().join(".") 
-        let numB = textB.split(".").reverse().join(".")
-        if (numA > numB) return -1
-        if (numA < numB) return 1
-        return 0
-    })
-
-    // Перебираю массив и добавляю на страницу все отсортированные таски из него в порядке возрастания
-    tasksItemsArr.forEach(function(node) {
-        parentTasks.appendChild(node)
-      });
-}
-
-// Функция для сортировки ПРОСРОЧЕННЫХ тасков на странице в порядке убывания их срока выполнения
-function sortAllOverdueTasksDOWN() {
-    // Все просроченных таски на странице
-    let tasksItems = allOverdueTasks.querySelectorAll(".task")
-    // Временный массив для этих тасков
-    let tasksItemsArr = []
-    // Родитель этих тасков (ul)
-    let parentTasks = tasksItems[0].parentNode
-
-    // Перебираю все таски и добавляю их в массив, попутно удаляя их со страницы
-    for (let i = 0; i < tasksItems.length; i++) {
-        tasksItemsArr.push(parentTasks.removeChild(tasksItems[i]))
-    }
-
-    // Сортирую массив из тасков в порядке их даты выполнения
-    tasksItemsArr.sort(function(nodeA, nodeB) {
-        let textA = nodeA.querySelector(".task__deadline__date_hidden").innerHTML
-        let textB = nodeB.querySelector(".task__deadline__date_hidden").innerHTML
-        let numA = textA.split(".").reverse().join(".") 
-        let numB = textB.split(".").reverse().join(".")
-        if (numA > numB) return -1
-        if (numA < numB) return 1
-        return 0
-    })
-
-    // Перебираю массив и добавляю на страницу все отсортированные таски из него в порядке возрастания
-    tasksItemsArr.forEach(function(node) {
-        parentTasks.appendChild(node)
-      });
-}
-
-
-
 
 
 
 
 // События по клику на стрелочки для сортировки тасков
-buttonSortAllTaskUP.addEventListener("click", sortAllTasksUP)
-buttonSortAllTaskDOWN.addEventListener("click", sortAllTasksDOWN)
-
-buttonSortOverdueTaskUP.addEventListener("click", sortAllOverdueTasksUP)
-buttonSortOverdueTaskDOWN.addEventListener("click", sortAllOverdueTasksDOWN)
+buttonSortAllTaskUP.addEventListener("click", function() {          // По возрастанию обычных тасков
+    sortTasks(document.querySelector(".tasks__tasks-list"), true)
+})
+buttonSortAllTaskDOWN.addEventListener("click", function() {        // По убыванию обычных тасков
+    sortTasks(document.querySelector(".tasks__tasks-list"), false)
+})
+buttonSortOverdueTaskUP.addEventListener("click", function() {      // По возрастанию просроченных тасков
+    sortTasks(document.querySelector(".overdue__tasks-list"), true)
+})
+buttonSortOverdueTaskDOWN.addEventListener("click", function() {    // По убыванию просроченых тасков
+    buttonSortOverdueTaskDOWN.addEventListener("click", sortTasks(document.querySelector(".overdue__tasks-list"), false))
+})
 
 
 // При нажатии на кнопку скрытия просроченных тасков
@@ -1406,6 +1304,7 @@ function deadlineItemsClick(items) {
         item.addEventListener("click", function(e) {
             // Элемент  li для последующего определения нового срока выполнения задаче (через доп. функцию "Назначить срок выполнения")
             const targetLi = e.target.closest(".task")
+
 
 
             // Убираю выделение выбранного дня в календаре, если ранее там было что-то выбрано
@@ -2459,7 +2358,9 @@ function funcAddNewTask(content) {
     `
     allСurrentTasksOuter.insertAdjacentHTML("afterbegin", html)     // Добавляю новый html элемент таска в начало
 
-    sortAllTasksUP()
+    
+    sortTasks(document.querySelector(".tasks__tasks-list"), true)
+
 }
 
 function reloadFormAddTask() {
@@ -2569,44 +2470,3 @@ formFromAddNewTask.addEventListener("keydown", function(e) {
         switchDisabledShowDopFuncTask("false")
     }
 })
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
