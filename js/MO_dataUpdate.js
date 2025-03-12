@@ -1,8 +1,8 @@
 'use strict';
 // Данный файл для обновления данных таска в МО. В основном это всё связано с кнопками "prev" и "next"
 
+import {hiddenByDisplay} from "./base.js"
 import {getVarsMO_allFiles} from "./modal.js"
-import {countAllTasks, sectionContentBlock_viewContent, nameToday, buttonSortAllTaskUP, buttonSortAllTaskDOWN, buttonSortOverdueTaskUP, buttonSortOverdueTaskDOWN, allOverdueTasks, butHideOverdue, iconHideOverdue, allCurrentTasksOuter, taskForm, taskTextAreas, taskNameInput, taskDescriptionInput, taskSettingsButtons, deadlineButton, deadlineMenu, deadlineOptions, deadlineCalendar, priorityButton, priorityMenu, priorityOptions, taskTypeMenu, taskTypeOptions, taskTypeButton, buttonCloseMenuNewTask, buttonAddNewTask, buttonSaveTask, addNewTask, addTaskIconDefault, addTaskIconHover, localLanguage, nowData, options1, options2, nowDay, nowMonth, nowMonthNum, nowYear, nowWeekday, correctWeekday, currectEntryDate} from "./doomElements.js"
 import {clickCloseEditModal} from "./MO_selectElementsTask.js"
 import {funcAddNewSubtask} from "./MO_reloadSubtasks.js"
 
@@ -15,10 +15,10 @@ let currentTask_arr         // Текущий объект таска в мас�
 let currentIdTask_arr       // id таска у выбранного элемента массива
 let all_subtasks = []       // Массив из всех подзадач текущего таска
 
-    
 let modalTitle
-let modalContent
+let modalContent 
 let modalAside 
+
 
 let priorityItem_modal      // Элементы li с вариантами приоритета таска
 
@@ -166,10 +166,10 @@ function prevTask() {
 
         // Отображение галочки в кружке-конпке при наведении на кружок:
         checkbox_modal.addEventListener("mouseover", function() {
-            checkbox_modal_icon.classList.remove("hide2")
+            hiddenByDisplay(checkbox_modal_icon, "show")
         })
         checkbox_modal.addEventListener("mouseout", function() {
-            checkbox_modal_icon.classList.add("hide2")
+            hiddenByDisplay(checkbox_modal_icon, "hide")
         })
     }
 }
@@ -216,10 +216,10 @@ function nextTask() {
 
         // Отображение галочки в кружке-конпке при наведении на кружок:
         checkbox_modal.addEventListener("mouseover", function() {
-            checkbox_modal_icon.classList.remove("hide2")
+            hiddenByDisplay(checkbox_modal_icon, "show")
         })
         checkbox_modal.addEventListener("mouseout", function() {
-            checkbox_modal_icon.classList.add("hide2")
+            hiddenByDisplay(checkbox_modal_icon, "hide")
         })
     }
 }
@@ -322,7 +322,7 @@ function updateModal(curTask) {
     // Убираю стиль для выбранного элемента из списка типов тасков (в скрытом меню)
     priorityItem_modal.forEach(function(itemPriority) { 
         itemPriority.classList.remove("hovered_select_menu")    // Удаляю стиль выбранного элемента у ранее выбранного элемента
-        itemPriority.querySelector(".itc-modal-body__priority-icon-selected").classList.add("hide2")    // Удаляю галочки у ранее выбранного элемента (если такой был)
+        hiddenByDisplay(itemPriority.querySelector(".itc-modal-body__priority-icon-selected"), "hide")
     })
 
     // Обновляю значения переменных в данном js файле (в связи с перелистыванием таска)
@@ -343,23 +343,23 @@ function getAll_subtasks() {
 
 
 // Появление и скрытие поля с выбором срока выполнения подзадачи в меню создания/редактирования подзадачи и при открытии его через "Назначить срок" (когда открыто МО)
-let timeVar_MO = ""
-function setTimeVar_MO(val) {
-    timeVar_MO = val
+let isSelectionMenuActive_MO = ""
+function setIsSelectionMenuActive_MO(val) {
+    isSelectionMenuActive_MO = val
 }
-function getTimeVar_MO() {
-    return timeVar_MO
+function getIsSelectionMenuActive_MO() {
+    return isSelectionMenuActive_MO
 }
 
 
 // (для работы с доп функциями при клике на кнопку добавления нового таска)
-let timevar2_MO = ""    
+let isNewDeadlineButtonClicked_MO = ""    
 
-function setTimevar2_MO(val) {
-    timevar2_MO = val
+function setIsNewDeadlineButtonClicked_MO(val) {
+    isNewDeadlineButtonClicked_MO = val
 }
-function getTimevar2_MO() {
-    return timevar2_MO
+function getIsNewDeadlineButtonClicked_MO() {
+    return isNewDeadlineButtonClicked_MO
 }
 
 // Элемент li под курсором в данный момент (если есть)
@@ -402,4 +402,4 @@ function getSelectedDay_modal() {
 
 
 
-export {getVarsMO_dataUpdate, checkNavArrow_modal, prevTask, nextTask, reloadAll_subtasks, getAll_subtasks, setTimeVar_MO, getTimeVar_MO, setTimevar2_MO, getTimevar2_MO, setCurrentLi_modal, getCurrentLi_modal, setTargetLi_subtask, getTargetLi_subtask, getCurrentTask_arr, setSelectedDay_modal, getSelectedDay_modal}
+export {getVarsMO_dataUpdate, checkNavArrow_modal, prevTask, nextTask, reloadAll_subtasks, getAll_subtasks, setIsSelectionMenuActive_MO, getIsSelectionMenuActive_MO, setIsNewDeadlineButtonClicked_MO, getIsNewDeadlineButtonClicked_MO, setCurrentLi_modal, getCurrentLi_modal, setTargetLi_subtask, getTargetLi_subtask, getCurrentTask_arr, setSelectedDay_modal, getSelectedDay_modal}

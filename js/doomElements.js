@@ -1,27 +1,26 @@
 'use strict';
 const countAllTasks = document.querySelector(".header-block__countNum-tasks-all-tasks")      // Поле с количеством заданий (всего, кроме просроченных)
 const sectionContentBlock_viewContent = document.querySelector(".section-content-block__view-content")  // Основная область. С текущей датой, со списком тасков, с меню добавления новой задачи
-const nameToday = document.querySelector(".tasks__name-today")          // Поле для отображения текущей даты
+const nameToday = sectionContentBlock_viewContent.querySelector(".tasks__name-today")          // Поле для отображения текущей даты
 
 
-const buttonSortAllTaskUP = document.querySelector(".tasks__sort-up")      // Кнопка для сортировки тасков (кроме просроченных) по возрастанию
-const buttonSortAllTaskDOWN = document.querySelector(".tasks__sort-down")      // Кнопка для сортировки тасков (кроме просроченных) по убыванию
+const buttonSortAllTaskUP = sectionContentBlock_viewContent.querySelector(".tasks__sort-up")      // Кнопка для сортировки тасков (кроме просроченных) по возрастанию
+const buttonSortAllTaskDOWN = sectionContentBlock_viewContent.querySelector(".tasks__sort-down")      // Кнопка для сортировки тасков (кроме просроченных) по убыванию
 
-const buttonSortOverdueTaskUP = document.querySelector(".overdue__sort-up")      // Кнопка для сортировки просроченных тасков по возрастанию
-const buttonSortOverdueTaskDOWN = document.querySelector(".overdue__sort-down")      // Кнопка для сортировки просроченных тасков по убыванию
-
-
-
-
-const allOverdueTasks = document.querySelector(".overdue__tasks-list")  // Область со всеми ПРОСРОЧЕННЫМИ тасками
-
-
-const butHideOverdue = document.querySelector(".overdue__btn")   // Кнопка для скрытия просроченных задач
-const iconHideOverdue = document.querySelector(".overdue__btn-icon")   // Иконка кнопки для скрытия просроченных задач
+const buttonSortOverdueTaskUP = sectionContentBlock_viewContent.querySelector(".overdue__sort-up")      // Кнопка для сортировки просроченных тасков по возрастанию
+const buttonSortOverdueTaskDOWN = sectionContentBlock_viewContent.querySelector(".overdue__sort-down")      // Кнопка для сортировки просроченных тасков по убыванию
 
 
 
-const allCurrentTasksOuter = document.querySelector(".tasks__tasks-list")        // Область со всеми актуальными созданными тасками (кроме просроченных)
+
+const allOverdueTasks = sectionContentBlock_viewContent.querySelector(".overdue__tasks-list")  // Область со всеми ПРОСРОЧЕННЫМИ тасками
+
+const butHideOverdue = sectionContentBlock_viewContent.querySelector(".overdue__btn")   // Кнопка для скрытия просроченных задач
+const iconHideOverdue = sectionContentBlock_viewContent.querySelector(".overdue__btn-icon")   // Иконка кнопки для скрытия просроченных задач
+
+
+
+const allCurrentTasksOuter = sectionContentBlock_viewContent.querySelector(".tasks__tasks-list")        // Область со всеми актуальными созданными тасками (кроме просроченных)
 
 
 
@@ -59,8 +58,8 @@ const buttonSaveTask = taskForm.querySelector(".btn-save")
 
 
 const addNewTask = document.querySelector(".add-new-task")      // Кнопка открытия поля для добавления нового таска
-const addTaskIconDefault = document.querySelector(".add-new-task__img-add-task-1")      // Иконка добавления таска 1 (Без наведения курсора)  
-const addTaskIconHover = document.querySelector(".add-new-task__img-add-task-2")      // Иконка добавления таска 2 (Если навести курсор)
+const addTaskIconDefault = addNewTask.querySelector(".add-new-task__img-add-task-1")      // Иконка добавления таска 1 (Без наведения курсора)  
+const addTaskIconHover = addNewTask.querySelector(".add-new-task__img-add-task-2")      // Иконка добавления таска 2 (Если навести курсор)
 
 
 

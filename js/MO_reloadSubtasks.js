@@ -1,6 +1,7 @@
 'use strict';
 // Данный файл для функций обновления подзадач
 
+import {hiddenByDisplay} from "./base.js"
 import {reloadFormAddTask, reloadAllTasks} from "./scripts.js"
 import {switchDisabledShowDopFuncTask} from "./toggleVisibleElements.js"
 import {statusIsModal} from "./modal.js"
@@ -52,19 +53,19 @@ function editSubtasks(e) {
     targetLi_subtask.append(taskForm) 
 
     // Убирается скрытие li со всех элементов (если до этого какой-то скрылся, из-за незаконченного редактирования)
-    subtaskOuter_modal.querySelectorAll(".subtask__wrapper").forEach(function(subtask) {
-        subtask.classList.remove("hide2")      
+    subtaskOuter_modal.querySelectorAll(".subtask__wrapper").forEach(function(subtask) {  
+        hiddenByDisplay(subtask, "show")   
     })
 
     // Скрывается li
-    targetLi_subtask.querySelector(".subtask__wrapper").classList.add("hide2") 
+    hiddenByDisplay(targetLi_subtask.querySelector(".subtask__wrapper"), "hide")  
     // Убирает скрытие с формы изменения подзадачи, которая перенеслась в место элемента li      
-    taskForm.classList.remove("hide2")   
+    hiddenByDisplay(taskForm, "show")  
 
 
     // Скрываю кнопку для создания подзадачи. И показываю кнопку для сохранения изменений при редактировании подзадачи
-    buttonAddNewTask.classList.add("hide2")
-    buttonSaveTask.classList.remove("hide2")
+    hiddenByDisplay(buttonAddNewTask, "hide") 
+    hiddenByDisplay(buttonSaveTask, "show") 
 
 
 
@@ -133,13 +134,13 @@ function buttonSaveSubtask() {
 
 
         // Скрывается Блок "taskForm"
-        taskForm.classList.add("hide2")   
+        hiddenByDisplay(taskForm, "hide")  
         // Блок "taskForm" перемещается в конец
         sectionContentBlock_viewContent.append(taskForm)  
         
         // Удаляется скрытие элемента таска, вместо которого ранее был перемещён блок "taskForm"
         subtaskOuter_modal.querySelectorAll(".subtask__wrapper").forEach(function(subtask) {
-            subtask.classList.remove("hide2")
+            hiddenByDisplay(subtask, "show")
         })
         
 

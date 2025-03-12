@@ -1,6 +1,7 @@
 'use strict';
 // Данный файл для функций выбора данных ТАСКА (внутри МО)
 
+import {hiddenByDisplay} from "./base.js"
 import {buttonCloseMenuNewTask, localLanguage, options1, options2, nowDay, nowMonth} from "./doomElements.js"
 import {updateDataTask_element, reloadAllTasks} from "./scripts.js"
 import {setCurrentLi_modal, getCurrentTask_arr, setSelectedDay_modal, getSelectedDay_modal} from "./MO_dataUpdate.js"
@@ -16,6 +17,16 @@ let modalAside = document.querySelector(".itc-modal-body__aside")
 
 let checkbox_modal              // Сам кнопка-кружок возле имени таска в м.о.
 let checkbox_modal_icon         // Галочка в кружочке
+
+let div_name_task               // div с именем таска 
+let div_description_task        // div с описанием таска 
+
+let el_textarea_name            // Поле для заполнения имени таска
+let el_textarea_description     // Поле для заполнения описания таска
+let count_lenght_name_description_task    // Поле с указанимем длины строки имени и описания таска
+
+let buttonCloseEdit             // Кнопка закрытия редактирования ТАСКА (не подзадачи) в м.о.
+let buttonSaveEdit              // Кнопка сохранения редактирования ТАСКА в м.о.
 
 
 let deadlineItem_modal      // Элементы li с вариантами срока выполнения
@@ -62,6 +73,9 @@ function getVarsMO_selectElementsTask(curTask) {
     conteinerFromHiddenMenuDeadlineTasks_modal = document.querySelector(".itc-modal-body__hidden-menu-deadline")  
 
     modalBtn_GroupDeadlineTask = document.querySelector('.itc-modal-body__select-setting[data-title="Назначить новой крайний срок..."]')
+
+    buttonCloseEdit = modalWindow.querySelector(".buttuns-closeSave-task .btn-close") 
+    buttonSaveEdit = modalWindow.querySelector(".buttuns-closeSave-task .btn-save")    
 }
 
 
@@ -90,15 +104,15 @@ function reloadItemsDeadline_modal_aside(currentItemDeadline) {
     count_lenght_name_description_task.remove()
 
     // Убираю скрытие с элементов div (с именем/описанием таска)
-    div_name_task.classList.remove("hide2")
-    div_description_task.classList.remove("hide2")
+    hiddenByDisplay(div_name_task, "show")
+    hiddenByDisplay(div_description_task, "show")
 
     // Убираю класс "ramka" с контейнера у имени/описания таска
     modal_wrapper_name_description.classList.remove("ramka")
 
     // Скрываю кнопку "Отмена" и "Сохранить"
-    buttonCloseEdit.classList.add("hide2")
-    buttonSaveEdit.classList.add("hide2")
+    hiddenByDisplay(buttonCloseEdit, "hide")
+    hiddenByDisplay(buttonSaveEdit, "hide")
 
     if (buttonCloseMenuNewTask.closest(".itc-modal-body__subtask-outer-block")) {
         setCurrentLi_modal(null)
@@ -140,15 +154,15 @@ function clickSaveEditModal() {
     count_lenght_name_description_task.remove()
 
     // Убираю скрытие с элементов div (с именем/описанием таска)
-    div_name_task.classList.remove("hide2")
-    div_description_task.classList.remove("hide2")
+    hiddenByDisplay(div_name_task, "show")
+    hiddenByDisplay(div_description_task, "show")
 
     // Убираю класс "ramka" с контейнера у имени/описания таска
     modal_wrapper_name_description.classList.remove("ramka")
 
     // Скрываю кнопку "Отмена" и "Сохранить"
-    buttonCloseEdit.classList.add("hide2")
-    buttonSaveEdit.classList.add("hide2")
+    hiddenByDisplay(buttonCloseEdit, "hide")
+    hiddenByDisplay(buttonSaveEdit, "hide")
 
     // Разрешаю показ доп. функций тасков
     switchDisabledShowDopFuncTask("false")
@@ -172,7 +186,7 @@ function selectTypetaskItemMO(type) {
     const currentTask_arr = getCurrentTask_arr()
 
     // Скрываю меню выбора типа таска
-    conteinerFromHiddenMenuTypesTasks_modal.classList.add("hide2")
+    hiddenByDisplay(conteinerFromHiddenMenuTypesTasks_modal, "hide")
     // Изменяю класс с active на hover-hint
     modalBtn_GroupTypeTask.classList.replace("active", "hover-hint")
 
@@ -414,7 +428,7 @@ function selectPriorityItemMO(item) {
     }
 
     // Скрываю меню выбора приоритета таска
-    conteinerFromHiddenMenuPriorityTasks_modal.classList.add("hide2")
+    hiddenByDisplay(conteinerFromHiddenMenuPriorityTasks_modal, "hide")
     // Изменяю класс с active на hover-hint
     modalBtn_GroupPriorityTask.classList.replace("active", "hover-hint")
     

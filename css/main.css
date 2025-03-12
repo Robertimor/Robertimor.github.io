@@ -101,12 +101,13 @@
 }
     .overdue__header {      /* внутреннее поле с секциеей просроченных тасков */
         display: flex;
-        position: relative;
+        justify-content: space-between;
         align-items: center;
+
+        position: relative;
         height: min-content;
         padding-bottom: 5px;
         border-bottom: 1px solid #eee;
-        flex-grow: 1;
     }
         .overdue__btn {
             position: absolute;
@@ -139,28 +140,33 @@
     padding: 6px 6px 5px 0;
     border-bottom: 1px solid #eee;
     display: flex;
+    justify-content: space-between;
     align-items: center;
 }
     .tasks__name-today {        /* Поле с сегодняшней датой */
         font-weight: bold;
     }
-    .tasks__sort, .overdue__sort {             /* Поле c кнопкой сортировки тасков */
-        flex: 1;
-        text-align: right;
+    .tasks__sort, .overdue__sort {      /* Поле c кнопкой сортировки тасков */
+        display: flex;  
     }
         .tasks__sort-text, .overdue__sort-text {
             color: #a9a9a9fd;
+            padding: 3px 7px 3px 7px;
         }
         .overdue__sort-btn, .tasks-sort-btn {
-            /* padding: 12px 15px 12px 17px; */
+            display: flex;
+            flex-direction: row;
+            align-items: center;
             padding: 3px 7px 3px 7px;
             border-radius: 5px;
         }
             .tasks__sort img, .overdue__sort img {
                 width: 12px;
-                
-                /* scale: 0.6; */
-                
+                margin-left: 5px;
+                display: inline-flex;
+                align-items: center;
+                position: relative;
+                top: 1px;
             }
 
 

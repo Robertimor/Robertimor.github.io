@@ -1,5 +1,6 @@
 'use strict';
 import ItcModal from "../modal/js/modal.js";
+import {hiddenByDisplay} from "./base.js"
 import {countAllTasks, sectionContentBlock_viewContent, taskForm, taskNameInput, taskDescriptionInput, deadlineButton, deadlineMenu, deadlineOptions, deadlineCalendar, priorityButton, taskTypeButton, buttonCloseMenuNewTask, buttonAddNewTask, buttonSaveTask} from "./doomElements.js"
 import {reloadFormAddTask, removeTaskMass, reloadAllTasks, switchIsModal, switchIsModal_block} from "./scripts.js"
 import {switchDisabledShowDopFuncTask} from "./toggleVisibleElements.js"
@@ -451,14 +452,14 @@ sectionContentBlock_viewContent.addEventListener("click", function(e) {
 
     // При нажатии на кнопку "Добавить подзадачу"
     addSubtask.addEventListener("click", function(e) {
-        addSubtask.classList.add("hide2")   // Скрывает кнопку "Добавить подзадачу"
+        hiddenByDisplay(addSubtask, "hide")     // Скрывает кнопку "Добавить подзадачу"
         modalContent_main.append(taskForm)    // Перемещает форму для создания таска внутрь ".itc-modal-body__main-content"
-        taskForm.classList.remove("hide2")    // Убирает скрытие с формы изменения таска, которая перенеслась в место элемента "addSubtask"
+        hiddenByDisplay(taskForm, "show")      // Убирает скрытие с формы изменения таска, которая перенеслась в место элемента "addSubtask"
 
 
         // Убираю скрытие со всех подзадач, если где-то оно было (если до этого было открыто меню редактирование подзадачи, после чего сразу нажалась кнопка для добавлений новой подзадачи)
         subtaskOuter_modal.querySelectorAll(".subtask__wrapper").forEach(function(subtask) {
-            subtask.classList.remove("hide2")
+            hiddenByDisplay(subtask, "show") 
         })
 
         // Блокирую показ доп. функций подзадач
@@ -467,11 +468,11 @@ sectionContentBlock_viewContent.addEventListener("click", function(e) {
     
     // Функция, вызываемая при нажатии на "Отмена" в форме создания подзадачи
     function closeSubtaskForm() {
-        taskForm.classList.add("hide2")   // Скрывается Блок "taskForm"
+        hiddenByDisplay(taskForm, "hide")   // Скрывается Блок "taskForm"
         sectionContentBlock_viewContent.append(taskForm)  // Блок "taskForm" перемещается в конец страницы
 
         // Удаляется скрытие кнопки "addSubtask", вместо которого ранее был перемещён блок "taskForm"
-        addSubtask.classList.remove("hide2")
+        hiddenByDisplay(addSubtask, "show") 
 
 
         const currentLi_modal = getCurrentLi_modal()
@@ -480,7 +481,7 @@ sectionContentBlock_viewContent.addEventListener("click", function(e) {
 
         // Если переменная, отвечающей за выбранную подзадачу, внутри которой должна находиться кнопка "отмена" - существует, (т.е. если "отмена прожата именно при редактировании существующей, а не при создании новой"), то 
         if (targetLi_subtask != null && currentLi_modal !=null) {  
-            targetLi_subtask.querySelector(".subtask__wrapper").classList.remove("hide2")        // Показывается скрытый li (подзадача)
+            hiddenByDisplay(targetLi_subtask.querySelector(".subtask__wrapper"), "show")        // Показывается скрытый li (подзадача)
 
             // Скрываю все доп функции подзадачи
             hide_subtask_dopFuncs_modal(currentLi_modal.querySelector(".subtask__dopFuncs"))
@@ -491,7 +492,7 @@ sectionContentBlock_viewContent.addEventListener("click", function(e) {
         // В ином случае (если отмена была при добавлении новой подзадачи) убираю скрытие со всех подзадач, если где-то оно было (если до этого было открыто меню редактирование подзадачи, после чего сразу нажалась кнопка для добавлений новой подзадачи)
         else {
             subtaskOuter_modal.querySelectorAll(".subtask__wrapper").forEach(function(subtask) {
-                subtask.classList.remove("hide2")
+                hiddenByDisplay(subtask, "show")
             })
         }
 
@@ -555,12 +556,12 @@ sectionContentBlock_viewContent.addEventListener("click", function(e) {
 
             // Убираю скрытие со всех подзадач, если где-то оно было (если до этого было открыто меню редактирование подзадачи, после чего сразу нажалась кнопка для добавлений новой подзадачи)
             subtaskOuter_modal.querySelectorAll(".subtask__wrapper").forEach(function(subtask) {
-                subtask.classList.remove("hide2")
+                hiddenByDisplay(subtask, "show")
             })
-            taskForm.classList.add("hide2")
+            hiddenByDisplay(taskForm, "hide")
 
             // Удаляется скрытие кнопки "addSubtask", вместо которого ранее был перемещён блок "taskForm"
-            addSubtask.classList.remove("hide2")
+            hiddenByDisplay(addSubtask, "show")
 
             // Разрешаю показ доп. функций тасков
             switchDisabledShowDopFuncTask("false")
@@ -724,7 +725,7 @@ sectionContentBlock_viewContent.addEventListener("click", function(e) {
         window.localStorage.setItem("isModal_block", "false")
         switchIsModal_block("false")
 
-        taskForm.classList.add("hide2")   // Скрывается Блок "taskForm"
+        hiddenByDisplay(taskForm, "hide")   // Скрывается Блок "taskForm"
         sectionContentBlock_viewContent.append(taskForm)  // Блок "taskForm" перемещается в конец страницы
         // Обнуляю элементы поля .taskForm (поле для добавление нового таска) и скрываю его
         reloadFormAddTask()

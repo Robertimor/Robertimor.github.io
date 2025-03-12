@@ -1,6 +1,7 @@
 'use strict';
 // Данный файл для функций выбора данных подзадачи
 
+import {hiddenByDisplay} from "./base.js"
 import {deadlineButton, deadlineOptions, localLanguage, options1, options2, nowDay, nowMonth} from "./doomElements.js"
 import {reloadAllTasks} from "./scripts.js"
 import {setIsObservHiddenMenus, observFunc} from "./toggleVisibleElements.js"
@@ -333,7 +334,7 @@ function deadlineItemSubtaskFormClick(e) {
         //Очищаю стиль выбранного элемента со всех, если он где-то был (удаляю со всех элементов класс "hovered_select_menu")
         reloadItemsDeadlineSubtask(item)
 
-        deadlineButton.querySelector(".form-from-add-new-task__icon-cross").classList.add("hide2")
+        hiddenByDisplay(deadlineButton.querySelector(".form-from-add-new-task__icon-cross"), "hide")
     } else if (nameItemDeadline == "Без срока" && textAreaDeadline.innerHTML == "Срок выполнения") {
         setIsObservHiddenMenus(false)
     }

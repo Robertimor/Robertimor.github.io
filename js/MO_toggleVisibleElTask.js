@@ -1,13 +1,19 @@
 'use strict';
 // Данный файл для изменения отображения элементов ТАСКА внутри МО (либо же изменение их стилей) 
 
+import {hiddenByDisplay} from "./base.js" 
 import {currectEntryDate} from "./doomElements.js"
 import {statusIsModal} from "./modal.js"
 import {switchDisabledShowDopFuncTask} from "./toggleVisibleElements.js"
-import {setTimeVar_MO, getTimeVar_MO, setTimevar2_MO, getCurrentLi_modal, getTargetLi_subtask} from "./MO_dataUpdate.js"
+import {setIsSelectionMenuActive_MO, getIsSelectionMenuActive_MO, setIsNewDeadlineButtonClicked_MO, getCurrentLi_modal, getTargetLi_subtask} from "./MO_dataUpdate.js"
 
 
 let modalWindow             // Само модальное окно
+let modalTitle = document.querySelector(".itc-modal-title")
+let modalContent = document.querySelector(".itc-modal-body")
+let modalAside = document.querySelector(".itc-modal-body__aside")
+
+
 let buttonCloseEdit         // Кнопка закрытия редактирования ТАСКА (не подзадачи) в м.о.
 let buttonSaveEdit          // Кнопка сохранения редактирования ТАСКА в м.о.
 
@@ -21,9 +27,6 @@ let el_textarea_description     // Поле для заполнения опис
 let count_lenght_name_description_task    // Поле с указанимем длины строки имени и описания таска
 
 
-let modalTitle
-let modalContent
-let modalAside
 
 let modalBtn_GroupTypeTask                          // Кнопка в м.о. для изменения типа таска
 let conteinerFromHiddenMenuTypesTasks_modal         // Скрытое меню выбора типа таска в м.о. 
@@ -95,9 +98,9 @@ function clickNameDescriptionModal(event) {
 
     div_name_task = modal_wrapper_name_description.querySelector(".task__name-task")    // div с именем таска 
     div_description_task = modal_wrapper_name_description.querySelector(".task__description-task")  // div с описанием таска 
-    // Скрываю div-ы с именем и описанием таска
-    div_name_task.classList.add("hide2")       
-    div_description_task.classList.add("hide2")
+    // Скрываю div-ы с именем и описанием таска     
+    hiddenByDisplay(div_name_task, "hide")
+    hiddenByDisplay(div_description_task, "hide")
 
     // Добавляю их контейнеру класс "ramka", для выделения двух полей textarea
     modal_wrapper_name_description.classList.add("ramka")
@@ -147,8 +150,8 @@ function clickNameDescriptionModal(event) {
     }
 
     // Убираю скрытие с кнопок "Отмена" и "Сохранить"
-    buttonCloseEdit.classList.remove("hide2")
-    buttonSaveEdit.classList.remove("hide2")
+    hiddenByDisplay(buttonCloseEdit, "show")
+    hiddenByDisplay(buttonSaveEdit, "show")
 
 
     // Выставляю сразу необходимую высоту полю с именем таска
@@ -218,10 +221,10 @@ function changValueLenght(_e) {
 
 // Отображение галочки в кружке-конпке при наведении на кружок:
 function checkboxModalMouseover() {
-    checkbox_modal_icon.classList.remove("hide2")
+    hiddenByDisplay(checkbox_modal_icon, "show")
 }
 function checkboxModalMouseout() {
-    checkbox_modal_icon.classList.add("hide2")
+    hiddenByDisplay(checkbox_modal_icon, "show")
 }
 
 
@@ -238,13 +241,13 @@ function checkboxModalMouseout() {
 // При наведении
  function modalAisdeElementMouseover(e) {
     const curbtn = e.target.closest(".itc-modal-body__select-setting")
-    curbtn.querySelector(".itc-modal-body__icon-down_wrapper").classList.remove("hide2")
+    hiddenByDisplay(curbtn.querySelector(".itc-modal-body__icon-down_wrapper"), "show")
  }
 
 // При уходе мыши с объекта
  function modalAisdeElementMouseout(e) {
     const curbtn = e.target.closest(".itc-modal-body__select-setting")
-    curbtn.querySelector(".itc-modal-body__icon-down_wrapper").classList.add("hide2")
+    hiddenByDisplay(curbtn.querySelector(".itc-modal-body__icon-down_wrapper"), "hide")
  }
 
 
@@ -264,7 +267,7 @@ function clickButTypeTask() {
     // Если скрытое меню выбора типа таска показано (не скрыто)
     if (conteinerFromHiddenMenuTypesTasks_modal.classList.contains("hide2") == false) {     // Если скрытое меню показано (не скрыто)
         // Скрываю меню выбора типа таска
-        conteinerFromHiddenMenuTypesTasks_modal.classList.add("hide2")      
+        hiddenByDisplay(conteinerFromHiddenMenuTypesTasks_modal, "hide")      
 
         // Изменяю класс с active на hover-hint
         modalBtn_GroupTypeTask.classList.replace("active", "hover-hint")
@@ -272,22 +275,22 @@ function clickButTypeTask() {
     // Если скрытое меню выбора типа таска скрыто
     else {
         // Скрываю скрытое меню выбора приоритета, если оно было открыто
-        conteinerFromHiddenMenuPriorityTasks_modal.classList.add("hide2")
+        hiddenByDisplay(conteinerFromHiddenMenuPriorityTasks_modal, "hide")
 
 
         // Показываю меню выбора типа таска
-        conteinerFromHiddenMenuTypesTasks_modal.classList.remove("hide2")   
+        hiddenByDisplay(conteinerFromHiddenMenuTypesTasks_modal, "show")   
 
         // Удаляю класс для стилизации подсказки при наведении и добавляю "active" для постоянного выделения
         modalBtn_GroupTypeTask.classList.replace("hover-hint", "active")
-        setTimeVar_MO(1)
+        setIsSelectionMenuActive_MO(1)
     }
 }
 
 
 // При нажатии на само поля выбора
 function clickFieldTypeTask() {
-    setTimeVar_MO(1)
+    setIsSelectionMenuActive_MO(1)
 }
 
 
@@ -297,19 +300,19 @@ function clickOuterFieldTypeTask(e) {
     if ((conteinerFromHiddenMenuTypesTasks_modal.classList.contains("hide2")) && (!e.target.closest(".itc-modal-body__select-setting"))) return
 
 
-    const timeVar_MO = getTimeVar_MO()
+    const isSelectionMenuActive_MO = getIsSelectionMenuActive_MO()
 
     // Если клик был вне поля выбора типа таска, ИЛИ же клик был по одной из кнопке изменения параметра задачи (в sidebar), кроме текущей (изменения типа)
-    if (!timeVar_MO || (e.target.closest(".itc-modal-body__select-setting") && !e.target.closest(".itc-modal-body__select-setting[data-title='Перенести в...']"))) {
+    if (!isSelectionMenuActive_MO || (e.target.closest(".itc-modal-body__select-setting") && !e.target.closest(".itc-modal-body__select-setting[data-title='Перенести в...']"))) {
         // Скрываю меню выбора типа таска
-        conteinerFromHiddenMenuTypesTasks_modal.classList.add("hide2")
+        hiddenByDisplay(conteinerFromHiddenMenuTypesTasks_modal, "hide")  
 
         // Изменяю класс с active на hover-hint
         modalBtn_GroupTypeTask.classList.replace("active", "hover-hint")
     }
 
-    if (timeVar_MO) {
-        setTimeout(() => setTimeVar_MO(""), 100)
+    if (isSelectionMenuActive_MO) {
+        setTimeout(() => setIsSelectionMenuActive_MO(""), 100)
     }
 }
 
@@ -340,12 +343,12 @@ function clickButDeadline(e) {
     // Если доп меню скрыто
     if (conteinerFromHiddenMenuDeadlineTasks_modal.classList.contains("hide2") == true) {
         // Скрываю скрытые меню выбора типа таска и приоритета, если они были открыты
-        conteinerFromHiddenMenuTypesTasks_modal.classList.add("hide2")
-        conteinerFromHiddenMenuPriorityTasks_modal.classList.add("hide2")
+        hiddenByDisplay(conteinerFromHiddenMenuTypesTasks_modal, "hide")  
+        hiddenByDisplay(conteinerFromHiddenMenuPriorityTasks_modal, "hide")  
 
 
         // Показываю скрытое меню срока выполнения
-        conteinerFromHiddenMenuDeadlineTasks_modal.classList.remove("hide2") 
+        hiddenByDisplay(conteinerFromHiddenMenuDeadlineTasks_modal, "show")  
 
 
         // Скрытое поле для вставки выбранной даты у таска (полной, с годом, и только числами)
@@ -371,7 +374,7 @@ function clickButDeadline(e) {
         modalBtn_GroupDeadlineTask.classList.replace("hover-hint", "active")
 
 
-        setTimeVar_MO(1)  
+        setIsSelectionMenuActive_MO(1)  
 
         
         // Запрещаю показ доп. функций подзадач
@@ -381,7 +384,7 @@ function clickButDeadline(e) {
     // Если доп меню показано (не скрыто)
     else if (conteinerFromHiddenMenuDeadlineTasks_modal.classList.contains("hide2") == false) {
         // Скрываю меню выбора срока выполнения таска и уничтожаю созданный календарь
-        conteinerFromHiddenMenuDeadlineTasks_modal.classList.add("hide2")
+        hiddenByDisplay(conteinerFromHiddenMenuDeadlineTasks_modal, "hide")  
         MyCalendar.destroy()
         MyCalendar = null
 
@@ -396,15 +399,15 @@ function clickButDeadline(e) {
 
 // 1.2) При нажатии на само поля выбора в скрытом меню "sidebar")
 function clickFieldDeadline(e) {
-    setTimeVar_MO(1)
-    setTimevar2_MO(1)     // (для работы с доп функциями при клике на кнопку добавления нового срока выполнения)
+    setIsSelectionMenuActive_MO(1)
+    setIsNewDeadlineButtonClicked_MO(1)     // (для работы с доп функциями при клике на кнопку добавления нового срока выполнения)
 
 
     // Если клик был после открытия окна срока в sidebar (в разделе изменения срока выполнения ТАСКА)
     // Если клик произошёл на дату из списка ul, или на день в каллендаре;
     if (e.target.closest(".itc-modal-body__deadline-item") || e.target.closest(".-day-")) {
         // Скрываю меню выбора срока выполнения таска и удаляю календарь в нём
-        conteinerFromHiddenMenuDeadlineTasks_modal.classList.add("hide2") 
+        hiddenByDisplay(conteinerFromHiddenMenuDeadlineTasks_modal, "hide")  
         MyCalendar.destroy()    
         MyCalendar = null
 
@@ -415,7 +418,7 @@ function clickFieldDeadline(e) {
         // Разрешаю показ доп. функций подзадач
         switchDisabledShowDopFuncTask("false")
 
-        setTimevar2_MO("")
+        setIsNewDeadlineButtonClicked_MO("")
     }
 }
 
@@ -427,18 +430,18 @@ function clickOuterFieldDeadline(e) {
     if (conteinerFromHiddenMenuDeadlineTasks_modal.classList.contains("hide2") == true) return
 
     
-    const timeVar_MO = getTimeVar_MO()
+    const isSelectionMenuActive_MO = getIsSelectionMenuActive_MO()
     
     
     // Если клик был после открытия окна срока в sidebar (в разделе изменения срока выполнения ТАСКА)
     // Если клик был вне поля выбора ИЛИ на кнопку изменения типа/приоритета таска
-    if (!timeVar_MO || (e.target.closest(".itc-modal-body__select-setting") && !e.target.closest(".itc-modal-body__select-setting[data-title='Назначить новой крайний срок...']"))) {
+    if (!isSelectionMenuActive_MO || (e.target.closest(".itc-modal-body__select-setting") && !e.target.closest(".itc-modal-body__select-setting[data-title='Назначить новой крайний срок...']"))) {
         // Если клик был по доп функции подзадачи "Назначить срок", то игнорировать
         if (e.target.closest(".subtask__btnNewDeadline")) return
 
 
         // Скрываю меню выбора срока выполнения таска и удаляю календарь в нём
-        conteinerFromHiddenMenuDeadlineTasks_modal.classList.add("hide2") 
+        hiddenByDisplay(conteinerFromHiddenMenuDeadlineTasks_modal, "hide")  
         MyCalendar.destroy()    
         MyCalendar = null
         
@@ -458,8 +461,8 @@ function clickOuterFieldDeadline(e) {
     }
 
 
-    if (timeVar_MO) { 
-        setTimeout(() => setTimeVar_MO(""), 100)
+    if (isSelectionMenuActive_MO) { 
+        setTimeout(() => setIsSelectionMenuActive_MO(""), 100)
     }  
 }
 
@@ -475,28 +478,28 @@ function clickButPriority() {
     // Если меню выбора приоритета показано (не скрыто) 
     if (conteinerFromHiddenMenuPriorityTasks_modal.classList.contains("hide2") == false) {
         // Скрываю меню выбора приоритета таска
-        conteinerFromHiddenMenuPriorityTasks_modal.classList.add("hide2")
+        hiddenByDisplay(conteinerFromHiddenMenuPriorityTasks_modal, "hide")  
         // Изменяю класс с active на hover-hint
         modalBtn_GroupPriorityTask.classList.replace("active", "hover-hint")
     }
     // Если меню выбора приоритета скрыто
     else if (conteinerFromHiddenMenuPriorityTasks_modal.classList.contains("hide2") == true) {
         // Скрываю скрытое меню выбора типа таска, если оно было открыты
-        conteinerFromHiddenMenuTypesTasks_modal.classList.add("hide2")
+        hiddenByDisplay(conteinerFromHiddenMenuTypesTasks_modal, "hide")  
 
         // Показываю скрытое меню выбора приоритета
-        conteinerFromHiddenMenuPriorityTasks_modal.classList.remove("hide2")
+        hiddenByDisplay(conteinerFromHiddenMenuPriorityTasks_modal, "show")  
 
         // Удаляю класс для стилизации подсказки при наведении и добавляю "active" для постоянного выделения
         modalBtn_GroupPriorityTask.classList.replace("hover-hint", "active")
-        setTimeVar_MO(1)
+        setIsSelectionMenuActive_MO(1)
     }
 }
 
 
 // 1.2) При нажатии на само поля выбора
 function clickFieldPriority() {
-    setTimeVar_MO(1)
+    setIsSelectionMenuActive_MO(1)
 }
 
 
@@ -505,29 +508,33 @@ function clickOuterFieldPriority(e) {
     // Если скрытое меню приоритета таска (в sidebar) скрыто, а клик был не по одной из кнопке изменения параметра задачи (в sidebar), то игнор
     if ((conteinerFromHiddenMenuPriorityTasks_modal.classList.contains("hide2")) && (!e.target.closest(".itc-modal-body__select-setting"))) return
 
-    const timeVar_MO = getTimeVar_MO()
+    const isSelectionMenuActive_MO = getIsSelectionMenuActive_MO()
 
-    if (!timeVar_MO || (e.target.closest(".itc-modal-body__select-setting") && !e.target.closest(".itc-modal-body__select-setting[data-title='Назначить приоритет...']"))) {
+    if (!isSelectionMenuActive_MO || (e.target.closest(".itc-modal-body__select-setting") && !e.target.closest(".itc-modal-body__select-setting[data-title='Назначить приоритет...']"))) {
         // Скрываю меню выбора приоритета таска
-        conteinerFromHiddenMenuPriorityTasks_modal.classList.add("hide2")
+        hiddenByDisplay(conteinerFromHiddenMenuPriorityTasks_modal, "hide")  
 
         // Изменяю класс с active на hover-hint
         modalBtn_GroupPriorityTask.classList.replace("active", "hover-hint")
     }
 
-    if (timeVar_MO) {
-        setTimeout(() => setTimeVar_MO(""), 100)
+    if (isSelectionMenuActive_MO) {
+        setTimeout(() => setIsSelectionMenuActive_MO(""), 100)
     }
 }
 
 // Функция для изменения стиля "выбранного приоритета" из списка ul
 function reloadItemsPriority_modal(currentItemPriority) {
     priorityItem_modal.forEach(function(itemPriority) { 
-        itemPriority.classList.remove("hovered_select_menu")    // Удаляю стиль выбранного элемента у ранее выбранного элемента
-        itemPriority.querySelector(".itc-modal-body__priority-icon-selected").classList.add("hide2")    // Удаляю галочки у ранее выбранного элемента (если такой был)
+        // Удаляю стиль выбранного элемента у ранее выбранного элемента 
+        itemPriority.classList.remove("hovered_select_menu")  
+        // Удаляю галочки у ранее выбранного элемента (если такой был)  
+        hiddenByDisplay(itemPriority.querySelector(".itc-modal-body__priority-icon-selected"), "hide")      
     })
-    currentItemPriority.classList.add("hovered_select_menu")    // Добавляю стиль выбранного элемента
-    currentItemPriority.querySelector(".itc-modal-body__priority-icon-selected").classList.remove("hide2")  // Показываю галочку у выбранного элемента
+    // Добавляю стиль выбранного элемента
+    currentItemPriority.classList.add("hovered_select_menu")   
+    // Показываю галочку у выбранного элемента  
+    hiddenByDisplay(currentItemPriority.querySelector(".itc-modal-body__priority-icon-selected"), "show") 
 }
 
 

@@ -1,5 +1,7 @@
 'use strict';
 
+import {hiddenByDisplay} from "./base.js"
+
 const sidebar = document.querySelector(".sidebar")                  // Сайдбар целиком
 const logReg = document.querySelector(".log-reg")               // Поле с регистрацией/авторизацией
 const InpLogin = document.querySelector(".inp-login");            // Поле для логина при регистрации/авторизации
@@ -45,20 +47,20 @@ butReg.addEventListener("click", function(e) {
         window.localStorage.setItem("accounts", JSON.stringify(accounts))
 
         InpLogin.value = InpPassword.value = ""     // Очищаю поля ввода
-        document.querySelector(".log-reg__successfulReg").classList.remove("hide2")  // Уведомляю об успешной регистрации
-        document.querySelector(".log-reg__empty-field").classList.add("hide2");  // Скрываю надпись о неудачной регистрации если она была показана ранее
+        hiddenByDisplay(document.querySelector(".log-reg__successfulReg"), "show")  // Уведомляю об успешной регистрации
+        hiddenByDisplay(document.querySelector(".log-reg__empty-field"), "hide")    // Скрываю надпись о неудачной регистрации если она была показана ранее
     } else {
-        document.querySelector(".log-reg__empty-field").classList.remove("hide2");       //Показываю заготовленное сообщение об необходимости заполнить поля
-        document.querySelector(".log-reg__successfulReg").classList.add("hide2")         // Удаляю поле с успешной ранее регистрацией если она была показана ранее
+        hiddenByDisplay(document.querySelector(".log-reg__empty-field"), "show")           // Показываю заготовленное сообщение об необходимости заполнить поля
+        hiddenByDisplay(document.querySelector(".log-reg__successfulReg"), "hide")         // Удаляю поле с успешной ранее регистрацией если она была показана ранее
     }
     
 })
 
 // Если зафиксирован активный пользователь, то сразу скрывается меню ренистрации/авторизации и показывается всё остальное
 if (currentAccount) {
-    logReg.classList.add("hide2")
-    userMenu.classList.remove("hide2")
-    mainContent.classList.remove("hide2")
+    hiddenByDisplay(logReg, "hide")
+    hiddenByDisplay(userMenu, "show")
+    hiddenByDisplay(mainContent, "show")
     nicknameUser.innerHTML = currentAccount.login
 }
 
@@ -75,9 +77,9 @@ butLogin.addEventListener("click", function(e) {    // При нажатии н�
         }
         window.localStorage.setItem("currentAccount", JSON.stringify(currentAccount))
         alert(`Вы успешно авторизировались. Добро пожаловать, ${currentAccount.login}`)
-        logReg.classList.add("hide2")
-        userMenu.classList.remove("hide2")
-        mainContent.classList.remove("hide2")
+        hiddenByDisplay(logReg, "hide")
+        hiddenByDisplay(userMenu, "show")
+        hiddenByDisplay(mainContent, "show")
         nicknameUser.innerHTML = currentAccount.login
     } else {
         alert("Неверное имя пользователя или пароль!")

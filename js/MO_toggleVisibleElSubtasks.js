@@ -1,12 +1,14 @@
 'use strict';
 
 // Данный файл для изменения отображения элементов ПОДЗАДАЧ внутри МО (либо же изменение их стилей) 
+
+import {hiddenByDisplay} from "./base.js"
 import {deadlineButton, deadlineMenu, deadlineOptions, priorityButton, priorityMenu, taskTypeMenu, currectEntryDate } from "./doomElements.js"
 import {reloadFormAddTask} from "./scripts.js"
 import {switchDisabledShowDopFuncTask, setIsObservHiddenMenus, observFunc} from "./toggleVisibleElements.js"
 
 import {statusIsModal} from "./modal.js"
-import {setTimeVar_MO, getTimeVar_MO, setTimevar2_MO, getTimevar2_MO, setCurrentLi_modal, getCurrentLi_modal} from "./MO_dataUpdate.js"
+import {setIsSelectionMenuActive_MO, getIsSelectionMenuActive_MO, setIsNewDeadlineButtonClicked_MO, getIsNewDeadlineButtonClicked_MO, setCurrentLi_modal, getCurrentLi_modal} from "./MO_dataUpdate.js"
 
 import {getSelectedDay_MO_Subtask, reloadItemsDeadlineSubtask} from "./MO_selectElementsSubtask.js"
 
@@ -100,16 +102,16 @@ function show_subtask_dopFuncs_modal(thisDopFuncs) {
 
 // Функция скрытия доп функций элемента подзадачи
 function hide_subtask_dopFuncs_modal(thisDopFuncs) {
-    const timevar2_MO = getTimevar2_MO()
+    const isNewDeadlineButtonClicked_MO = getIsNewDeadlineButtonClicked_MO()
 
     // Если внутри подзадачи нету меню выбора срока выполнения, то все доп функции скрываются
-    if (!timevar2_MO) {
+    if (!isNewDeadlineButtonClicked_MO) {
         thisDopFuncs.classList.add("hide1")
         thisDopFuncs.querySelector(".subtask__btnEdit").classList.add("hide1")
         thisDopFuncs.querySelector(".subtask__btnNewDeadline").classList.add("hide1")
     } 
     // Иначе, если внутри подзадачи есть меню выбора срока выполнения, то скрываются все доп функции, кроме кнопки выбора срока выполнения
-    else if (timevar2_MO == 1) {
+    else if (isNewDeadlineButtonClicked_MO == 1) {
         thisDopFuncs.querySelector(".subtask__btnEdit").classList.add("hide1")
     }
 }
@@ -154,7 +156,7 @@ function subtaskCheckboxMouseout(e) {
 
 // Функция показа/скрытия галочки внутри кружка
 function show_mark_OK (thisMark) {
-    thisMark.classList.toggle("hide2")
+    hiddenByDisplay(thisMark, "toggle")
 }
 
 
@@ -189,12 +191,12 @@ function selectDeadlineFunc(e) {
 
     // Если доп меню показано (не скрыто) и клик был на крестик и крестик показан (не скрыт)
     if (deadlineMenu.classList.contains("hide2") == false && e.target == btnCross.querySelector("img") && btnCross.classList.contains("hide2") == false) {
-        btnCross.classList.add("hide2")  // ещё раз прописываю скрытие, ибо событие клика по крестику (отдельное) не скроет его (но изменит содержание тега с текстом)
+        hiddenByDisplay(btnCross, "hide")       // ещё раз прописываю скрытие, ибо событие клика по крестику (отдельное) не скроет его (но изменит содержание тега с текстом)
     } 
     // Иначе, если доп меню показано (не скрыто) (и клик был не на крестик, соответственно)
     else if (deadlineMenu.classList.contains("hide2") == false) {
         // Скрываю само меню и удаляю календарь в нём
-        deadlineMenu.classList.add("hide2") 
+        hiddenByDisplay(deadlineMenu, "hide")
         MyCalendarForm.destroy()    
         MyCalendarForm = null
 
@@ -211,15 +213,15 @@ function selectDeadlineFunc(e) {
     } 
     // Иначе, если доп меню скрыто и клик был на крестик:
     else if (deadlineMenu.classList.contains("hide2") == true && e.target == btnCross.querySelector("img")) {
-        btnCross.classList.add("hide2")
+        hiddenByDisplay(btnCross, "hide")
     }
     // Иначе, если доп меню скрыто (и клик был, соответственно, не на крестик)
     else if (deadlineMenu.classList.contains("hide2") == true)
     {
         // Скрываю скрытые меню выбора типа таска и приоритета, если они были открыты
-        taskTypeMenu.classList.add("hide2")
-        priorityMenu.classList.add("hide2")
-        deadlineMenu.classList.remove("hide2")    // Показываю скрытое меню срока выполнения
+        hiddenByDisplay(taskTypeMenu, "hide")
+        hiddenByDisplay(priorityMenu, "hide")
+        hiddenByDisplay(deadlineMenu, "show")   // Показываю скрытое меню срока выполнения
 
 
         // Скрытое поле для вставки выбранной даты у таска (полной, с годом, и только числами)
@@ -239,7 +241,7 @@ function selectDeadlineFunc(e) {
         })
         MyCalendarForm.show();
 
-        setTimeVar_MO(1)
+        setIsSelectionMenuActive_MO(1)
         
 
         setIsObservHiddenMenus(true)     // Даётся разрешение на реакцию при изменении во время слежки за объектом
@@ -273,7 +275,7 @@ function btnNewDeadlineSubtask(e) {
     const curHiddenCalendarContainer = targetBtn.querySelector(".subtask__dopFunction__hidden-menu-deadline-calendare")
     const curHiddenCalendar = targetBtn.querySelector(".hidden-menu-deadline-calendare")
 
-    const timevar2_MO = getTimevar2_MO()
+    const isNewDeadlineButtonClicked_MO = getIsNewDeadlineButtonClicked_MO()
 
     const currentLi_modal = getCurrentLi_modal()
 
@@ -282,7 +284,7 @@ function btnNewDeadlineSubtask(e) {
     // Если меню скрыто
     if (curHiddenMenuDeadlineNewDeadline.classList.contains("hide2") == true) {   
         // Показываю это меню выбора (удаляю скрытие)
-        curHiddenMenuDeadlineNewDeadline.classList.remove("hide2")
+        hiddenByDisplay(curHiddenMenuDeadlineNewDeadline, "show")
         
         
         // Скрытое поле для вставки выбранной даты у таска (полной, с годом, и только числами)
@@ -304,7 +306,7 @@ function btnNewDeadlineSubtask(e) {
 
         
         // Отмечаю нажатие на кнопку назначения нового срока выполнения
-        setTimevar2_MO(1)
+        setIsNewDeadlineButtonClicked_MO(1)
 
         // Отмечаю в глобальную переменную - подзадачу, внутри которой был совершён клик по кнопке
         currentLi_klick_MO = e.target.closest("li")            
@@ -316,15 +318,15 @@ function btnNewDeadlineSubtask(e) {
     }
 
     // Если меню отображено (не скрыто)
-    else if (curHiddenMenuDeadlineNewDeadline.classList.contains("hide2") == false && timevar2_MO) {     
+    else if (curHiddenMenuDeadlineNewDeadline.classList.contains("hide2") == false && isNewDeadlineButtonClicked_MO) {     
         // Скрываю это меню выбора и уничтожаю созданный календарь
-        curHiddenMenuDeadlineNewDeadline.classList.add("hide2") 
+        hiddenByDisplay(curHiddenMenuDeadlineNewDeadline, "hide")
         MyCalendar.destroy()
         MyCalendar = null
 
 
     
-        setTimeout(() => setTimevar2_MO(""), 100)
+        setTimeout(() => setIsNewDeadlineButtonClicked_MO(""), 100)
         
         // Удаляю отметку о текущей подзадаче
         currentLi_klick_MO = null                                  
@@ -344,8 +346,8 @@ function btnNewDeadlineSubtask(e) {
 function clickMenudeadline(e) { 
     if (!statusIsModal()) return    // Если МО отсутствует, то игнор
 
-    setTimeVar_MO(1)
-    setTimevar2_MO(1)      // (для работы с доп функциями при клике на кнопку добавления нового срока выполнения)
+    setIsSelectionMenuActive_MO(1)
+    setIsNewDeadlineButtonClicked_MO(1)      // (для работы с доп функциями при клике на кнопку добавления нового срока выполнения)
 
 
     // Если ранее на каком-то из подзадач была нажата кнопка "NewDeadline" (иконка) и при этом СЕЙЧАС клик произошёл не на навигатор в календаре (месяцы/годы), не на кнопки календаря
@@ -356,12 +358,12 @@ function clickMenudeadline(e) {
 
 
         // Скрываю само меню и удаляю календарь в нём
-        curHiddenMenuDeadlineNewDeadline.classList.add("hide2")   
+        hiddenByDisplay(curHiddenMenuDeadlineNewDeadline, "hide")  
         MyCalendar.destroy()    
         MyCalendar = null
 
         // Отмечаю, что сейчас не нажиматся кнопка "Назначить срок" и можно скрывать все доп. функции
-        setTimevar2_MO("") 
+        setIsNewDeadlineButtonClicked_MO("") 
 
 
         // Скрываю все доп функции подзадачи
@@ -382,7 +384,7 @@ function clickMenudeadline(e) {
     } 
     // Если ранее ни на какой из подзадач не была нажата кнопка "NewDeadline" (иконка)
     else if ((currentLi_klick_MO == null)) {
-        setTimevar2_MO("")
+        setIsNewDeadlineButtonClicked_MO("")
     }
     const isObservHiddenMenus = JSON.parse(window.localStorage.getItem("isObservHiddenMenus"))
     if (isObservHiddenMenus == false) {
@@ -402,8 +404,8 @@ function clickFieldMenuDeadlineSubtask(e) {
     if (!target_container_subtask && !target_container_formSubtask) return
 
 
-    setTimeVar_MO(1)
-    setTimevar2_MO(1)      // (для работы с доп функциями при клике на кнопку добавления нового срока выполнения)
+    setIsSelectionMenuActive_MO(1)
+    setIsNewDeadlineButtonClicked_MO(1)      // (для работы с доп функциями при клике на кнопку добавления нового срока выполнения)
 
     // Если ранее на каком-то из тасков была нажата кнопка "NewDeadline" (иконка) и при этом СЕЙЧАС клик произошёл не на навигатор в календаре (месяцы/годы), не на кнопки календаря
     // Этот код работает если клик был по меню выбора срока выполнения после нажатия на "Назначить срок" (только в этом случае нужно скрывать сразу меню выбора, ведь при создании/редактировании после выбора скрывать меню не нужно)
@@ -412,13 +414,13 @@ function clickFieldMenuDeadlineSubtask(e) {
         const curHiddenMenuDeadlineNewDeadline = currentLi_klick_MO.querySelector(".subtask__dopFunction__hidden-menu-deadline")
 
 
-        // Скрываю само меню и удаляю календарь в нём
-        curHiddenMenuDeadlineNewDeadline.classList.add("hide2")   
+        // Скрываю само меню и удаляю календарь в нём 
+        hiddenByDisplay(curHiddenMenuDeadlineNewDeadline, "hide")
         MyCalendar.destroy()    
         MyCalendar = null
 
         // Отмечаю, что сейчас не нажиматся кнопка "Назначить срок" и можно скрывать все доп. функции
-        setTimevar2_MO("")
+        setIsNewDeadlineButtonClicked_MO("")
 
 
         // Скрываю все доп функции подзадачи
@@ -439,7 +441,7 @@ function clickFieldMenuDeadlineSubtask(e) {
     } 
     // Если ранее ни на какой из подзадач не была нажата кнопка "NewDeadline" (иконка)
     else if ((currentLi_klick_MO == null)) {
-        setTimevar2_MO("") 
+        setIsNewDeadlineButtonClicked_MO("") 
     }
 
     const isObservHiddenMenus = JSON.parse(window.localStorage.getItem("isObservHiddenMenus"))
@@ -474,17 +476,17 @@ function clickOuterModal_deadlineSubtask(e) {
     }
 
 
-    const timeVar_MO = getTimeVar_MO()
+    const isSelectionMenuActive_MO = getIsSelectionMenuActive_MO()
 
     const currentLi_modal = getCurrentLi_modal()
 
     // Если клик был вне поля выбора и вне элемента подзадачи (li), и при этом ранее не была отмечена текущая ПОДЗАДАЧА по клику (перед этим кликом не нажалась кнопка ".subtask__btnNewDeadline" (иконка), после которой отображается меню выбора срока выполнения)
-    if (!timeVar_MO && targetLi_modal == null && currentLi_klick_MO == null) {     // Если клик был вне поля и не на кнопку ".subtask__btnNewDeadline" (на иконку) и ранее не был отмечена текущая подзадача по клику
+    if (!isSelectionMenuActive_MO && targetLi_modal == null && currentLi_klick_MO == null) {     // Если клик был вне поля и не на кнопку ".subtask__btnNewDeadline" (на иконку) и ранее не был отмечена текущая подзадача по клику
         setIsObservHiddenMenus(false)
         observFunc(priorityButton)
 
         // Скрываю само меню и удаляю календарь в нём
-        deadlineMenu.classList.add("hide2") 
+        hiddenByDisplay(deadlineMenu, "hide")
         MyCalendarForm.destroy()    
         MyCalendarForm = null
 
@@ -496,14 +498,14 @@ function clickOuterModal_deadlineSubtask(e) {
     } 
 
     // Если клик был вне поля выбора и вне элемента подзадачи (li), и при этом уже была отмечена текущая ПОДЗАДАЧА по клику (ранее уже нажалась кнопка ".subtask__btnNewDeadline" (иконку) и отобразилось меню выбора срока выполнения)
-    else if (!timeVar_MO && targetLi_modal == null && currentLi_klick_MO != null) {
-        curHiddenMenuDeadlineNewDeadline.classList.add("hide2")
+    else if (!isSelectionMenuActive_MO && targetLi_modal == null && currentLi_klick_MO != null) {
+        hiddenByDisplay(curHiddenMenuDeadlineNewDeadline, "hide")
         MyCalendar.destroy()
         MyCalendar = null
         
         
         // Отмечаю, что сейчас не нажиматся кнопка "Назначить срок" и можно скрывать все доп. функции
-        setTimevar2_MO("")
+        setIsNewDeadlineButtonClicked_MO("")
 
         // Скрываю доп функции подзадачи
         hide_subtask_dopFuncs_modal(currentLi_klick_MO.querySelector(".subtask__dopFuncs"))
@@ -523,9 +525,9 @@ function clickOuterModal_deadlineSubtask(e) {
     } 
 
     // Если клик был вне поля выбора, на элемент подзадачи (li), но не на кнопку ".subtask__btnNewDeadline" и при этом ранее не была отмечена подзадача (ранее не нажималась кнопка ".subtask__btnNewDeadline", при нажатии на которую отображается меню выбора срока выполнения) 
-    if (!timeVar_MO && targetLi_modal != null && !targetBtn && currentLi_klick_MO == null) {
+    if (!isSelectionMenuActive_MO && targetLi_modal != null && !targetBtn && currentLi_klick_MO == null) {
         // Скрываю само меню и удаляю календарь в нём
-        deadlineMenu.classList.add("hide2") 
+        hiddenByDisplay(deadlineMenu, "hide")
         MyCalendarForm.destroy()    
         MyCalendarForm = null
 
@@ -542,14 +544,14 @@ function clickOuterModal_deadlineSubtask(e) {
     }
 
     // Если клик был вне поля выбора, на элемент подзадачи (li), но не на кнопку ".subtask__btnNewDeadline" и при этом ранее уже была отмечена подзадача (ранее уже нажалась кнопка ".subtask__btnNewDeadline" (иконку) и отобразилось меню выбора срока выполнения)
-    else if (!timeVar_MO && targetLi_modal != null && !targetBtn && currentLi_klick_MO != null) {
+    else if (!isSelectionMenuActive_MO && targetLi_modal != null && !targetBtn && currentLi_klick_MO != null) {
         // Скрываю само меню и удаляю календарь в нём
-        curHiddenMenuDeadlineNewDeadline.classList.add("hide2")
+        hiddenByDisplay(curHiddenMenuDeadlineNewDeadline, "hide")
         MyCalendar.destroy()
         MyCalendar = null
 
         // Отмечаю, что сейчас не нажиматся кнопка "Назначить срок" и можно скрывать все доп. функции
-        setTimevar2_MO("")
+        setIsNewDeadlineButtonClicked_MO("")
 
         // Скрываю доп функции у текущей подзадачи
         hide_subtask_dopFuncs_modal(currentLi_klick_MO.querySelector(".subtask__dopFuncs"))
@@ -576,8 +578,8 @@ function clickOuterModal_deadlineSubtask(e) {
         reloadItemsDeadlineSubtask(deadlineHiddenList)
     }
 
-    if (timeVar_MO) { 
-        setTimeout(() => setTimeVar_MO(""), 100)
+    if (isSelectionMenuActive_MO) { 
+        setTimeout(() => setIsSelectionMenuActive_MO(""), 100)
     }  
 
 }

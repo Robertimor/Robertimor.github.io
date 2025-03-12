@@ -41,7 +41,7 @@
         <form class="log-reg__form" action="">
             <input class="log-reg__input inp-login" name="user-name" type="text" maxlength="18" placeholder="Введите логин...">
             <input class="log-reg__input inp-password" name="user-password" type="password" placeholder="Введите пароль...">
-            <a class="log-reg__link" href="#">Забыли пароль?</a>
+            <!-- <a class="log-reg__link" href="#">Забыли пароль?</a> -->
             <div class="log-reg__buttons">
                 <button class="log-reg__btn btn-login" type="submit">Войти</button>
                 <button class="log-reg__btn btn-register" type="submit">Регистрация</button>
@@ -63,21 +63,21 @@
                 </div>
         </div>
         <div class="hidden-menu-profile sidebar-user-menu__hidden-menu-profile hide2">    <!--Скрытое меню профиля, которое открывается при нажатии на ".sidebar-user-menu__btn_menu-profile" -->
-            <div class="hidden-menu-profile__link-to-profile hidden-menu-profile__links-from-menu-profile">
+            <!-- <div class="hidden-menu-profile__link-to-profile hidden-menu-profile__links-from-menu-profile">
                 <img class="hidden-menu-profile__icons" src="./icon/link_To_Profile.png" alt="" width="25px">
                 <ul>
                     <li>Аккаунт</li>
                     <li>Выполнено сегодня 0 / 0</li>
                 </ul>
-            </div>
-            <div class="hidden-menu-profile__link-to-settings hidden-menu-profile__links-from-menu-profile">
+            </div> -->
+            <!-- <div class="hidden-menu-profile__link-to-settings hidden-menu-profile__links-from-menu-profile">
                 <img class="hidden-menu-profile__icons" src="./icon/settings.png" alt="" width="22px">
                 <span>Настройки</span>
-            </div>
-            <div class="hidden-menu-profile__link-to-print hidden-menu-profile__links-from-menu-profile">
+            </div> -->
+            <!-- <div class="hidden-menu-profile__link-to-print hidden-menu-profile__links-from-menu-profile">
                 <img class="hidden-menu-profile__icons" src="./icon/print.png" alt="" width="22px">
                 <span>Распечатать</span>
-            </div>
+            </div> -->
             <div class="hidden-menu-profile__link-to-exit hidden-menu-profile__links-from-menu-profile">
                 <img class="hidden-menu-profile__icons" src="./icon/exit.png" alt="" width="22px">
                 <span>Выйти</span>
@@ -160,8 +160,8 @@
                     <span class="overdue__text-prosrocheno">Просрочено</span>
                     <div class="overdue__sort">
                         <span class="overdue__sort-text">Сортировка:</span>
-                        <span class="overdue__sort-up overdue__sort-btn hovered1_2"><img src="icon/up.png" alt="" class=""></span>
-                        <span class="overdue__sort-down overdue__sort-btn hovered1_2"><img src="icon/down.png" alt="" class=""></span>
+                        <span class="overdue__sort-up overdue__sort-btn hovered1_2">Сначало ближайшие <img src="icon/up.png" alt="" class=""></span>
+                        <span class="overdue__sort-down overdue__sort-btn hovered1_2">Сначало поздние <img src="icon/down.png" alt="" class=""></span>
                     </div>
                 </div>
                 <ul class="overdue__tasks-list transition-show">
@@ -173,8 +173,8 @@
                     <div class="tasks__name-today"></div>
                     <div class="tasks__sort">
                         <span class="tasks__sort-text">Сортировка:</span>
-                        <span class="tasks__sort-up tasks-sort-btn hovered1_2"><img src="icon/up.png" alt="" class=""></span>
-                        <span class="tasks__sort-down tasks-sort-btn hovered1_2"><img src="icon/down.png" alt="" class=""></span>
+                        <span class="tasks__sort-up tasks-sort-btn hovered1_2">Сначало ближайшие <img src="icon/up.png" alt="" class=""></span>
+                        <span class="tasks__sort-down tasks-sort-btn hovered1_2">Сначало поздние <img src="icon/down.png" alt="" class=""></span>
                     </div>
                 </div>
                 <ul class="tasks__tasks-list">
@@ -184,10 +184,6 @@
                     <img class="add-new-task__img-add-task-2 hide2" src="./icon/add2_2.png" alt="" width="25px">
                     <span class="add-new-task__text">Добавить задачу</span>
                 </div>
-
-
-        
-
 
                 <div class="form-from-add-new-task hide2">
                     <textarea name="name-new-task" class="form-from-add-new-task__name-new-task form-from-add-new-task__textarea-from-add-new-task" placeholder="Название задачи"></textarea>
@@ -329,6 +325,7 @@
 
 
 
+<script type="module" src="./js/base.js"></script>
 <script type="module" src="./js/doomElements.js"></script>
 <script type="module" src="./js/dataProcessing.js"></script>   <!-- Данный файл обрабатывает таски (сортировка по сроку, распределение) -->
 <script type="module" src="./js/scripts.js"></script>

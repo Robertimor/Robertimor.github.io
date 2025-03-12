@@ -1,6 +1,6 @@
 'use strict';
 import {reloadFormAddTask} from "./scripts.js"
-
+import {hiddenByDisplay} from "./base.js"
 
 
 
@@ -95,14 +95,14 @@ MyCalendarAside.show()
 
 // Показ/скрытие (изначальо скрытого) меню профиля
 profileMenuButton.addEventListener("click", function (e) {
-    menuProfile.classList.toggle("hide2")
+    hiddenByDisplay(menuProfile, "toggle")
 })
 
 // При клике вне меню профиля
 document.addEventListener("click", function(e) {
     // Если скрытое меню профиля показано и клик был не по кнопке его открытия/скрытия
     if (!menuProfile.classList.contains("hide2") && !e.target.closest(".sidebar-user-menu__btn_menu-profile")) {
-        menuProfile.classList.add("hide2")
+        hiddenByDisplay(menuProfile, "hide")
     }
 })
 
@@ -128,15 +128,15 @@ addTaskButton.addEventListener('click', function(e) {
 
     // В область модального окна добавляется поле для добавления нового таска
     modalNewTaskElem.append(taskCreationForm	)  
-    // Убирает скрытие с формы добавления таска, которая перенеслась в МО
-    taskCreationForm	.classList.remove("hide2")    
+    // Убирает скрытие с формы добавления таска, которая перенеслась в МО  
+    hiddenByDisplay(taskCreationForm, "show")
 
     // Обнуляю элементы поля .taskCreationForm	 (поле для добавление нового таска) и скрываю его
     reloadFormAddTask()
 
     // Убирается скрытие li со всех тасков (если до этого какой-то скрылся, из-за незаконченного редактирования)
-    mainContentView.querySelectorAll(".task__wrapper").forEach(function(task) {
-        task.classList.remove("hide2")      
+    mainContentView.querySelectorAll(".task__wrapper").forEach(function(task) { 
+        hiddenByDisplay(task, "show")  
     })
 
 

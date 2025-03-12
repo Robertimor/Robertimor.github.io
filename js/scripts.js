@@ -1,9 +1,10 @@
 'use strict';
 
+import {hiddenByDisplay} from "./base.js"
 import {countAllTasks, sectionContentBlock_viewContent, allCurrentTasksOuter, taskForm, taskNameInput, taskDescriptionInput, deadlineButton, deadlineOptions, deadlineCalendar, priorityButton, priorityMenu, priorityOptions, taskTypeMenu, taskTypeOptions, taskTypeButton,  buttonAddNewTask, buttonSaveTask, addNewTask, localLanguage, nowData, options1, options2, nowDay, nowMonth, currectEntryDate} from "./doomElements.js"
 import {sortTasks, raspredTasks, reIndexTasks, setTasksId, getTasksId} from "./dataProcessing.js"
 import {closeModalNewTask} from "./sidebar.js"
-import {switchDisabledShowDopFuncTask, setCurrentLi, getCurrentLi, setCurrentLi_klick, setTimeVar2, getTimeVar2, setIsObservHiddenMenus, hide_task_dopFuncs, observFunc, show_task_dopFuncs} from "./toggleVisibleElements.js"
+import {switchDisabledShowDopFuncTask, setCurrentLi, getCurrentLi, setCurrentLi_klick, setIsNewDeadlineButtonClicked, getIsNewDeadlineButtonClicked, setIsObservHiddenMenus, hide_task_dopFuncs, observFunc, show_task_dopFuncs} from "./toggleVisibleElements.js"
 
 
 
@@ -94,7 +95,7 @@ countAllTasks.innerHTML = all_tasks.length   // Вписывание колич�
  
 
 
-let timeVar2 = getTimeVar2()           // (для работы с доп функциями при клике на кнопку добавления нового срока выполнения)
+let isNewDeadlineButtonClicked = getIsNewDeadlineButtonClicked()           // (для работы с доп функциями при клике на кнопку добавления нового срока выполнения)
 
 
 
@@ -123,16 +124,17 @@ sectionContentBlock_viewContent.addEventListener("click", function(e) {
     targetLi.append(taskForm)   
 
     // Убирается скрытие li со всех элементов (если до этого какой-то скрылся, из-за незаконченного редактирования)
-    sectionContentBlock_viewContent.querySelectorAll(".task__wrapper").forEach(function(task) {
-        task.classList.remove("hide2")      
+    sectionContentBlock_viewContent.querySelectorAll(".task__wrapper").forEach(function(task) {  
+        hiddenByDisplay(task, "show")  
     })
-    targetLi.querySelector(".task__wrapper").classList.add("hide2")        // Скрывается li
-    taskForm.classList.remove("hide2")    // Убирает скрытие с формы изменения таска, которая перенеслась в место элемента li
+    hiddenByDisplay(targetLi.querySelector(".task__wrapper"), "hide")        // Скрывается li
+    hiddenByDisplay(taskForm, "show")  
+    hiddenByDisplay(userMenu, "show")  // Убирает скрытие с формы изменения таска, которая перенеслась в место элемента li
 
 
     // Скрываю кнопку для создания таска. И показываю кнопку для сохранения изменений при редактированини таска
-    buttonAddNewTask.classList.add("hide2")
-    buttonSaveTask.classList.remove("hide2")
+    hiddenByDisplay(buttonAddNewTask, "hide")
+    hiddenByDisplay(buttonSaveTask, "show")
 
 
     let liFromArr   // Таск из массива
@@ -193,12 +195,12 @@ buttonSaveTask.addEventListener("click", function (e) {
 
 
         // Скрывается Блок "taskForm"
-        taskForm.classList.add("hide2")   
+        hiddenByDisplay(taskForm, "hide")   
         // Блок "taskForm" перемещается в конец
         sectionContentBlock_viewContent.append(taskForm)  
         // Удаляется скрытие элемента таска, вместо которого ранее был перемещён блок "taskForm"
         sectionContentBlock_viewContent.querySelectorAll(".task__wrapper").forEach(function(task) {
-            task.classList.remove("hide2")
+            hiddenByDisplay(task, "show")  
         })
 
         // Обнуляю элементы поля .taskForm (поле для добавление нового таска) и скрываю его
@@ -296,7 +298,7 @@ export function updateDataTask_element(taskEl, taskArr) {
 sectionContentBlock_viewContent.addEventListener("click", function(e) {
     const targetBtn = e.target.closest(".task__btnNewDeadline")   // Нажатая кнопка "NewDeadline" 
     const targetBtnIcon = e.target.closest(".task__dopFunction_iconWrap")
-    timeVar2 = getTimeVar2()
+    isNewDeadlineButtonClicked = getIsNewDeadlineButtonClicked()
 
     
     // Если клик был вне контейнера с кнопкой "NewDeadline", то игнорируем
@@ -322,8 +324,8 @@ sectionContentBlock_viewContent.addEventListener("click", function(e) {
 
     // Если меню скрыто
     if (curHiddenMenuDeadlineNewDeadline.classList.contains("hide2") == true) {  
-        // Показываю это меню выбора (удаляю скрытие)
-        curHiddenMenuDeadlineNewDeadline.classList.remove("hide2")    
+        // Показываю это меню выбора (удаляю скрытие) 
+        hiddenByDisplay(curHiddenMenuDeadlineNewDeadline, "show")  
 
 
         // Скрытое поле для вставки выбранной даты у таска (полной, с годом, и только числами)
@@ -346,7 +348,7 @@ sectionContentBlock_viewContent.addEventListener("click", function(e) {
 
 
         // Отмечаю нажатие на кнопку назначения нового срока выполнения
-        setTimeVar2(1)
+        setIsNewDeadlineButtonClicked(1)
 
         // Отмечаю в глобальную переменную - таск, внутри которого был совершён клик по кнопке
         setCurrentLi_klick((e.target.closest("li")).getAttribute("id"))          
@@ -362,15 +364,15 @@ sectionContentBlock_viewContent.addEventListener("click", function(e) {
     }
     
     // Если меню отображено (не скрыто)
-    else if (curHiddenMenuDeadlineNewDeadline.classList.contains("hide2") == false && timeVar2) {  
+    else if (curHiddenMenuDeadlineNewDeadline.classList.contains("hide2") == false && isNewDeadlineButtonClicked) {  
         // Скрываю это меню выбора и уничтожаю созданный календарь
-        curHiddenMenuDeadlineNewDeadline.classList.add("hide2") 
+        hiddenByDisplay(curHiddenMenuDeadlineNewDeadline, "hide")  
         MyCalendar.destroy()
         MyCalendar = null
 
 
-        setTimeout(() => timeVar2='', 100)
-        setTimeout(() => setTimeVar2(""), 100)
+        setTimeout(() => isNewDeadlineButtonClicked='', 100)
+        setTimeout(() => setIsNewDeadlineButtonClicked(""), 100)
 
         // Удаляю отметку о текущем таске       
         setCurrentLi_klick(null)                 
@@ -435,9 +437,9 @@ addNewTask.addEventListener("click", function(e) {
     sectionContentBlock_viewContent.append(taskForm)
     // Убираю скрытие у элемента li, вместо которого ранее могло подставляться поле для редактирования
     sectionContentBlock_viewContent.querySelectorAll(".task__wrapper").forEach(function(task) {
-        task.classList.remove("hide2")
+        hiddenByDisplay(task, "show") 
     })
-    taskForm.classList.remove("hide2")
+    hiddenByDisplay(taskForm, "show") 
     
     // Обнуляю элементы поля .taskForm (поле для добавление нового таска) и скрываю его
     reloadFormAddTask()
@@ -468,7 +470,7 @@ taskTypeOptions.forEach(function(type) {
         // Снимаю блокировку с открытия м.о.
         switchIsModal_block("false")  
 
-        taskTypeMenu.classList.add("hide2")
+        hiddenByDisplay(taskTypeMenu, "hide") 
     })
 })
 
@@ -512,8 +514,10 @@ taskForm.querySelectorAll(".form-from-add-new-task__icon-cross").forEach(functio
             parentEl.querySelector(".form-from-add-new-task__text-settings").innerHTML = "Приоритет"
             
             priorityOptions.forEach(function(itemPriority) { 
-                itemPriority.classList.remove("hovered_select_menu")    // Удаляю стиль выбранного элемента у ранее выбранного элемента
-                itemPriority.querySelector(".form-from-add-new-task__priority-icon-selected").classList.add("hide2")    // Удаляю галочки у ранее выбранного элемента (если такой был)
+                // Удаляю стиль выбранного элемента у ранее выбранного элемента
+                itemPriority.classList.remove("hovered_select_menu")    
+                // Удаляю галочки у ранее выбранного элемента (если такой был)
+                hiddenByDisplay(itemPriority.querySelector(".form-from-add-new-task__priority-icon-selected"), "hide")     
             })
         }
     })
@@ -822,7 +826,7 @@ deadlineOptions.forEach(function(item) {
             //Очищаю стиль выбранного элемента со всех, если он где-то был (удаляю со всех элементов класс "hovered_select_menu")
             reloadItemsDeadline(item)
 
-            deadlineButton.querySelector(".form-from-add-new-task__icon-cross").classList.add("hide2")
+            hiddenByDisplay(deadlineButton.querySelector(".form-from-add-new-task__icon-cross"), "hide")
         } else if (nameItemDeadline == "Без срока" && textAreaDeadline.innerHTML == "Срок выполнения") {
             setIsObservHiddenMenus(false)
         }
@@ -1010,10 +1014,12 @@ deadlineCalendar.addEventListener("click", function(e) {
 function reloadItemsPriority(currentItemPriority) {
     priorityOptions.forEach(function(itemPriority) { 
         itemPriority.classList.remove("hovered_select_menu")    // Удаляю стиль выбранного элемента у ранее выбранного элемента
-        itemPriority.querySelector(".form-from-add-new-task__priority-icon-selected").classList.add("hide2")    // Удаляю галочки у ранее выбранного элемента (если такой был)
+        hiddenByDisplay(itemPriority.querySelector(".form-from-add-new-task__priority-icon-selected"), "hide")    // Удаляю галочки у ранее выбранного элемента (если такой был)
     })
-    currentItemPriority.classList.add("hovered_select_menu")    // Добавляю стиль выбранного элемента
-    currentItemPriority.querySelector(".form-from-add-new-task__priority-icon-selected").classList.remove("hide2")  // Показываю галочку у выбранного элемента
+    // Добавляю стиль выбранного элемента
+    currentItemPriority.classList.add("hovered_select_menu")    
+    // Показываю галочку у выбранного элемента
+    hiddenByDisplay(currentItemPriority.querySelector(".form-from-add-new-task__priority-icon-selected"), "show")  
 }
 
 priorityOptions.forEach(function(item) {
@@ -1022,7 +1028,7 @@ priorityOptions.forEach(function(item) {
 
         if (item.querySelector(".form-from-add-new-task__priority-name").getAttribute("aria-label") == "Приоритет") {
             setIsObservHiddenMenus(false)
-            priorityButton.querySelector(".form-from-add-new-task__icon-cross").classList.add("hide2")
+            hiddenByDisplay(priorityButton.querySelector(".form-from-add-new-task__icon-cross"), "hide") 
         }
 
         // Подставляю в поле выбранного приоритета - иконку и "aria-label" выбранного приоритета, если выбираемый приоритет не является уже выбранным
@@ -1038,7 +1044,7 @@ priorityOptions.forEach(function(item) {
         switchDisabledShowDopFuncTask("false")
         // Снимаю блокировку с открытия м.о.
         switchIsModal_block("false")  
-        priorityMenu.classList.add("hide2")
+        hiddenByDisplay(priorityMenu, "hide") 
     })
 })
 
@@ -1125,9 +1131,9 @@ buttonAddNewTask.addEventListener("click", function(e) {
         
 
         sectionContentBlock_viewContent.querySelectorAll(".task__wrapper").forEach(function(task) {
-            task.classList.remove("hide2")
+            hiddenByDisplay(task, "show") 
         })
-        taskForm.classList.add("hide2")
+        hiddenByDisplay(taskForm, "hide") 
 
 
         // Если модальное окно для создания новой задачи открыто (которое открывается при клике на кнопку в sidebar главной страницы)
@@ -1317,7 +1323,7 @@ function reloadFormAddTask() {
     setIsObservHiddenMenus(false)
     deadlineButton.querySelector(".form-from-add-new-task__text-settings").innerHTML = "Срок выполнения"
     deadlineButton.querySelector(".form-from-add-new-task__text-settings_hidden-num").innerHTML = "Срок выполнения"
-    deadlineButton.querySelector(".form-from-add-new-task__icon-cross").classList.add("hide2")
+    hiddenByDisplay(deadlineButton.querySelector(".form-from-add-new-task__icon-cross"), "hide")
     // Очищаю выделение выбранного срока выполнения из списка
     deadlineOptions.forEach(function(itemDeadline) { 
         itemDeadline.classList.remove("hovered_select_menu")
@@ -1330,16 +1336,16 @@ function reloadFormAddTask() {
     deadlineButton.querySelector(".form-from-add-new-task__text-settings").innerHTML = `${nowDay} ${nowMonth}`
     deadlineButton.querySelector(".form-from-add-new-task__text-settings_hidden-num").innerHTML = nowData.toLocaleDateString()
     // Убираю скрытие с крестика в поле выбора срока выполнения
-    deadlineButton.querySelector(".form-from-add-new-task__icon-cross").classList.remove("hide2")
+    hiddenByDisplay(deadlineButton.querySelector(".form-from-add-new-task__icon-cross"), "show")
 
     
     priorityButton.querySelector(".form-from-add-new-task__text-settings").innerHTML = "Приоритет"
     priorityButton.querySelector(".form-from-add-new-task__icon-selected-setting").setAttribute("src", "./icon/priority_ser.png")
-    priorityButton.querySelector(".form-from-add-new-task__icon-cross").classList.add("hide2")
+    hiddenByDisplay(priorityButton.querySelector(".form-from-add-new-task__icon-cross"), "hide")
     // Очищаю выделение выбранного приоритета
     priorityOptions.forEach(function(itemPriority) { 
         itemPriority.classList.remove("hovered_select_menu")    // Удаляю стиль выбранного элемента у ранее выбранного элемента
-        itemPriority.querySelector(".form-from-add-new-task__priority-icon-selected").classList.add("hide2")    // Удаляю галочки у ранее выбранного элемента (если такой был)
+        hiddenByDisplay(itemPriority.querySelector(".form-from-add-new-task__priority-icon-selected"), "hide")    // Удаляю галочки у ранее выбранного элемента (если такой был)
     })
 
     taskTypeButton.querySelector(".form-from-add-new-task__name-type-task").innerHTML = "Дом"  // Имя типа таска
@@ -1347,8 +1353,8 @@ function reloadFormAddTask() {
 
 
     // Показываю кнопку для создания таска. И скрываю кнопку для сохранения изменений при редактированини таска
-    buttonAddNewTask.classList.remove("hide2")
-    buttonSaveTask.classList.add("hide2")
+    hiddenByDisplay(buttonAddNewTask, "show")
+    hiddenByDisplay(buttonSaveTask, "hide")
 
 }
 export { reloadFormAddTask, reloadItemsAndCalendarDeadline, changeMyCalendar, funcAddNewTask}
