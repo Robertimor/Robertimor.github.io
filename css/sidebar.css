@@ -1,4 +1,4 @@
-aside {
+sidebar {
     box-sizing: content-box;
     height: 100vh;
     width: 260px;
@@ -58,7 +58,7 @@ aside {
 
 
 
-.aside-user-menu {
+.sidebar-user-menu {
     position: relative;
     font-size: 14px;
     color: #202020;
@@ -67,7 +67,7 @@ aside {
 
 /* Верхняя шапка бокового меню: */ 
 /*   <--   */
-.aside-user-menu__header-Nav {
+.sidebar-user-menu__header-Nav {
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -76,33 +76,33 @@ aside {
     margin-bottom: 10px;
     border-bottom: 0.2px solid rgb(200, 194, 194);
 }
-    .aside-user-menu__btn_menu-profile {      /* Поле с фото профиля, ником и кнопкой открытия доп меню профиля*/
+    .sidebar-user-menu__btn_menu-profile {      /* Поле с фото профиля, ником и кнопкой открытия доп меню профиля*/
         display: flex; 
         align-items: center;
         font-size: 14px;
         padding: 6px 5px;
         border-radius: 5px;
     }
-        .aside-user-menu__icon-user {
+        .sidebar-user-menu__icon-user {
             box-sizing: content-box;
         }
-        .aside-user-menu__nickname-user {
+        .sidebar-user-menu__nickname-user {
             font-size: 14px;
             font-weight: bold;
         }
-        .aside-user-menu__icon-down {
+        .sidebar-user-menu__icon-down {
             margin-left: 7px;
         }
 
-    .aside-user-menu__conteiner-from-notifications-hideAndShow {
+    .sidebar-user-menu__conteiner-from-notifications-hideAndShow {
         display: flex;
         align-items: center;
     }
-    .aside-user-menu__btn-notifications, .aside-user-menu__btn-hideAndShow-sidebar {  /* Кнопка уведомления и скрытия сайдбара */
+    .sidebar-user-menu__btn-notifications, .sidebar-user-menu__btn-hideAndShow-sidebar {  /* Кнопка уведомления и скрытия сайдбара */
         margin-right: 5px;
         transition: transform 0.4s ease-in-out;
     }
-        .aside-user-menu__icons-notifications-and-hideAndShow-sidebar {
+        .sidebar-user-menu__icons-notifications-and-hideAndShow-sidebar {
             display:block;
             box-sizing: content-box;
             padding: 9px;
@@ -160,7 +160,7 @@ aside {
 
 
 
-.aside-user-menu__add-new-task {
+.sidebar-user-menu__add-new-task {
     display: flex;
     align-items: center;
     padding: 8px 5px;
@@ -168,18 +168,18 @@ aside {
     font-size: 14px; 
     margin-bottom: 5px;
 }
-    .aside-user-menu__text-add-new-task {
+    .sidebar-user-menu__text-add-new-task {
         margin-left: 5px;
         color: #DC4C3E;
     }
 
-.aside-user-menu__search-task {
+.sidebar-user-menu__search-task {
     display: flex;
     align-items: center;
     padding: 8px 5px;
     border-radius: 10px;
 }
-    .aside-user-menu__form-search-tasks {
+    .sidebar-user-menu__form-search-tasks {
         margin-left: 6px;
     }
         #input-search-tasks {
@@ -188,41 +188,41 @@ aside {
             color: black !important;
         }
         
-    .aside-user-menu__icon-search {
+    .sidebar-user-menu__icon-search {
         margin-right: 7px;
     }
-    .aside-user-menu__text-search {
+    .sidebar-user-menu__text-search {
         margin-left: 7px;
     }
 
 
-.aside-user-menu__all-tasks-list {
+.sidebar-user-menu__all-tasks-list {
     display: flex;
     align-items: center;
     padding: 8px 5px;
     border-radius: 10px;
 }
 
-    .aside-user-menu__text-all-tasks-list {
+    .sidebar-user-menu__text-all-tasks-list {
         font-size: 14px;
         margin-left: 5px;
     }
 
 
-.aside-user-menu__today-list {
+.sidebar-user-menu__today-list {
     display: flex;
     align-items: center;
     padding: 8px 5px;
     border-radius: 10px;
 }
 
-    .aside-user-menu__text-today-list {
+    .sidebar-user-menu__text-today-list {
         font-size: 14px;
         margin-left: 5px;
     }
 
 
-.aside-user-menu__calendar {
+.sidebar-user-menu__calendar {
     margin-top: 15px;
 }
 
@@ -232,12 +232,12 @@ aside {
 
 
 
-.aside-user-menu__my-group-projects {
+.sidebar-user-menu__my-group-projects {
     border-top: 1px solid rgb(200, 194, 194);
     padding-top: 15px;
     margin-top: 25px;
 }
-    .aside-user-menu__my-group-projects h2 {
+    .sidebar-user-menu__my-group-projects h2 {
         margin-bottom: 10px;
         font-size: 14px;
         color: #666666;
@@ -296,7 +296,7 @@ aside {
  
  
 
- /* Стили для модального окна создания новой задачи (при клике на кнопку из aside главной страницы */
+ /* Стили для модального окна создания новой задачи (при клике на кнопку из sidebar главной страницы */
  .modalAddNewTask {
  
     /* Скрываем окна  */

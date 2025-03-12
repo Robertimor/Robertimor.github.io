@@ -1,5 +1,6 @@
+'use strict';
 
-const aside = document.querySelector(".aside")                  // Сайдбар целиком
+const sidebar = document.querySelector(".sidebar")                  // Сайдбар целиком
 const logReg = document.querySelector(".log-reg")               // Поле с регистрацией/авторизацией
 const InpLogin = document.querySelector(".inp-login");            // Поле для логина при регистрации/авторизации
 const InpPassword = document.querySelector(".inp-password");     // Поле для пароля при регистрации/авторизации
@@ -9,9 +10,9 @@ const butExit = document.querySelector(".hidden-menu-profile__link-to-exit")    
 
 
 
-const userMenu = document.querySelector(".aside-user-menu")       // Поле aside-а авторизированного пользователя
+const userMenu = document.querySelector(".sidebar-user-menu")       // Поле sidebar-а авторизированного пользователя
 const mainContent = document.querySelector(".block-all-tasks")
-const nicknameUser = document.querySelector(".aside-user-menu__nickname-user")    // Отображаемый nickname (login) пользователя
+const nicknameUser = document.querySelector(".sidebar-user-menu__nickname-user")    // Отображаемый nickname (login) пользователя
 
 
 let accounts

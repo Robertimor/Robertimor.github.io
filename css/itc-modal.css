@@ -196,7 +196,7 @@
                         .itc-modal-body__icon-down {
                             width: 10px;
                         }
-            .itc-modal-body__hidden-menuTypesTask {
+            .itc-modal-body__aside .itc-modal-body__hidden-menuTypesTask {
                 top: 80px;
                 /* left: -20px; */
                 left: -20px;

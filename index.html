@@ -34,7 +34,7 @@
 
 
 <div id="todolist_block">
-<aside class="aside">
+<sidebar class="sidebar">
     <div class="log-reg aside__log-reg">
         <img class="log-reg__img" src="./icon/unknownUser.png" alt="unknownUser" width="60px">
         <p class="log-reg__text">Введите данные аккаунта:</p>
@@ -50,19 +50,19 @@
         <p class="log-reg__successfulReg hide2">Вы успешно зарегистрировались!</p>
         <p class="log-reg__empty-field hide2">Заполните оба поля</p>
     </div>
-    <div class="aside-user-menu hide2">
-        <div class="aside-user-menu__header-Nav">  
-                <div class="aside-user-menu__btn_menu-profile hover-hint" data-title="Открыть пользовательское меню">
-                    <img class="aside-user-menu__icon-user" src="./icon/jojo.png" alt="unknownUser" width="28px" style="margin-right: 10px;">
-                    <p class="aside-user-menu__nickname-user">#NICK_NAME#</p>
-                    <img class="aside-user-menu__icon-down" src="./icon/down.png" alt="" width="10px">
+    <div class="sidebar-user-menu hide2">
+        <div class="sidebar-user-menu__header-Nav">  
+                <div class="sidebar-user-menu__btn_menu-profile hover-hint" data-title="Открыть пользовательское меню">
+                    <img class="sidebar-user-menu__icon-user" src="./icon/jojo.png" alt="unknownUser" width="28px" style="margin-right: 10px;">
+                    <p class="sidebar-user-menu__nickname-user">#NICK_NAME#</p>
+                    <img class="sidebar-user-menu__icon-down" src="./icon/down.png" alt="" width="10px">
                 </div>
-                <div class="aside-user-menu__conteiner-from-notifications-hideAndShow">
-                    <img class="aside-user-menu__btn-notifications aside-user-menu__icons-notifications-and-hideAndShow-sidebar hover-hint" data-title="Уведомления" aria-label="уведомления" src="./icon/notifications.png" alt="" width="17px;">
-                    <img class="aside-user-menu__btn-hideAndShow-sidebar aside-user-menu__icons-notifications-and-hideAndShow-sidebar hover-hint" data-title="Скрыть/показать сайдбар" aria-label="Скрыть/показать сайдбар" src="./icon/hideAndShow_Sidebar.png" alt="" width="17px;">
+                <div class="sidebar-user-menu__conteiner-from-notifications-hideAndShow">
+                    <img class="sidebar-user-menu__btn-notifications sidebar-user-menu__icons-notifications-and-hideAndShow-sidebar hover-hint" data-title="Уведомления" aria-label="уведомления" src="./icon/notifications.png" alt="" width="17px;">
+                    <img class="sidebar-user-menu__btn-hideAndShow-sidebar sidebar-user-menu__icons-notifications-and-hideAndShow-sidebar hover-hint" data-title="Скрыть/показать сайдбар" aria-label="Скрыть/показать сайдбар" src="./icon/hideAndShow_Sidebar.png" alt="" width="17px;">
                 </div>
         </div>
-        <div class="hidden-menu-profile aside-user-menu__hidden-menu-profile hide2">    <!--Скрытое меню профиля, которое открывается при нажатии на ".aside-user-menu__btn_menu-profile" -->
+        <div class="hidden-menu-profile sidebar-user-menu__hidden-menu-profile hide2">    <!--Скрытое меню профиля, которое открывается при нажатии на ".sidebar-user-menu__btn_menu-profile" -->
             <div class="hidden-menu-profile__link-to-profile hidden-menu-profile__links-from-menu-profile">
                 <img class="hidden-menu-profile__icons" src="./icon/link_To_Profile.png" alt="" width="25px">
                 <ul>
@@ -84,41 +84,41 @@
             </div>
         </div>
 
-        <div class="aside-user-menu__add-new-task hovered_aside-items" aria-label="Добавить задачу">
-            <img class="aside-user-menu__img-add-new-task" src="./icon/add2_2.png" alt="" width="20px">
-            <span class="aside-user-menu__text-add-new-task">Добавить задачу</span>
+        <div class="sidebar-user-menu__add-new-task hovered_aside-items" aria-label="Добавить задачу">
+            <img class="sidebar-user-menu__img-add-new-task" src="./icon/add2_2.png" alt="" width="20px">
+            <span class="sidebar-user-menu__text-add-new-task">Добавить задачу</span>
         </div>
-        <div class="aside-user-menu__search-task aside-user-menu__filter-item hovered_aside-items">
-            <img class="aside-user-menu__icon-search-task" src="./icon/search.png" alt="" width="20px">
-            <form action="" class="aside-user-menu__form-search-tasks">
+        <div class="sidebar-user-menu__search-task sidebar-user-menu__filter-item hovered_aside-items">
+            <img class="sidebar-user-menu__icon-search-task" src="./icon/search.png" alt="" width="20px">
+            <form action="" class="sidebar-user-menu__form-search-tasks">
                 <input type="text" name="" id="input-search-tasks" placeholder="Поиск...">
             </form>
         </div>
-        <div class="aside-user-menu__all-tasks-list aside-user-menu__filter-item hovered_aside-items hovered_select_menu">  <!-- Все проекты (+завершённые) -->
-            <img class="aside-user-menu__img-all-tasks-list" src="./icon/allTasks.png" alt="" width="20px">
-            <span class="aside-user-menu__text-all-tasks-list">Все задачи</span>
+        <div class="sidebar-user-menu__all-tasks-list sidebar-user-menu__filter-item hovered_aside-items hovered_select_menu">  <!-- Все проекты (+завершённые) -->
+            <img class="sidebar-user-menu__img-all-tasks-list" src="./icon/allTasks.png" alt="" width="20px">
+            <span class="sidebar-user-menu__text-all-tasks-list">Все задачи</span>
         </div>   
-        <div class="aside-user-menu__today-list aside-user-menu__filter-item hovered_aside-items">  <!-- Проекты на сегодня (+завершённые) -->
-            <img class="aside-user-menu__img-today-list" src="./icon/today.png" alt="" width="20px">
-            <span class="aside-user-menu__text-today-list">Сегодня</span>
+        <div class="sidebar-user-menu__today-list sidebar-user-menu__filter-item hovered_aside-items">  <!-- Проекты на сегодня (+завершённые) -->
+            <img class="sidebar-user-menu__img-today-list" src="./icon/today.png" alt="" width="20px">
+            <span class="sidebar-user-menu__text-today-list">Сегодня</span>
         </div>      
-        <div class="aside-user-menu__calendar">
-            <input type="text" id="aside-calendar" class="hide2">
+        <div class="sidebar-user-menu__calendar">
+            <input type="text" id="sidebar-calendar" class="hide2">
         </div>
-        <div class="my-group-projects aside-user-menu__my-group-projects">
+        <div class="my-group-projects sidebar-user-menu__my-group-projects">
             <h2 class="my-group-projects__title">Мои проекты:</h2>
             <ul class="my-type-projects my-group-projects__my-type-projects">
-                <li class="aside-user-menu__type-home wrapper-type-task my-type-projects__type-project aside-user-menu__filter-item hovered_aside-items">
+                <li class="sidebar-user-menu__type-home wrapper-type-task my-type-projects__type-project sidebar-user-menu__filter-item hovered_aside-items">
                     <img class="wrapper-type-task__icon-grid" src="./icon/grid_0.png" alt="">
                     <span class="wrapper-type-task__name">Дом</span>
                     <img class="wrapper-type-task__icon-type-project" src="./icon/home.png" alt="">
                 </li>
-                <li class="aside-user-menu__type-job wrapper-type-task my-type-projects__type-project aside-user-menu__filter-item hovered_aside-items">
+                <li class="sidebar-user-menu__type-job wrapper-type-task my-type-projects__type-project sidebar-user-menu__filter-item hovered_aside-items">
                     <img class="wrapper-type-task__icon-grid" src="./icon/grid_0.png" alt="">
                     <span class="wrapper-type-task__name">Работа</span>
                     <img class="wrapper-type-task__icon-type-project" src="./icon/job.png" alt="">
                 </li>
-                <li class="aside-user-menu__type-study wrapper-type-task my-type-projects__type-project aside-user-menu__filter-item hovered_aside-items">
+                <li class="sidebar-user-menu__type-study wrapper-type-task my-type-projects__type-project sidebar-user-menu__filter-item hovered_aside-items">
                     <img class="wrapper-type-task__icon-grid" src="./icon/grid_0.png" alt="">
                     <span class="wrapper-type-task__name">Учёба</span>
                     <img class="wrapper-type-task__icon-type-project" src="./icon/study.png" alt="">
@@ -126,7 +126,7 @@
             </ul>
         </div>
     </div>
-</aside>
+</sidebar>
 
 
 <main class="main-content">
@@ -329,11 +329,21 @@
 
 
 
-
-<script type="module" src="./js/register_login.js"></script>
-<script type="module" src="./js/aside.js"></script>
-<script type="module" src="./js/modal.js"></script>
+<script type="module" src="./js/doomElements.js"></script>
+<script type="module" src="./js/dataProcessing.js"></script>   <!-- Данный файл обрабатывает таски (сортировка по сроку, распределение) -->
 <script type="module" src="./js/scripts.js"></script>
+<script type="module" src="./js/toggleVisibleElements.js"></script>   <!--Файл для изменения отображения элементов на странице (либо же изменение их стилей) -->
+<script type="module" src="./js/selectTaskData.js"></script>
+<script type="module" src="./js/register_login.js"></script>
+<script type="module" src="./js/sidebar.js"></script>
+<script type="module" src="./js/modal.js"></script>
+<script type="module" src="./js/MO_dataUpdate.js"></script>
+<script type="module" src="./js/MO_toggleVisibleElTask.js"></script>
+<script type="module" src="./js/MO_toggleVisibleElSubtasks.js"></script>
+<script type="module" src="./js/MO_selectElementsSubtask.js"></script>
+<script type="module" src="./js/MO_reloadSubtasks.js"></script>
+
+
 
 <script src="https://cdn.jsdelivr.net/npm/air-datepicker@3.5.3/air-datepicker.min.js"></script>
 
