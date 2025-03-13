@@ -269,25 +269,6 @@ function te() {
 } 
 
 
-
-
-// function testSort(asc) {
-//     all_tasks = JSON.parse(window.localStorage.getItem("all_tasks"))
-//     let all_tasks2 = all_tasks.slice()
-
-//     if (asc == true) {
-//         all_tasks2.sort((a, b) => new Date(a.newTask_dateCreated) - new Date(b.newTask_dateCreated));
-//         console.log("Отсортированные задачи по возрастанию:", all_tasks2);
-//     } else {
-//         all_tasks2.sort((a, b) => new Date(b.newTask_dateCreated) - new Date(a.newTask_dateCreated));
-//         console.log("Отсортированные задачи по убыванию:", all_tasks2);
-//     }
-
-// }
-
-
-
-
 // События по клику на стрелочки для сортировки тасков
 buttonSortAllTaskUP.addEventListener("click", function() {          // По возрастанию обычных тасков
     sortTasks(document.querySelector(".tasks__tasks-list"), true, "normal")
@@ -334,23 +315,28 @@ function reIndexTasks() {
 
 // Функция для распределения тасков для добавления в "Просрочено"
 function raspredTasks() {
-    all_tasks = JSON.parse(window.localStorage.getItem("all_tasks"));
+    let tasksNormal = [...allCurrentTasksOuter.children]; // HTML элементы
+    let tasksOverdue = [...allOverdueTasks.children]; // HTML элементы
+    let all_tasks = JSON.parse(window.localStorage.getItem("all_tasks"));
 
     // Перебираю все таски (не просроченные) и перемещаю в просроченные те, у которых истёк срок
-    allCurrentTasksOuter.querySelectorAll(".tasks__tasks-list .task").forEach(function(task) {
-        const dateTask = task.querySelector(".task__deadline__date_hidden").innerText.split(".").reverse().join(".")
-        const todayDateReverse = nowData.toLocaleDateString().split(".").reverse().join(".")
+    tasksNormal.forEach(function(task) {
+        const dateTask = new Date(all_tasks[task.getAttribute("id")-1].newTask_dateCreated)
+        const todayDate = new Date()
+        console.log(dateTask);
+        console.log(todayDate);
+        console.log("dateTask < todayDat? ", dateTask < todayDate);
 
-        if (dateTask < todayDateReverse) {
+        if (dateTask < todayDate) {
             allOverdueTasks.append(task)
             all_tasks[task.getAttribute("id")-1].newTask_isOverdue = true
             reloadAllTasks(all_tasks)
         }
     })
-    allOverdueTasks.querySelectorAll(".task").forEach(function(task) {
-        const dateTask = task.querySelector(".task__deadline__date_hidden").innerText.split(".").reverse().join(".")
-        const todayDateReverse = nowData.toLocaleDateString().split(".").reverse().join(".")
-        if (dateTask >= todayDateReverse) {
+    tasksOverdue.forEach(function(task) {
+        const dateTask = new Date(all_tasks[task.getAttribute("id")-1].newTask_dateCreated)
+        const todayDate = new Date().toISOString()
+        if (dateTask >= todayDate) {
             allCurrentTasksOuter.append(task)
             all_tasks[task.getAttribute("id")-1].newTask_isOverdue = false
         }

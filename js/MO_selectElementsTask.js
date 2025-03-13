@@ -2,7 +2,7 @@
 // Данный файл для функций выбора данных ТАСКА (внутри МО)
 
 import {hiddenByDisplay} from "./base.js"
-import {buttonCloseMenuNewTask, localLanguage, options1, options2, nowDay, nowMonth} from "./doomElements.js"
+import {buttonCloseMenuNewTask, localLanguage, optionsWithMonth, optionsWithWeekday, nowDay, nowMonth} from "./doomElements.js"
 import {updateDataTask_element, reloadAllTasks} from "./scripts.js"
 import {switchDisabledShowDopFuncTask} from "./toggleVisibleElements.js"
 import {setCurrentLi_modal, getCurrentTask_arr, setSelectedDay_modal, getSelectedDay_modal} from "./MO_dataUpdate.js"
@@ -282,16 +282,16 @@ function selectDeadlineItemMO(item) {
         let dataWeekend_modal = new Date()    // Создаю новый объект даты
 
         // Если сегодня уже суббота, то передвигаю счётчик на 1 вперёд что бы сработал следующий цикл и дошёл до субботы следующей недели
-        if (Intl.DateTimeFormat(localLanguage, options2).format(dataWeekend_modal) != "суббота") {
+        if (Intl.DateTimeFormat(localLanguage, optionsWithWeekday).format(dataWeekend_modal) != "суббота") {
             dataWeekend_modal.setDate(dataWeekend_modal.getDate() + 1)
         }
         // Увеличиваю дату пока не достигну субботы
-        while (Intl.DateTimeFormat(localLanguage, options2).format(dataWeekend_modal) != "суббота") {
+        while (Intl.DateTimeFormat(localLanguage, optionsWithWeekday).format(dataWeekend_modal) != "суббота") {
             dataWeekend_modal.setDate(dataWeekend_modal.getDate() + 1)
         }
 
 
-        textAreaDeadline_modal.innerText = `${dataWeekend_modal.getDate()} ${Intl.DateTimeFormat(localLanguage, options1).format(dataWeekend_modal)}`
+        textAreaDeadline_modal.innerText = `${dataWeekend_modal.getDate()} ${Intl.DateTimeFormat(localLanguage, optionsWithMonth).format(dataWeekend_modal)}`
 
         textAreaDeadlineHiddenNum_modal.innerText = dataWeekend_modal.toLocaleDateString()
         deadlineThisTaskFullNum.innerText = dataWeekend_modal.toLocaleDateString()
@@ -299,8 +299,8 @@ function selectDeadlineItemMO(item) {
         let dataNextWeek_modal = new Date()   // Создаю новый объект даты
         dataNextWeek_modal.setDate(dataNextWeek_modal.getDate() + 7)    // Увеличиваю дату ровно на неделю (7 дней)
 
-        if (textAreaDeadline_modal.innerText != `${dataNextWeek_modal.getDate()} ${Intl.DateTimeFormat(localLanguage, options1).format(dataNextWeek_modal)}`) {
-            textAreaDeadline_modal.innerText = `${dataNextWeek_modal.getDate()} ${Intl.DateTimeFormat(localLanguage, options1).format(dataNextWeek_modal)}`
+        if (textAreaDeadline_modal.innerText != `${dataNextWeek_modal.getDate()} ${Intl.DateTimeFormat(localLanguage, optionsWithMonth).format(dataNextWeek_modal)}`) {
+            textAreaDeadline_modal.innerText = `${dataNextWeek_modal.getDate()} ${Intl.DateTimeFormat(localLanguage, optionsWithMonth).format(dataNextWeek_modal)}`
 
 
             textAreaDeadlineHiddenNum_modal.innerText = dataNextWeek_modal.toLocaleDateString()

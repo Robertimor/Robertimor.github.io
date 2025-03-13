@@ -1,4 +1,22 @@
 'use strict';
+
+const sidebar = document.querySelector(".sidebar")                  // Сайдбар целиком
+const logReg = document.querySelector(".log-reg")               // Поле с регистрацией/авторизацией
+const InpLogin = document.querySelector(".inp-login");            // Поле для логина при регистрации/авторизации
+const InpPassword = document.querySelector(".inp-password");     // Поле для пароля при регистрации/авторизации
+const butLogin = document.querySelector(".btn-login");          // Кнопка авторизации
+const butReg = document.querySelector(".btn-register");          // Кнопка регистрации
+const butExit = document.querySelector(".hidden-menu-profile__link-to-exit")    // Кнопка выхода из аккаунта
+
+
+
+const userMenu = document.querySelector(".sidebar-user-menu")       // Поле sidebar-а авторизированного пользователя
+const mainContent = document.querySelector(".block-all-tasks")
+const nicknameUser = document.querySelector(".sidebar-user-menu__nickname-user")    // Отображаемый nickname (login) пользователя
+
+
+
+
 const countAllTasks = document.querySelector(".header-block__countNum-tasks-all-tasks")      // Поле с количеством заданий (всего, кроме просроченных)
 const sectionContentBlock_viewContent = document.querySelector(".section-content-block__view-content")  // Основная область. С текущей датой, со списком тасков, с меню добавления новой задачи
 const nameToday = sectionContentBlock_viewContent.querySelector(".tasks__name-today")          // Поле для отображения текущей даты
@@ -65,23 +83,26 @@ const addTaskIconHover = addNewTask.querySelector(".add-new-task__img-add-task-2
 
 
 
+
+
+
 // Создаю текущую дату
 const localLanguage = navigator.language
 const nowData = new Date() 
 
-const options1 = {
+const optionsWithMonth = {
     month: "short"
 }
-const options2 = {
+const optionsWithWeekday = {
     weekday: "long"
 }
 
 
 const nowDay = nowData.getDate()    // Сегодняшнее число
-const nowMonth = Intl.DateTimeFormat(localLanguage, options1).format(nowData)   // Сегодняшний месяц словами
+const nowMonth = Intl.DateTimeFormat(localLanguage, optionsWithMonth).format(nowData)   // Сегодняшний месяц словами
 const nowMonthNum = nowData.getMonth()
 const nowYear = nowData.getFullYear()   // Сегодняшний год
-const nowWeekday = (Intl.DateTimeFormat(localLanguage, options2).format(nowData))       // Сегодняшний день недели
+const nowWeekday = (Intl.DateTimeFormat(localLanguage, optionsWithWeekday).format(nowData))       // Сегодняшний день недели
 const correctWeekday = (String(nowWeekday.split("").splice(0, 1)).toLocaleUpperCase()) + (nowWeekday.split("").splice(1, 10).join(""))
 const nowTime = nowData.toLocaleTimeString("ru-RU"); 
 
@@ -108,4 +129,4 @@ deadlineButton.querySelector(".form-from-add-new-task__text-settings_hidden-num"
 
 
 
-export { countAllTasks, sectionContentBlock_viewContent, nameToday, buttonSortAllTaskUP, buttonSortAllTaskDOWN, buttonSortOverdueTaskUP, buttonSortOverdueTaskDOWN, allOverdueTasks, butHideOverdue, iconHideOverdue, allCurrentTasksOuter, taskForm, taskTextAreas, taskNameInput, taskDescriptionInput, taskSettingsButtons, deadlineButton, deadlineMenu, deadlineOptions, deadlineCalendar, priorityButton, priorityMenu, priorityOptions, taskTypeMenu, taskTypeOptions, taskTypeButton, buttonCloseMenuNewTask, buttonAddNewTask, buttonSaveTask, addNewTask, addTaskIconDefault, addTaskIconHover, localLanguage, nowData, options1, options2, nowDay, nowMonth, nowMonthNum, nowYear, nowWeekday, nowTime, correctWeekday, currectEntryDate };
+export { sidebar, logReg, InpLogin, InpPassword, butLogin, butReg, butExit, userMenu, mainContent, nicknameUser, countAllTasks, sectionContentBlock_viewContent, nameToday, buttonSortAllTaskUP, buttonSortAllTaskDOWN, buttonSortOverdueTaskUP, buttonSortOverdueTaskDOWN, allOverdueTasks, butHideOverdue, iconHideOverdue, allCurrentTasksOuter, taskForm, taskTextAreas, taskNameInput, taskDescriptionInput, taskSettingsButtons, deadlineButton, deadlineMenu, deadlineOptions, deadlineCalendar, priorityButton, priorityMenu, priorityOptions, taskTypeMenu, taskTypeOptions, taskTypeButton, buttonCloseMenuNewTask, buttonAddNewTask, buttonSaveTask, addNewTask, addTaskIconDefault, addTaskIconHover, localLanguage, nowData, optionsWithMonth, optionsWithWeekday, nowDay, nowMonth, nowMonthNum, nowYear, nowWeekday, nowTime, correctWeekday, currectEntryDate };

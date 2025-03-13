@@ -2,7 +2,7 @@
 // Данный файл для функций выбора данных подзадачи
 
 import {hiddenByDisplay} from "./base.js"
-import {deadlineButton, deadlineOptions, localLanguage, options1, options2, nowDay, nowMonth} from "./doomElements.js"
+import {deadlineButton, deadlineOptions, localLanguage, optionsWithMonth, optionsWithWeekday, nowDay, nowMonth} from "./doomElements.js"
 import {reloadAllTasks} from "./scripts.js"
 import {setIsObservHiddenMenus, observFunc} from "./toggleVisibleElements.js"
 import {statusIsModal} from "./modal.js"
@@ -142,17 +142,17 @@ function deadlineItemsSubtaskClick(items) {
                 let dataWeekend = new Date()    // Создаю новый объект даты
 
                 // Если сегодня уже суббота, то передвигаю счётчик на 1 вперёд что бы сработал следующий цикл и дошёл до субботы следующей недели
-                if (Intl.DateTimeFormat(localLanguage, options2).format(dataWeekend) != "суббота") {
+                if (Intl.DateTimeFormat(localLanguage, optionsWithWeekday).format(dataWeekend) != "суббота") {
                     dataWeekend.setDate(dataWeekend.getDate() + 1)
                 }
                 // Увеличиваю дату пока не достигну субботы
-                while (Intl.DateTimeFormat(localLanguage, options2).format(dataWeekend) != "суббота") {
+                while (Intl.DateTimeFormat(localLanguage, optionsWithWeekday).format(dataWeekend) != "суббота") {
                     dataWeekend.setDate(dataWeekend.getDate() + 1)
                 }
     
                 // Если ближайшая суббота уже не была выбрана, то...
-                if (deadlineThisSubtask.innerText != `${dataWeekend.getDate()} ${Intl.DateTimeFormat(localLanguage, options1).format(dataWeekend)}`) {
-                    deadlineThisSubtask.innerText = `${dataWeekend.getDate()} ${Intl.DateTimeFormat(localLanguage, options1).format(dataWeekend)}`
+                if (deadlineThisSubtask.innerText != `${dataWeekend.getDate()} ${Intl.DateTimeFormat(localLanguage, optionsWithMonth).format(dataWeekend)}`) {
+                    deadlineThisSubtask.innerText = `${dataWeekend.getDate()} ${Intl.DateTimeFormat(localLanguage, optionsWithMonth).format(dataWeekend)}`
 
                     deadlineThisSubtaskFullNum.innerText = dataWeekend.toLocaleDateString()
     
@@ -164,8 +164,8 @@ function deadlineItemsSubtaskClick(items) {
                 let dataNextWeek = new Date()   // Создаю новый объект даты
                 dataNextWeek.setDate(dataNextWeek.getDate() + 7)    // Увеличиваю дату ровно на неделю (7 дней)
     
-                if (deadlineThisSubtask.innerText != `${dataNextWeek.getDate()} ${Intl.DateTimeFormat(localLanguage, options1).format(dataNextWeek)}`) {
-                    deadlineThisSubtask.innerText = `${dataNextWeek.getDate()} ${Intl.DateTimeFormat(localLanguage, options1).format(dataNextWeek)}`
+                if (deadlineThisSubtask.innerText != `${dataNextWeek.getDate()} ${Intl.DateTimeFormat(localLanguage, optionsWithMonth).format(dataNextWeek)}`) {
+                    deadlineThisSubtask.innerText = `${dataNextWeek.getDate()} ${Intl.DateTimeFormat(localLanguage, optionsWithMonth).format(dataNextWeek)}`
 
                     deadlineThisSubtaskFullNum.innerText = dataNextWeek.toLocaleDateString()
     
@@ -292,18 +292,18 @@ function deadlineItemSubtaskFormClick(e) {
     } else if (nameItemDeadline == "На выходных") {
         let dataWeekend = new Date()    // Создаю новый объект даты
         // Если сегодня уже суббота, то передвигаю счётчик на 1 вперёд что бы сработал следующий цикл и дошёл до субботы следующей недели
-        if (Intl.DateTimeFormat(localLanguage, options2).format(dataWeekend) != "суббота") {
+        if (Intl.DateTimeFormat(localLanguage, optionsWithWeekday).format(dataWeekend) != "суббота") {
             dataWeekend.setDate(dataWeekend.getDate() + 1)
         }
         // Увеличиваю дату пока не достигну субботы
-        while (Intl.DateTimeFormat(localLanguage, options2).format(dataWeekend) != "суббота") {
+        while (Intl.DateTimeFormat(localLanguage, optionsWithWeekday).format(dataWeekend) != "суббота") {
             dataWeekend.setDate(dataWeekend.getDate() + 1)
         }
 
 
         // Если ближайшая суббота уже не была выбрана, то...
-        if (textAreaDeadline.innerText != `${dataWeekend.getDate()} ${Intl.DateTimeFormat(localLanguage, options1).format(dataWeekend)}`) {
-            textAreaDeadline.innerText = `${dataWeekend.getDate()} ${Intl.DateTimeFormat(localLanguage, options1).format(dataWeekend)}`
+        if (textAreaDeadline.innerText != `${dataWeekend.getDate()} ${Intl.DateTimeFormat(localLanguage, optionsWithMonth).format(dataWeekend)}`) {
+            textAreaDeadline.innerText = `${dataWeekend.getDate()} ${Intl.DateTimeFormat(localLanguage, optionsWithMonth).format(dataWeekend)}`
 
             textAreaDeadlineHiddenNum.innerText = dataWeekend.toLocaleDateString()
 
@@ -315,8 +315,8 @@ function deadlineItemSubtaskFormClick(e) {
         let dataNextWeek = new Date()   // Создаю новый объект даты
         dataNextWeek.setDate(dataNextWeek.getDate() + 7)    // Увеличиваю дату ровно на неделю (7 дней)
 
-        if (textAreaDeadline.innerText != `${dataNextWeek.getDate()} ${Intl.DateTimeFormat(localLanguage, options1).format(dataNextWeek)}`) {
-            textAreaDeadline.innerText = `${dataNextWeek.getDate()} ${Intl.DateTimeFormat(localLanguage, options1).format(dataNextWeek)}`
+        if (textAreaDeadline.innerText != `${dataNextWeek.getDate()} ${Intl.DateTimeFormat(localLanguage, optionsWithMonth).format(dataNextWeek)}`) {
+            textAreaDeadline.innerText = `${dataNextWeek.getDate()} ${Intl.DateTimeFormat(localLanguage, optionsWithMonth).format(dataNextWeek)}`
 
             textAreaDeadlineHiddenNum.innerText = dataNextWeek.toLocaleDateString()
 
