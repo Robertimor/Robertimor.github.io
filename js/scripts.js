@@ -1,7 +1,7 @@
 'use strict';
 
 import {hiddenByDisplay} from "./base.js"
-import {countAllTasks, sectionContentBlock_viewContent, allCurrentTasksOuter, taskForm, taskNameInput, taskDescriptionInput, deadlineButton, deadlineOptions, deadlineCalendar, priorityButton, priorityMenu, priorityOptions, taskTypeMenu, taskTypeOptions, taskTypeButton,  buttonAddNewTask, buttonSaveTask, addNewTask, localLanguage, nowData, options1, options2, nowDay, nowMonth, currectEntryDate} from "./doomElements.js"
+import {countAllTasks, sectionContentBlock_viewContent, allCurrentTasksOuter, taskForm, taskNameInput, taskDescriptionInput, deadlineButton, deadlineOptions, deadlineCalendar, priorityButton, priorityMenu, priorityOptions, taskTypeMenu, taskTypeOptions, taskTypeButton,  buttonAddNewTask, buttonSaveTask, addNewTask, localLanguage, nowData, optionsWithMonth, optionsWithWeekday, nowDay, nowMonth, currectEntryDate} from "./doomElements.js"
 import {sortTasks, raspredTasks, reIndexTasks, setTasksId, getTasksId} from "./dataProcessing.js"
 import {closeModalNewTask} from "./sidebar.js"
 import {switchDisabledShowDopFuncTask, setCurrentLi, getCurrentLi, setCurrentLi_klick, setIsNewDeadlineButtonClicked, getIsNewDeadlineButtonClicked, setIsObservHiddenMenus, hide_task_dopFuncs, observFunc, show_task_dopFuncs} from "./toggleVisibleElements.js"
@@ -35,13 +35,13 @@ export function switchIsModal(status) {
         isModal = "true"
         window.localStorage.setItem("isModal", "true")
     }
-}
+} 
 
 
 let isModal_block = "false"
 window.localStorage.setItem("isModal_block", "false")
 
-export function switchIsModal_block (status) {
+function switchIsModal_block (status) {
     if (status == "false") {
         isModal_block = "false"
         window.localStorage.setItem("isModal_block", "false")
@@ -51,14 +51,6 @@ export function switchIsModal_block (status) {
         window.localStorage.setItem("isModal_block", "true")
     }
 }
-
-
-
-
-
-
-
-
 
 let all_tasks    // Массив из созданных тасков
 if (window.localStorage.getItem("all_tasks")) {
@@ -88,22 +80,7 @@ export function reloadAllTasks(newVersion) {
 
 
 countAllTasks.innerText = all_tasks.length   // Вписывание количество тасков в поле для их подсчёта
-
-
-
-
- 
-
-
 let isNewDeadlineButtonClicked = getIsNewDeadlineButtonClicked()           // (для работы с доп функциями при клике на кнопку добавления нового срока выполнения)
-
-
-
-
-
-
-
-
 
 // Кнопка редактирования тасков
 sectionContentBlock_viewContent.addEventListener("click", function(e) {
@@ -391,13 +368,6 @@ sectionContentBlock_viewContent.addEventListener("click", function(e) {
 })
 
 
-
-
-
-
-
-
-
 // Функция удаления тасков при нажатии на кружок
 sectionContentBlock_viewContent.addEventListener("click", function(e) {
     let target = e.target.closest(".task__button-task-checkbox")   //Нажатый кружок
@@ -425,9 +395,6 @@ function removeTask(curTask) {
 
     reIndexTasks()
 }
-
-
-
 
 
 
@@ -522,12 +489,6 @@ taskForm.querySelectorAll(".form-from-add-new-task__icon-cross").forEach(functio
         }
     })
 })
-
-
-
-
-
-
 
 
 
@@ -650,17 +611,17 @@ function deadlineItemsClick(items) {
                 let dataWeekend = new Date()    // Создаю новый объект даты
 
                 // Если сегодня уже суббота, то передвигаю счётчик на 1 вперёд что бы сработал следующий цикл и дошёл до субботы следующей недели
-                if (Intl.DateTimeFormat(localLanguage, options2).format(dataWeekend) != "суббота") {
+                if (Intl.DateTimeFormat(localLanguage, optionsWithWeekday).format(dataWeekend) != "суббота") {
                     dataWeekend.setDate(dataWeekend.getDate() + 1)
                 }
                 // Увеличиваю дату пока не достигну субботы
-                while (Intl.DateTimeFormat(localLanguage, options2).format(dataWeekend) != "суббота") {
+                while (Intl.DateTimeFormat(localLanguage, optionsWithWeekday).format(dataWeekend) != "суббота") {
                     dataWeekend.setDate(dataWeekend.getDate() + 1)
                 }
     
                 // Если ближайшая суббота уже не была выбрана, то...
-                if (deadlineThisTask.innerText != `${dataWeekend.getDate()} ${Intl.DateTimeFormat(localLanguage, options1).format(dataWeekend)}`) {
-                    deadlineThisTask.innerText = `${dataWeekend.getDate()} ${Intl.DateTimeFormat(localLanguage, options1).format(dataWeekend)}`
+                if (deadlineThisTask.innerText != `${dataWeekend.getDate()} ${Intl.DateTimeFormat(localLanguage, optionsWithMonth).format(dataWeekend)}`) {
+                    deadlineThisTask.innerText = `${dataWeekend.getDate()} ${Intl.DateTimeFormat(localLanguage, optionsWithMonth).format(dataWeekend)}`
 
                     deadlineThisTaskFullNum.innerText = dataWeekend.toLocaleDateString()
     
@@ -672,8 +633,8 @@ function deadlineItemsClick(items) {
                 let dataNextWeek = new Date()   // Создаю новый объект даты
                 dataNextWeek.setDate(dataNextWeek.getDate() + 7)    // Увеличиваю дату ровно на неделю (7 дней)
     
-                if (deadlineThisTask.innerText != `${dataNextWeek.getDate()} ${Intl.DateTimeFormat(localLanguage, options1).format(dataNextWeek)}`) {
-                    deadlineThisTask.innerText = `${dataNextWeek.getDate()} ${Intl.DateTimeFormat(localLanguage, options1).format(dataNextWeek)}`
+                if (deadlineThisTask.innerText != `${dataNextWeek.getDate()} ${Intl.DateTimeFormat(localLanguage, optionsWithMonth).format(dataNextWeek)}`) {
+                    deadlineThisTask.innerText = `${dataNextWeek.getDate()} ${Intl.DateTimeFormat(localLanguage, optionsWithMonth).format(dataNextWeek)}`
 
                     deadlineThisTaskFullNum.innerText = dataNextWeek.toLocaleDateString()
     
@@ -748,11 +709,7 @@ deadlineOptions.forEach(function(item) {
             selectedDay.classList.remove("-selected-")
         }
 
-
         const nowData2 = new Date()
-
-        console.log("дырка");
-        console.log("ЛАКИ ЛАКИ");
 
         // Название выбранного дня (из списка)
         const nameItemDeadline = item.querySelector(".form-from-add-new-task__deadline-name").innerText
@@ -784,18 +741,18 @@ deadlineOptions.forEach(function(item) {
         } else if (nameItemDeadline == "На выходных") {
             let dataWeekend = new Date()    // Создаю новый объект даты
             // Если сегодня уже суббота, то передвигаю счётчик на 1 вперёд что бы сработал следующий цикл и дошёл до субботы следующей недели
-            if (Intl.DateTimeFormat(localLanguage, options2).format(dataWeekend) != "суббота") {
+            if (Intl.DateTimeFormat(localLanguage, optionsWithWeekday).format(dataWeekend) != "суббота") {
                 dataWeekend.setDate(dataWeekend.getDate() + 1)
             }
             // Увеличиваю дату пока не достигну субботы
-            while (Intl.DateTimeFormat(localLanguage, options2).format(dataWeekend) != "суббота") {
+            while (Intl.DateTimeFormat(localLanguage, optionsWithWeekday).format(dataWeekend) != "суббота") {
                 dataWeekend.setDate(dataWeekend.getDate() + 1)
             }
 
 
             // Если ближайшая суббота уже не была выбрана, то...
-            if (textAreaDeadline.innerText != `${dataWeekend.getDate()} ${Intl.DateTimeFormat(localLanguage, options1).format(dataWeekend)}`) {
-                textAreaDeadline.innerText = `${dataWeekend.getDate()} ${Intl.DateTimeFormat(localLanguage, options1).format(dataWeekend)}`
+            if (textAreaDeadline.innerText != `${dataWeekend.getDate()} ${Intl.DateTimeFormat(localLanguage, optionsWithMonth).format(dataWeekend)}`) {
+                textAreaDeadline.innerText = `${dataWeekend.getDate()} ${Intl.DateTimeFormat(localLanguage, optionsWithMonth).format(dataWeekend)}`
 
                 textAreaDeadlineHiddenNum.innerText = dataWeekend.toLocaleDateString()
 
@@ -807,8 +764,8 @@ deadlineOptions.forEach(function(item) {
             let dataNextWeek = new Date()   // Создаю новый объект даты
             dataNextWeek.setDate(dataNextWeek.getDate() + 7)    // Увеличиваю дату ровно на неделю (7 дней)
 
-            if (textAreaDeadline.innerText != `${dataNextWeek.getDate()} ${Intl.DateTimeFormat(localLanguage, options1).format(dataNextWeek)}`) {
-                textAreaDeadline.innerText = `${dataNextWeek.getDate()} ${Intl.DateTimeFormat(localLanguage, options1).format(dataNextWeek)}`
+            if (textAreaDeadline.innerText != `${dataNextWeek.getDate()} ${Intl.DateTimeFormat(localLanguage, optionsWithMonth).format(dataNextWeek)}`) {
+                textAreaDeadline.innerText = `${dataNextWeek.getDate()} ${Intl.DateTimeFormat(localLanguage, optionsWithMonth).format(dataNextWeek)}`
 
                 textAreaDeadlineHiddenNum.innerText = dataNextWeek.toLocaleDateString()
 
@@ -1236,85 +1193,6 @@ function funcAddNewTask(content, newCreated = false) {
     }
 }
 
-function funcAddNewTask2(content) {
-    const html = `
-    <li class="task" id="${content.newTask_ID}">
-    <div class="task__wrapper">
-        <div class="task__wrapper-button-task-checkbox">
-            <button class="task__button-task-checkbox task__button-task-checkbox_${content.newTask_priority_color}"><img src="./icon/MarkOk_${content.newTask_priority_color}.png" alt="" class="hide2"></button>
-        </div>
-        <div class="task__task-list-itemsContent-wrapper">
-            <div class="task__outerWrap-name-description">
-                <div class="task__innerWrap-name-description">
-                    <div class="task__name-task" aria-label="Название задачи">${content.newTask_name}</div>
-                    <div class="task__description-task" aria-label="описание">
-                        <span class="task__description-task-text">${content.newTask_description}</span>
-                    </div>
-                </div>
-            </div>
-            <div class="task__deadline">
-                <div class="task__imgBlock-deadline"><img src="./icon/deadlineNewTask_0.png" alt=""></div>
-                <span class="task__deadline__date_visible">${content.newTask_deadlineTask}</span>
-                <span class="task__deadline__date_hidden hide1">${content.newTask_deadlineFullDataTask}</span>
-            </div>
-            <div class="task__typeTask">
-                <span>${content.newTask_typeTask_name}</span>
-                <div class="task__imgBlock-typeTask"><img src="${content.newTask_typeTask_icon_src}" alt=""></div>
-                <img class="task__imgBlock-typeTask_grid" src="./icon/grid_0.png" alt="">
-            </div>
-        </div>
-        <div class="task__dopFuncs hide1" aria-label="Дополнительные функции для управления задачей">
-            <div class="task__dopFunction task__btnEdit hover-hint hide1" data-title="Редактировать задачу">
-                <div class="task__dopFunction_iconWrap">
-                    <img src="./icon/edit.png" alt="">
-                </div>
-            </div>
-            <div class="task__dopFunction task__btnNewDeadline hover-hint hide1" data-title="Назначить срок">
-                <div class="task__dopFunction_iconWrap">
-                    <img src="./icon/deadline_task.png" alt="">
-                </div>
-                <div class="task__dopFunction__hidden-menu-deadline hide2">
-                    <ul class="task__dopFunction__deadline-list">
-                        <li class="task__dopFunction__deadline-item hovered1_3">
-                            <img src="./icon/sun.png" alt="" class="task__dopFunction__deadline-icon">
-                            <span class="task__dopFunction__deadline-name">Сегодня</span>
-                            <span class="task__dopFunction__deadline-info">#</span>
-                        </li>
-                        <li class="task__dopFunction__deadline-item hovered1_3">
-                            <img src="./icon/deadlineNewTask_3.png" alt="" class="task__dopFunction__deadline-icon">
-                            <span class="task__dopFunction__deadline-name">Завтра</span>
-                            <span class="task__dopFunction__deadline-info">#</span>
-                        </li>
-                        <li class="task__dopFunction__deadline-item hovered1_3">
-                            <img src="./icon/divan.png" alt="" class="task__dopFunction__deadline-icon">
-                            <span class="task__dopFunction__deadline-name">На выходных</span>
-                            <span class="task__dopFunction__deadline-info">#</span>
-                        </li>
-                        <li class="task__dopFunction__deadline-item hovered1_3">
-                            <img src="./icon/nextWeek.png" alt="" class="task__dopFunction__deadline-icon">
-                            <span class="task__dopFunction__deadline-name">След. неделя</span>
-                            <span class="task__dopFunction__deadline-info">#</span>
-                        </li>
-                        <li class="task__dopFunction__deadline-item hovered1_3">
-                            <img src="./icon/noDeadline.png" alt="" class="task__dopFunction__deadline-icon">
-                            <span class="task__dopFunction__deadline-name">Без срока</span>
-                            <span class="task__dopFunction__deadline-info">#</span>
-                        </li>
-                    </ul>
-                    <div class="task__dopFunction__hidden-menu-deadline-calendare">
-                        <input type="text" class="hidden-menu-deadline-calendare hide2">
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    </li>
-    `
-    
-    allCurrentTasksOuter.insertAdjacentHTML('beforeend', html)     // Добавляю новый template элемент таска в начало
-    sortTasks(document.querySelector(".tasks__tasks-list"), true, "normal")
-}
-
 
 function reloadFormAddTask() {
     taskNameInput.value = ""  
@@ -1357,4 +1235,4 @@ function reloadFormAddTask() {
     hiddenByDisplay(buttonSaveTask, "hide")
 
 }
-export { reloadFormAddTask, reloadItemsAndCalendarDeadline, changeMyCalendar, funcAddNewTask}
+export {switchIsModal, switchIsModal_block, reloadFormAddTask, reloadItemsAndCalendarDeadline, changeMyCalendar, funcAddNewTask}
