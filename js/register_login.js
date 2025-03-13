@@ -61,7 +61,7 @@ if (currentAccount) {
     hiddenByDisplay(logReg, "hide")
     hiddenByDisplay(userMenu, "show")
     hiddenByDisplay(mainContent, "show")
-    nicknameUser.innerHTML = currentAccount.login
+    nicknameUser.innerText = currentAccount.login
 }
 
 // Авторизация
@@ -80,7 +80,7 @@ butLogin.addEventListener("click", function(e) {    // При нажатии н�
         hiddenByDisplay(logReg, "hide")
         hiddenByDisplay(userMenu, "show")
         hiddenByDisplay(mainContent, "show")
-        nicknameUser.innerHTML = currentAccount.login
+        nicknameUser.innerText = currentAccount.login
     } else {
         alert("Неверное имя пользователя или пароль!")
     }

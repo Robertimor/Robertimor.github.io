@@ -4,6 +4,7 @@
 import {hiddenByDisplay} from "./base.js"
 import {buttonCloseMenuNewTask, localLanguage, options1, options2, nowDay, nowMonth} from "./doomElements.js"
 import {updateDataTask_element, reloadAllTasks} from "./scripts.js"
+import {switchDisabledShowDopFuncTask} from "./toggleVisibleElements.js"
 import {setCurrentLi_modal, getCurrentTask_arr, setSelectedDay_modal, getSelectedDay_modal} from "./MO_dataUpdate.js"
 
 import {getEl_textarea_name, reloadItemsPriority_modal} from "./MO_toggleVisibleElTask.js"
@@ -74,6 +75,10 @@ function getVarsMO_selectElementsTask(curTask) {
 
     modalBtn_GroupDeadlineTask = document.querySelector('.itc-modal-body__select-setting[data-title="Назначить новой крайний срок..."]')
 
+    div_name_task = modal_wrapper_name_description.querySelector(".task__name-task")    // div с именем таска 
+    div_description_task = modal_wrapper_name_description.querySelector(".task__description-task")  // div с описанием таска 
+
+
     buttonCloseEdit = modalWindow.querySelector(".buttuns-closeSave-task .btn-close") 
     buttonSaveEdit = modalWindow.querySelector(".buttuns-closeSave-task .btn-save")    
 }
@@ -94,7 +99,12 @@ function reloadItemsDeadline_modal_aside(currentItemDeadline) {
 
  // При клике на кнопку "Отмена" при редактировании таска (не подзадачи!)(но внутри МО)
  function clickCloseEditModal() {  
-    const el_textarea_name = getEl_textarea_name()
+    el_textarea_name = modal_wrapper_name_description.querySelector(".itc-modal-content__textarea-name-task")
+    el_textarea_description = modal_wrapper_name_description.querySelector(".itc-modal-content__textarea-description-task")
+    // Создаю переменную контейнера для строк с указанием лимитов строк имени и описания таска
+    count_lenght_name_description_task = modalContent.querySelector(".task__maxLenght_name_description")
+
+    el_textarea_name = getEl_textarea_name()
     if (!el_textarea_name) return   // Если элемент textarea в м.о. ещё не был создан, то пропускаем
 
 
@@ -126,6 +136,9 @@ function reloadItemsDeadline_modal_aside(currentItemDeadline) {
 // При клике на кнопку "Сохранить" при редактировании текущего таска (не подзадачи!) (но внутри МО)
 function clickSaveEditModal() {
     const el_textarea_name = getEl_textarea_name()
+    el_textarea_description = modal_wrapper_name_description.querySelector(".itc-modal-content__textarea-description-task")
+    count_lenght_name_description_task = modalContent.querySelector(".task__maxLenght_name_description")
+
     if (!el_textarea_name) return       // Если элемент textarea в м.о. ещё не был создан, то пропускаем
 
     // Массив со всеми тасками
@@ -133,14 +146,16 @@ function clickSaveEditModal() {
 
     // Текущий объект таска в массиве
     const currentTask_arr = getCurrentTask_arr()
-
+ 
     // Обновляю оба поля div с именем/описанием таска (внутри м.о.)
-    div_name_task.innerHTML = el_textarea_name.value
-    div_description_task.querySelector("span").innerHTML = el_textarea_description.value
+    div_name_task.innerText = el_textarea_name.value
+    div_description_task.querySelector("span").innerText = el_textarea_description.value
 
     //  Изменяю имя и описание текущего таска внутри массива (с этим таском)
     currentTask_arr.newTask_name = el_textarea_name.value
     currentTask_arr.newTask_description = el_textarea_description.value
+
+    all_tasks[currentTask_arr.newTask_ID-1] = currentTask_arr
 
     // Обновляю массив с тасками в js файлах и в localStorage (перезаписываю с учётом изменений)
     reloadAllTasks(all_tasks)
@@ -175,7 +190,7 @@ function clickSaveEditModal() {
 
 // При выборе типа таска (для изменения)
 function selectTypetaskItemMO(type) {
-    modalBtn_GroupTypeTask.querySelector(".itc-modal-body__select-setting .wrapper-type-task__name").innerHTML = type.querySelector(".wrapper-type-task__name").innerHTML
+    modalBtn_GroupTypeTask.querySelector(".itc-modal-body__select-setting .wrapper-type-task__name").innerText = type.querySelector(".wrapper-type-task__name").innerText
     const selectedIcon = type.querySelector(".wrapper-type-task__icon-type-project")
     modalBtn_GroupTypeTask.querySelector(".wrapper-type-task__icon-type-project").setAttribute("src", selectedIcon.getAttribute("src"))
 
@@ -192,7 +207,7 @@ function selectTypetaskItemMO(type) {
 
 
     //  Изменяю имя и иконку типа таска внутри массива (с этим таском)
-    currentTask_arr.newTask_typeTask_name = type.querySelector(".wrapper-type-task__name").innerHTML
+    currentTask_arr.newTask_typeTask_name = type.querySelector(".wrapper-type-task__name").innerText
     currentTask_arr.newTask_typeTask_icon_src = modalBtn_GroupTypeTask.querySelector(".wrapper-type-task__icon-type-project").getAttribute("src")
 
     
@@ -205,7 +220,7 @@ function selectTypetaskItemMO(type) {
 
 
     // Изменяю имя и иконку типа таска в шапке м.о.
-    modalTitle.querySelector(".wrapper-type-task__name").innerHTML = currentTask_arr.newTask_typeTask_name
+    modalTitle.querySelector(".wrapper-type-task__name").innerText = currentTask_arr.newTask_typeTask_name
     modalTitle.querySelector(".wrapper-type-task__icon-type-project").setAttribute("src", currentTask_arr.newTask_typeTask_icon_src)
 
 
@@ -237,7 +252,7 @@ function selectDeadlineItemMO(item) {
 
 
     // Название выбранного дня (из списка)
-    const nameItemDeadline_modal = item.querySelector(".itc-modal-body__deadline-name").innerHTML 
+    const nameItemDeadline_modal = item.querySelector(".itc-modal-body__deadline-name").innerText 
     // Поле с текстом для выбранного срока
     const textAreaDeadline_modal = document.querySelector(".itc-modal-body__text-settings")     
 
@@ -253,16 +268,16 @@ function selectDeadlineItemMO(item) {
 
 
     if (nameItemDeadline_modal == "Сегодня") {
-        textAreaDeadline_modal.innerHTML = `${nowDay} ${nowMonth}`
+        textAreaDeadline_modal.innerText = `${nowDay} ${nowMonth}`
 
-        textAreaDeadlineHiddenNum_modal.innerHTML = nowData2.toLocaleDateString()
-        deadlineThisTaskFullNum.innerHTML = nowData2.toLocaleDateString()
+        textAreaDeadlineHiddenNum_modal.innerText = nowData2.toLocaleDateString()
+        deadlineThisTaskFullNum.innerText = nowData2.toLocaleDateString()
     } else if (nameItemDeadline_modal == "Завтра") {
-        textAreaDeadline_modal.innerHTML = `${nowDay+1} ${nowMonth}`  // Обновляю срок данной задачи внутри мо
+        textAreaDeadline_modal.innerText = `${nowDay+1} ${nowMonth}`  // Обновляю срок данной задачи внутри мо
 
         nowData2.setDate(nowDay+1)
-        textAreaDeadlineHiddenNum_modal.innerHTML = nowData2.toLocaleDateString()
-        deadlineThisTaskFullNum.innerHTML = nowData2.toLocaleDateString()
+        textAreaDeadlineHiddenNum_modal.innerText = nowData2.toLocaleDateString()
+        deadlineThisTaskFullNum.innerText = nowData2.toLocaleDateString()
     } else if (nameItemDeadline_modal == "На выходных") {
         let dataWeekend_modal = new Date()    // Создаю новый объект даты
 
@@ -276,34 +291,34 @@ function selectDeadlineItemMO(item) {
         }
 
 
-        textAreaDeadline_modal.innerHTML = `${dataWeekend_modal.getDate()} ${Intl.DateTimeFormat(localLanguage, options1).format(dataWeekend_modal)}`
+        textAreaDeadline_modal.innerText = `${dataWeekend_modal.getDate()} ${Intl.DateTimeFormat(localLanguage, options1).format(dataWeekend_modal)}`
 
-        textAreaDeadlineHiddenNum_modal.innerHTML = dataWeekend_modal.toLocaleDateString()
-        deadlineThisTaskFullNum.innerHTML = dataWeekend_modal.toLocaleDateString()
+        textAreaDeadlineHiddenNum_modal.innerText = dataWeekend_modal.toLocaleDateString()
+        deadlineThisTaskFullNum.innerText = dataWeekend_modal.toLocaleDateString()
     } else if (nameItemDeadline_modal == "След. неделя") {
         let dataNextWeek_modal = new Date()   // Создаю новый объект даты
         dataNextWeek_modal.setDate(dataNextWeek_modal.getDate() + 7)    // Увеличиваю дату ровно на неделю (7 дней)
 
-        if (textAreaDeadline_modal.innerHTML != `${dataNextWeek_modal.getDate()} ${Intl.DateTimeFormat(localLanguage, options1).format(dataNextWeek_modal)}`) {
-            textAreaDeadline_modal.innerHTML = `${dataNextWeek_modal.getDate()} ${Intl.DateTimeFormat(localLanguage, options1).format(dataNextWeek_modal)}`
+        if (textAreaDeadline_modal.innerText != `${dataNextWeek_modal.getDate()} ${Intl.DateTimeFormat(localLanguage, options1).format(dataNextWeek_modal)}`) {
+            textAreaDeadline_modal.innerText = `${dataNextWeek_modal.getDate()} ${Intl.DateTimeFormat(localLanguage, options1).format(dataNextWeek_modal)}`
 
 
-            textAreaDeadlineHiddenNum_modal.innerHTML = dataNextWeek_modal.toLocaleDateString()
-            deadlineThisTaskFullNum.innerHTML = dataNextWeek_modal.toLocaleDateString()
+            textAreaDeadlineHiddenNum_modal.innerText = dataNextWeek_modal.toLocaleDateString()
+            deadlineThisTaskFullNum.innerText = dataNextWeek_modal.toLocaleDateString()
         }
         
-    } else if (nameItemDeadline_modal == "Без срока" && textAreaDeadline_modal.innerHTML != "Срок выполнения") {
-        textAreaDeadline_modal.innerHTML = "Срок выполнения"
+    } else if (nameItemDeadline_modal == "Без срока" && textAreaDeadline_modal.innerText != "Срок выполнения") {
+        textAreaDeadline_modal.innerText = "Срок выполнения"
 
-        textAreaDeadlineHiddenNum_modal.innerHTML = "Срок выполнения"
-        deadlineThisTaskFullNum.innerHTML = "Срок выполнения"
+        textAreaDeadlineHiddenNum_modal.innerText = "Срок выполнения"
+        deadlineThisTaskFullNum.innerText = "Срок выполнения"
     }
 
     
 
     // Обновляю срок выполнения в массиве текущего таска
-    currentTask_arr.newTask_deadlineTask = textAreaDeadline_modal.innerHTML
-    currentTask_arr.newTask_deadlineFullDataTask = textAreaDeadlineHiddenNum_modal.innerHTML
+    currentTask_arr.newTask_deadlineTask = textAreaDeadline_modal.innerText
+    currentTask_arr.newTask_deadlineFullDataTask = textAreaDeadlineHiddenNum_modal.innerText
 
     // Обновляю массив с подзадачами внутри массива с тасками (локально в массиве текущего файла)
     all_tasks[window.localStorage.getItem("openMoTargetLiId")-1] = currentTask_arr
@@ -312,7 +327,7 @@ function selectDeadlineItemMO(item) {
     reloadAllTasks(all_tasks)
 
     // Обновляю срок задачи внутри элементов таска (вне мо)(внизу слева у таска)
-    deadlineThisTask.innerHTML = textAreaDeadline_modal.innerHTML
+    deadlineThisTask.innerText = textAreaDeadline_modal.innerText
 
     //Очищаю стиль выбранного элемента со всех, если он где-то был (удаляю со всех элементов класс "hovered_select_menu")
     reloadItemsDeadline_modal_aside()
@@ -379,15 +394,15 @@ function showElCalentare_modal(currData) {
 
     
     // Ввожу в поле с выбором срока выполнения - выбранную в календаре дату (число + месяц)
-    textAreaDeadline.innerHTML = dateDay + " " + selectMonthDataCalendare
+    textAreaDeadline.innerText = dateDay + " " + selectMonthDataCalendare
     // Ввожу в скрытое поле с полным числовым значением (в мо в sidebar)
-    textAreaDeadlineHiddenNum_modal.innerHTML = selectDataCalendare.toLocaleDateString()
+    textAreaDeadlineHiddenNum_modal.innerText = selectDataCalendare.toLocaleDateString()
 
 
     // Обновляю срок задачи внутри элементов таска (вне мо)(внизу слева у таска)
-    deadlineThisTask.innerHTML = dateDay + " " + selectMonthDataCalendare
+    deadlineThisTask.innerText = dateDay + " " + selectMonthDataCalendare
     // Ввожу в скрытое поле с полным числовым значением у таска (вне мо)
-    deadlineThisTaskFullNum.innerHTML = selectDataCalendare.toLocaleDateString()
+    deadlineThisTaskFullNum.innerText = selectDataCalendare.toLocaleDateString()
     
 
     // Обновляю срок выполнения в массиве текущего таска
@@ -421,7 +436,7 @@ function selectPriorityItemMO(item) {
     // Подставляю в поле выбранного приоритета - иконку и "aria-label" выбранного приоритета, если выбираемый приоритет не является уже выбранным
     if (modalBtn_GroupPriorityTask.querySelector(".itc-modal-body__icon-selected-setting").getAttribute("src") != selectedIcon.getAttribute("src")) {
         modalBtn_GroupPriorityTask.querySelector(".itc-modal-body__icon-selected-setting").setAttribute("src", selectedIcon.getAttribute("src"))
-        modalBtn_GroupPriorityTask.querySelector(".itc-modal-body__text-settings").innerHTML = item.querySelector(".itc-modal-body__priority-name").getAttribute("aria-label")
+        modalBtn_GroupPriorityTask.querySelector(".itc-modal-body__text-settings").innerText = item.querySelector(".itc-modal-body__priority-name").getAttribute("aria-label")
 
         //Очищаю стиль "выбранного элемента" со всех, если он где-то был (удаляю со всех элементов класс "hovered_select_menu"). А так же скрываю галочку справа (показывающую какой элемент пользователь выбрал) с элемента, у которого он показывался ранее (если был) и показываю на выбранном элементе
         reloadItemsPriority_modal(item)

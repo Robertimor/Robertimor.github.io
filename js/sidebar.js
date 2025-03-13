@@ -307,7 +307,7 @@ studyTasksButton.addEventListener("click", function(e) {
 function filterSearchNameTasks(curName) {
     document.querySelectorAll(".task").forEach(function(task) {
         // Содержимое имени таска
-        const nameTask = task.querySelector(".task__name-task").innerHTML.toLocaleLowerCase()
+        const nameTask = task.querySelector(".task__name-task").innerText.toLocaleLowerCase()
 
         // Если в строке имени таска нет введённых символов, то скрываю этот таск
         if (!nameTask.includes(curName.toLocaleLowerCase())) {
@@ -332,7 +332,7 @@ function filterByDeadline(curDate) {
     // Перебираю все таски
     allTasks.forEach(function(task) {
         // Если дата текущего таска не равна выбранной фильтром, то присваиваю элементу таска специальный класс скрытия
-        if (task.querySelector(".task__deadline__date_hidden").innerHTML != curDate) {
+        if (task.querySelector(".task__deadline__date_hidden").innerText != curDate) {
             task.classList.add("hiddenFiltered")
         }
     })
@@ -349,7 +349,7 @@ function filterByType(curType) {
     // Перебираю все таски
     allTasks.forEach(function(task) {
         // Если тип текущего таска не равна выбранной фильтром, то присваиваю элементу таска специальный класс скрытия
-        if (task.querySelector(".task__typeTask span").innerHTML != curType) {
+        if (task.querySelector(".task__typeTask span").innerText != curType) {
             task.classList.add("hiddenFiltered")
         }
     })

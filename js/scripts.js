@@ -87,7 +87,7 @@ export function reloadAllTasks(newVersion) {
 }
 
 
-countAllTasks.innerHTML = all_tasks.length   // Вписывание количество тасков в поле для их подсчёта
+countAllTasks.innerText = all_tasks.length   // Вписывание количество тасков в поле для их подсчёта
 
 
 
@@ -158,11 +158,11 @@ function copyAndPushLabelsTask(settingsTask) {
     taskNameInput.value = settingsTask.newTask_name   // Имя таска
     taskDescriptionInput.value = settingsTask.newTask_description    // Описание таска
 
-    taskTypeButton.querySelector(".form-from-add-new-task__name-type-task").innerHTML = settingsTask.newTask_typeTask_name  // Имя типа таска
+    taskTypeButton.querySelector(".form-from-add-new-task__name-type-task").innerText = settingsTask.newTask_typeTask_name  // Имя типа таска
     taskTypeButton.querySelector(".form-from-add-new-task__icon_type").setAttribute("src", settingsTask.newTask_typeTask_icon_src)  // Иконка типа таска
-    deadlineButton.querySelector(".form-from-add-new-task__text-settings").innerHTML = settingsTask.newTask_deadlineTask
-    deadlineButton.querySelector(".form-from-add-new-task__text-settings_hidden-num").innerHTML = settingsTask.newTask_deadlineFullDataTask
-    priorityButton.querySelector(".form-from-add-new-task__text-settings").innerHTML = settingsTask.newTask_priority_name   // Имя приоритета
+    deadlineButton.querySelector(".form-from-add-new-task__text-settings").innerText = settingsTask.newTask_deadlineTask
+    deadlineButton.querySelector(".form-from-add-new-task__text-settings_hidden-num").innerText = settingsTask.newTask_deadlineFullDataTask
+    priorityButton.querySelector(".form-from-add-new-task__text-settings").innerText = settingsTask.newTask_priority_name   // Имя приоритета
     priorityButton.querySelector(".form-from-add-new-task__icon-selected-setting").setAttribute("src", `./icon/priority_${settingsTask.newTask_priority_color}.png`)    // Цвет флага
 }
 
@@ -225,7 +225,7 @@ buttonSaveTask.addEventListener("click", function (e) {
 // Функция для обновления данных таска внутри массива тасков
 function updateDataTask_arr(curTargetLi, taskArr) {  
     // Создаём полную дату + с текущим временем (нужно для дальнейшей сортировки)
-    let fullDateTask = deadlineButton.querySelector(".form-from-add-new-task__text-settings_hidden-num").innerHTML
+    let fullDateTask = deadlineButton.querySelector(".form-from-add-new-task__text-settings_hidden-num").innerText
     let nowTimeTask = new Date().toLocaleTimeString("ru-RU");
 
     let [year, month, day] = fullDateTask.split(".").reverse().map(Number)
@@ -238,12 +238,12 @@ function updateDataTask_arr(curTargetLi, taskArr) {
     // Обновляю данные (в т.ч. срок выполнения) в массиве текущего таска
     taskArr.newTask_name = taskNameInput.value
     taskArr.newTask_description = taskDescriptionInput.value
-    taskArr.newTask_typeTask_name = taskTypeButton.querySelector(".form-from-add-new-task__name-type-task").innerHTML   // Имя типа таска
+    taskArr.newTask_typeTask_name = taskTypeButton.querySelector(".form-from-add-new-task__name-type-task").innerText   // Имя типа таска
     taskArr.newTask_typeTask_icon_src = taskTypeButton.querySelector(".form-from-add-new-task__icon_type").getAttribute("src") // Иконка типа таска
-    taskArr.newTask_deadlineTask = deadlineButton.querySelector(".form-from-add-new-task__text-settings").innerHTML
-    taskArr.newTask_deadlineFullDataTask = deadlineButton.querySelector(".form-from-add-new-task__text-settings_hidden-num").innerHTML
+    taskArr.newTask_deadlineTask = deadlineButton.querySelector(".form-from-add-new-task__text-settings").innerText
+    taskArr.newTask_deadlineFullDataTask = deadlineButton.querySelector(".form-from-add-new-task__text-settings_hidden-num").innerText
     taskArr.newTask_dateCreated = fullDateCreated
-    taskArr.newTask_priority_name = priorityButton.querySelector(".form-from-add-new-task__text-settings").innerHTML
+    taskArr.newTask_priority_name = priorityButton.querySelector(".form-from-add-new-task__text-settings").innerText
 
     // Создаю переменную для выяснения названия цвета у приоритета. Беру содержание тега src у выбранного изображения и разбиваю его на массив.
     let arrColor = priorityButton.querySelector(".form-from-add-new-task__icon-selected-setting").getAttribute("src").split("")
@@ -273,14 +273,14 @@ function updateDataTask_arr(curTargetLi, taskArr) {
 }
 // Функция для обновления данных элемента таска
 export function updateDataTask_element(taskEl, taskArr) {
-        taskEl.querySelector(".task__name-task").innerHTML = taskArr.newTask_name      // Название таска
-        taskEl.querySelector(".task__description-task-text").innerHTML = taskArr.newTask_description    // Описание таска
+        taskEl.querySelector(".task__name-task").innerText = taskArr.newTask_name      // Название таска
+        taskEl.querySelector(".task__description-task-text").innerText = taskArr.newTask_description    // Описание таска
         
 
-        taskEl.querySelector(".task__deadline__date_visible").innerHTML = taskArr.newTask_deadlineTask   // Поле с текстом со сроком выполнения данного таска (вне мо, на основной странице)
-        taskEl.querySelector(".task__deadline__date_hidden").innerHTML = taskArr.newTask_deadlineFullDataTask    // Поле с полной числовой датой срока выполнения (вне мо, на основной странице)
+        taskEl.querySelector(".task__deadline__date_visible").innerText = taskArr.newTask_deadlineTask   // Поле с текстом со сроком выполнения данного таска (вне мо, на основной странице)
+        taskEl.querySelector(".task__deadline__date_hidden").innerText = taskArr.newTask_deadlineFullDataTask    // Поле с полной числовой датой срока выполнения (вне мо, на основной странице)
     
-        taskEl.querySelector(".task__typeTask span").innerHTML = taskArr.newTask_typeTask_name  // Имя типа таска
+        taskEl.querySelector(".task__typeTask span").innerText = taskArr.newTask_typeTask_name  // Имя типа таска
 
         taskEl.querySelector(".task__imgBlock-typeTask img").setAttribute("src", taskArr.newTask_typeTask_icon_src)  // Иконка типа таска
         
@@ -332,7 +332,7 @@ sectionContentBlock_viewContent.addEventListener("click", function(e) {
         const textAreaDeadlineHiddenNum = targetTask.querySelector(".task__deadline__date_hidden")
 
         // Полная дата, которая была перевёрнута (стала: "год.месяц.число")
-        const textAreaDeadlineHiddenNumReversed = textAreaDeadlineHiddenNum.innerHTML.split(".").reverse().join(".")
+        const textAreaDeadlineHiddenNumReversed = textAreaDeadlineHiddenNum.innerText.split(".").reverse().join(".")
 
         
         MyCalendar = new AirDatepicker(curHiddenCalendar, {
@@ -459,7 +459,7 @@ addNewTask.addEventListener("click", function(e) {
 // Выбор типа таска в меню выбора при создании новой задачи
 taskTypeOptions.forEach(function(type) {
     type.addEventListener("click", function(e) {
-        taskTypeButton.querySelector(".form-from-add-new-task__name-type-task").innerHTML = type.querySelector(".wrapper-type-task__name").innerHTML
+        taskTypeButton.querySelector(".form-from-add-new-task__name-type-task").innerText = type.querySelector(".wrapper-type-task__name").innerText
         const selectedIcon = type.querySelector(".wrapper-type-task__icon-type-project")
         taskTypeButton.querySelector(".form-from-add-new-task__icon_type").setAttribute("src", selectedIcon.getAttribute("src"))
 
@@ -498,7 +498,7 @@ taskForm.querySelectorAll(".form-from-add-new-task__icon-cross").forEach(functio
         const parentEl = crossItem.closest("div")
         // Изменение у срока выполнения
         if (parentEl.classList.contains("form-from-add-new-task__select-deadline")) {       
-            parentEl.querySelector(".form-from-add-new-task__text-settings").innerHTML = "Срок выполнения"
+            parentEl.querySelector(".form-from-add-new-task__text-settings").innerText = "Срок выполнения"
             // Очищаю выделение срока в списке вариантов
             deadlineOptions.forEach(function(itemDeadline) { 
                 itemDeadline.classList.remove("hovered_select_menu")
@@ -511,7 +511,7 @@ taskForm.querySelectorAll(".form-from-add-new-task__icon-cross").forEach(functio
         // Изменение у приоритета
         } else if (parentEl.classList.contains        ("form-from-add-new-task__select-priority")) {    
             parentEl.querySelector(".form-from-add-new-task__icon-selected-setting").setAttribute("src", "./icon/priority_0.png")
-            parentEl.querySelector(".form-from-add-new-task__text-settings").innerHTML = "Приоритет"
+            parentEl.querySelector(".form-from-add-new-task__text-settings").innerText = "Приоритет"
             
             priorityOptions.forEach(function(itemPriority) { 
                 // Удаляю стиль выбранного элемента у ранее выбранного элемента
@@ -618,7 +618,7 @@ function deadlineItemsClick(items) {
             }
 
             // Название выбранного дня (из списка)
-            const nameItemDeadline = item.querySelector(".task__dopFunction__deadline-name").innerHTML
+            const nameItemDeadline = item.querySelector(".task__dopFunction__deadline-name").innerText
 
             // Поле с текстом со сроком выполнения данного таска (нужно для доп функции "Назначить срок") (внизу слева у каждого таска)
             const deadlineThisTask = targetLi.querySelector(".task__deadline__date_visible")
@@ -627,20 +627,20 @@ function deadlineItemsClick(items) {
             const deadlineThisTaskFullNum = targetLi.querySelector(".task__deadline__date_hidden")
 
 
-            if (nameItemDeadline == "Сегодня" && deadlineThisTask.innerHTML != `${nowDay} ${nowMonth}`) {
-                deadlineThisTask.innerHTML = `${nowDay} ${nowMonth}`
+            if (nameItemDeadline == "Сегодня" && deadlineThisTask.innerText != `${nowDay} ${nowMonth}`) {
+                deadlineThisTask.innerText = `${nowDay} ${nowMonth}`
 
-                deadlineThisTaskFullNum.innerHTML = nowData2.toLocaleDateString()
+                deadlineThisTaskFullNum.innerText = nowData2.toLocaleDateString()
 
 
                 //Очищаю стиль выбранного элемента со всех, если он где-то был (удаляю со всех элементов класс "hovered_select_menu")
                 reloadItemsDeadline(item)
     
-            } else if (nameItemDeadline == "Завтра" && deadlineThisTask.innerHTML != `${nowDay+1} ${nowMonth}`) {
-                deadlineThisTask.innerHTML = `${nowDay+1} ${nowMonth}`
+            } else if (nameItemDeadline == "Завтра" && deadlineThisTask.innerText != `${nowDay+1} ${nowMonth}`) {
+                deadlineThisTask.innerText = `${nowDay+1} ${nowMonth}`
 
                 nowData2.setDate(nowDay+1)
-                deadlineThisTaskFullNum.innerHTML = nowData2.toLocaleDateString()
+                deadlineThisTaskFullNum.innerText = nowData2.toLocaleDateString()
 
 
                 //Очищаю стиль выбранного элемента со всех, если он где-то был (удаляю со всех элементов класс "hovered_select_menu")
@@ -659,10 +659,10 @@ function deadlineItemsClick(items) {
                 }
     
                 // Если ближайшая суббота уже не была выбрана, то...
-                if (deadlineThisTask.innerHTML != `${dataWeekend.getDate()} ${Intl.DateTimeFormat(localLanguage, options1).format(dataWeekend)}`) {
-                    deadlineThisTask.innerHTML = `${dataWeekend.getDate()} ${Intl.DateTimeFormat(localLanguage, options1).format(dataWeekend)}`
+                if (deadlineThisTask.innerText != `${dataWeekend.getDate()} ${Intl.DateTimeFormat(localLanguage, options1).format(dataWeekend)}`) {
+                    deadlineThisTask.innerText = `${dataWeekend.getDate()} ${Intl.DateTimeFormat(localLanguage, options1).format(dataWeekend)}`
 
-                    deadlineThisTaskFullNum.innerHTML = dataWeekend.toLocaleDateString()
+                    deadlineThisTaskFullNum.innerText = dataWeekend.toLocaleDateString()
     
                     //Очищаю стиль выбранного элемента со всех, если он где-то был (удаляю со всех элементов класс "hovered_select_menu")
                     reloadItemsDeadline(item)
@@ -672,32 +672,32 @@ function deadlineItemsClick(items) {
                 let dataNextWeek = new Date()   // Создаю новый объект даты
                 dataNextWeek.setDate(dataNextWeek.getDate() + 7)    // Увеличиваю дату ровно на неделю (7 дней)
     
-                if (deadlineThisTask.innerHTML != `${dataNextWeek.getDate()} ${Intl.DateTimeFormat(localLanguage, options1).format(dataNextWeek)}`) {
-                    deadlineThisTask.innerHTML = `${dataNextWeek.getDate()} ${Intl.DateTimeFormat(localLanguage, options1).format(dataNextWeek)}`
+                if (deadlineThisTask.innerText != `${dataNextWeek.getDate()} ${Intl.DateTimeFormat(localLanguage, options1).format(dataNextWeek)}`) {
+                    deadlineThisTask.innerText = `${dataNextWeek.getDate()} ${Intl.DateTimeFormat(localLanguage, options1).format(dataNextWeek)}`
 
-                    deadlineThisTaskFullNum.innerHTML = dataNextWeek.toLocaleDateString()
+                    deadlineThisTaskFullNum.innerText = dataNextWeek.toLocaleDateString()
     
                     //Очищаю стиль выбранного элемента со всех, если он где-то был (удаляю со всех элементов класс "hovered_select_menu")
                     reloadItemsDeadline(item)
                 }
     
-            } else if (nameItemDeadline == "Без срока" && deadlineThisTask.innerHTML != "Срок выполнения") {
+            } else if (nameItemDeadline == "Без срока" && deadlineThisTask.innerText != "Срок выполнения") {
                 setIsObservHiddenMenus(false)
     
-                deadlineThisTask.innerHTML = "Срок выполнения"
-                deadlineThisTaskFullNum.innerHTML = "Срок выполнения"
+                deadlineThisTask.innerText = "Срок выполнения"
+                deadlineThisTaskFullNum.innerText = "Срок выполнения"
 
 
                 //Очищаю стиль выбранного элемента со всех, если он где-то был (удаляю со всех элементов класс "hovered_select_menu")
                 reloadItemsDeadline(item)
     
-            } else if (nameItemDeadline == "Без срока" && deadlineThisTask.innerHTML == "Срок выполнения") {
+            } else if (nameItemDeadline == "Без срока" && deadlineThisTask.innerText == "Срок выполнения") {
                 setIsObservHiddenMenus(false)
             }
 
 
             // Создаём полную дату + с текущим временем (нужно для дальнейшей сортировки)
-            let fullDateTask = deadlineThisTaskFullNum.innerHTML
+            let fullDateTask = deadlineThisTaskFullNum.innerText
             let nowTimeTask = new Date().toLocaleTimeString("ru-RU");
 
             let [year, month, day] = fullDateTask.split(".").reverse().map(Number)
@@ -708,8 +708,8 @@ function deadlineItemsClick(items) {
 
 
             // Обновляю срок выполнения в массиве текущего таска
-            liFromArr.newTask_deadlineTask = deadlineThisTask.innerHTML
-            liFromArr.newTask_deadlineFullDataTask = deadlineThisTaskFullNum.innerHTML
+            liFromArr.newTask_deadlineTask = deadlineThisTask.innerText
+            liFromArr.newTask_deadlineFullDataTask = deadlineThisTaskFullNum.innerText
             liFromArr.newTask_dateCreated = fullDateCreated
 
             // Обновляю текущий таск из массива с тасками (локально в массиве текущего файла)
@@ -755,7 +755,7 @@ deadlineOptions.forEach(function(item) {
         console.log("ЛАКИ ЛАКИ");
 
         // Название выбранного дня (из списка)
-        const nameItemDeadline = item.querySelector(".form-from-add-new-task__deadline-name").innerHTML
+        const nameItemDeadline = item.querySelector(".form-from-add-new-task__deadline-name").innerText
 
         // Поле с текстом для выбранного срока
         const textAreaDeadline = deadlineButton.querySelector(".form-from-add-new-task__text-settings")
@@ -764,19 +764,19 @@ deadlineOptions.forEach(function(item) {
         const textAreaDeadlineHiddenNum = deadlineButton.querySelector(".form-from-add-new-task__text-settings_hidden-num")
         
 
-        if (nameItemDeadline == "Сегодня" && textAreaDeadline.innerHTML != `${nowDay} ${nowMonth}`) {
-            textAreaDeadline.innerHTML = `${nowDay} ${nowMonth}`
+        if (nameItemDeadline == "Сегодня" && textAreaDeadline.innerText != `${nowDay} ${nowMonth}`) {
+            textAreaDeadline.innerText = `${nowDay} ${nowMonth}`
 
-            textAreaDeadlineHiddenNum.innerHTML = nowData2.toLocaleDateString()
+            textAreaDeadlineHiddenNum.innerText = nowData2.toLocaleDateString()
 
             //Очищаю стиль выбранного элемента со всех, если он где-то был (удаляю со всех элементов класс "hovered_select_menu")
             reloadItemsDeadline(item)
 
-        } else if (nameItemDeadline == "Завтра" && textAreaDeadline.innerHTML != `${nowDay+1} ${nowMonth}`) {
-            textAreaDeadline.innerHTML = `${nowDay+1} ${nowMonth}`
+        } else if (nameItemDeadline == "Завтра" && textAreaDeadline.innerText != `${nowDay+1} ${nowMonth}`) {
+            textAreaDeadline.innerText = `${nowDay+1} ${nowMonth}`
             
             nowData2.setDate(nowDay+1)
-            textAreaDeadlineHiddenNum.innerHTML = nowData2.toLocaleDateString()
+            textAreaDeadlineHiddenNum.innerText = nowData2.toLocaleDateString()
 
             //Очищаю стиль выбранного элемента со всех, если он где-то был (удаляю со всех элементов класс "hovered_select_menu")
             reloadItemsDeadline(item)
@@ -794,10 +794,10 @@ deadlineOptions.forEach(function(item) {
 
 
             // Если ближайшая суббота уже не была выбрана, то...
-            if (textAreaDeadline.innerHTML != `${dataWeekend.getDate()} ${Intl.DateTimeFormat(localLanguage, options1).format(dataWeekend)}`) {
-                textAreaDeadline.innerHTML = `${dataWeekend.getDate()} ${Intl.DateTimeFormat(localLanguage, options1).format(dataWeekend)}`
+            if (textAreaDeadline.innerText != `${dataWeekend.getDate()} ${Intl.DateTimeFormat(localLanguage, options1).format(dataWeekend)}`) {
+                textAreaDeadline.innerText = `${dataWeekend.getDate()} ${Intl.DateTimeFormat(localLanguage, options1).format(dataWeekend)}`
 
-                textAreaDeadlineHiddenNum.innerHTML = dataWeekend.toLocaleDateString()
+                textAreaDeadlineHiddenNum.innerText = dataWeekend.toLocaleDateString()
 
                 //Очищаю стиль выбранного элемента со всех, если он где-то был (удаляю со всех элементов класс "hovered_select_menu")
                 reloadItemsDeadline(item)
@@ -807,27 +807,27 @@ deadlineOptions.forEach(function(item) {
             let dataNextWeek = new Date()   // Создаю новый объект даты
             dataNextWeek.setDate(dataNextWeek.getDate() + 7)    // Увеличиваю дату ровно на неделю (7 дней)
 
-            if (textAreaDeadline.innerHTML != `${dataNextWeek.getDate()} ${Intl.DateTimeFormat(localLanguage, options1).format(dataNextWeek)}`) {
-                textAreaDeadline.innerHTML = `${dataNextWeek.getDate()} ${Intl.DateTimeFormat(localLanguage, options1).format(dataNextWeek)}`
+            if (textAreaDeadline.innerText != `${dataNextWeek.getDate()} ${Intl.DateTimeFormat(localLanguage, options1).format(dataNextWeek)}`) {
+                textAreaDeadline.innerText = `${dataNextWeek.getDate()} ${Intl.DateTimeFormat(localLanguage, options1).format(dataNextWeek)}`
 
-                textAreaDeadlineHiddenNum.innerHTML = dataNextWeek.toLocaleDateString()
+                textAreaDeadlineHiddenNum.innerText = dataNextWeek.toLocaleDateString()
 
                 //Очищаю стиль выбранного элемента со всех, если он где-то был (удаляю со всех элементов класс "hovered_select_menu")
                 reloadItemsDeadline(item)
             }
 
-        } else if (nameItemDeadline == "Без срока" && textAreaDeadline.innerHTML != "Срок выполнения") {
+        } else if (nameItemDeadline == "Без срока" && textAreaDeadline.innerText != "Срок выполнения") {
             setIsObservHiddenMenus(false)
 
 
-            textAreaDeadline.innerHTML = "Срок выполнения"
-            textAreaDeadlineHiddenNum.innerHTML = "Срок выполнения"
+            textAreaDeadline.innerText = "Срок выполнения"
+            textAreaDeadlineHiddenNum.innerText = "Срок выполнения"
 
             //Очищаю стиль выбранного элемента со всех, если он где-то был (удаляю со всех элементов класс "hovered_select_menu")
             reloadItemsDeadline(item)
 
             hiddenByDisplay(deadlineButton.querySelector(".form-from-add-new-task__icon-cross"), "hide")
-        } else if (nameItemDeadline == "Без срока" && textAreaDeadline.innerHTML == "Срок выполнения") {
+        } else if (nameItemDeadline == "Без срока" && textAreaDeadline.innerText == "Срок выполнения") {
             setIsObservHiddenMenus(false)
         }
     })
@@ -894,11 +894,11 @@ sectionContentBlock_viewContent.addEventListener("click", function(e) {
     // Ввожу в поле с выбором срока выполнения - выбранную в календаре дату (число + месяц)
     setIsObservHiddenMenus(true)
     observFunc(deadlineButton)
-    if (deadlineThisTask.innerHTML != dateDay + " " + selectMonthDataCalendare) {   // Если выбранная дата не такая же как уже выбранная
-        deadlineThisTask.innerHTML = dateDay + " " + selectMonthDataCalendare
+    if (deadlineThisTask.innerText != dateDay + " " + selectMonthDataCalendare) {   // Если выбранная дата не такая же как уже выбранная
+        deadlineThisTask.innerText = dateDay + " " + selectMonthDataCalendare
     }
 
-    deadlineThisTaskFullNum.innerHTML = selectDataCalendare.toLocaleDateString()
+    deadlineThisTaskFullNum.innerText = selectDataCalendare.toLocaleDateString()
 
 
     let liFromArr   // Таск из массива
@@ -913,7 +913,7 @@ sectionContentBlock_viewContent.addEventListener("click", function(e) {
 
 
     // Создаём полную дату + с текущим временем (нужно для дальнейшей сортировки)
-    let fullDateTask = deadlineThisTaskFullNum.innerHTML
+    let fullDateTask = deadlineThisTaskFullNum.innerText
     let nowTimeTask = new Date().toLocaleTimeString("ru-RU");
 
     let [year, month, day] = fullDateTask.split(".").reverse().map(Number)
@@ -924,8 +924,8 @@ sectionContentBlock_viewContent.addEventListener("click", function(e) {
 
 
     // Обновляю срок выполнения в массиве текущего таска
-    liFromArr.newTask_deadlineTask = deadlineThisTask.innerHTML
-    liFromArr.newTask_deadlineFullDataTask = deadlineThisTaskFullNum.innerHTML
+    liFromArr.newTask_deadlineTask = deadlineThisTask.innerText
+    liFromArr.newTask_deadlineFullDataTask = deadlineThisTaskFullNum.innerText
     liFromArr.newTask_dateCreated = fullDateCreated
 
     // Обновляю текущий таск из массива с тасками (локально в массиве текущего файла)
@@ -998,10 +998,10 @@ deadlineCalendar.addEventListener("click", function(e) {
     // Ввожу в поле с выбором срока выполнения - выбранную в календаре дату (число + месяц)
     setIsObservHiddenMenus(true)
     observFunc(deadlineButton)
-    if (textAreaDeadline.innerHTML != dateDay + " " + selectMonthDataCalendare) {   // Если выбранная дата не такая же как уже выбранная
-        textAreaDeadline.innerHTML = dateDay + " " + selectMonthDataCalendare
+    if (textAreaDeadline.innerText != dateDay + " " + selectMonthDataCalendare) {   // Если выбранная дата не такая же как уже выбранная
+        textAreaDeadline.innerText = dateDay + " " + selectMonthDataCalendare
     }
-    textAreaDeadlineHiddenNum.innerHTML = selectDataCalendare.toLocaleDateString()
+    textAreaDeadlineHiddenNum.innerText = selectDataCalendare.toLocaleDateString()
 })
 
 
@@ -1034,7 +1034,7 @@ priorityOptions.forEach(function(item) {
         // Подставляю в поле выбранного приоритета - иконку и "aria-label" выбранного приоритета, если выбираемый приоритет не является уже выбранным
         if (priorityButton.querySelector(".form-from-add-new-task__icon-selected-setting").getAttribute("src") != selectedIcon.getAttribute("src")) {
             priorityButton.querySelector(".form-from-add-new-task__icon-selected-setting").setAttribute("src", selectedIcon.getAttribute("src"))
-            priorityButton.querySelector(".form-from-add-new-task__text-settings").innerHTML = item.querySelector(".form-from-add-new-task__priority-name").getAttribute("aria-label")
+            priorityButton.querySelector(".form-from-add-new-task__text-settings").innerText = item.querySelector(".form-from-add-new-task__priority-name").getAttribute("aria-label")
     
             //Очищаю стиль "выбранного элемента" со всех, если он где-то был (удаляю со всех элементов класс "hovered_select_menu"). А так же скрываю галочку справа (показывающую какой элемент пользователь выбрал) с элемента, у которого он показывался ранее (если был) и показываю на выбранном элементе
             reloadItemsPriority(item)
@@ -1074,7 +1074,7 @@ buttonAddNewTask.addEventListener("click", function(e) {
 
 
         // Создаём полную дату + с текущим временем (нужно для дальнейшей сортировки)
-        let fullDateTask = deadlineButton.querySelector(".form-from-add-new-task__text-settings_hidden-num").innerHTML
+        let fullDateTask = deadlineButton.querySelector(".form-from-add-new-task__text-settings_hidden-num").innerText
         let nowTimeTask = new Date().toLocaleTimeString("ru-RU");
 
         let [year, month, day] = fullDateTask.split(".").reverse().map(Number)
@@ -1087,11 +1087,11 @@ buttonAddNewTask.addEventListener("click", function(e) {
         const contentNewTask = {    // Создаю объект из введённых данных
             newTask_name: taskNameInput.value, 
             newTask_description: taskDescriptionInput.value, 
-            newTask_typeTask_name: taskTypeButton.querySelector(".form-from-add-new-task__name-type-task").innerHTML,
+            newTask_typeTask_name: taskTypeButton.querySelector(".form-from-add-new-task__name-type-task").innerText,
             newTask_typeTask_icon_src: taskTypeButton.querySelector(".form-from-add-new-task__icon_type").getAttribute("src"),
-            newTask_deadlineTask: deadlineButton.querySelector(".form-from-add-new-task__text-settings").innerHTML,
-            newTask_deadlineFullDataTask: deadlineButton.querySelector(".form-from-add-new-task__text-settings_hidden-num").innerHTML,
-            newTask_priority_name: priorityButton.querySelector(".form-from-add-new-task__text-settings").innerHTML,
+            newTask_deadlineTask: deadlineButton.querySelector(".form-from-add-new-task__text-settings").innerText,
+            newTask_deadlineFullDataTask: deadlineButton.querySelector(".form-from-add-new-task__text-settings_hidden-num").innerText,
+            newTask_priority_name: priorityButton.querySelector(".form-from-add-new-task__text-settings").innerText,
             newTask_priority_color: colorPriority,
             newTask_ID: tasksId,
             newTask_countSubtask: 0,
@@ -1103,7 +1103,7 @@ buttonAddNewTask.addEventListener("click", function(e) {
 
         funcAddNewTask(contentNewTask, true)      // Запускаю функцию для добавления нового html элемента с новым таском
         addNewTaskMass(contentNewTask)      // Добавляю созданый объект в массив из списка всех тасков
-        countAllTasks.innerHTML = all_tasks.length    // Обновляю поле на странице с количеством существующих тасков
+        countAllTasks.innerText = all_tasks.length    // Обновляю поле на странице с количеством существующих тасков
 
 
         // Запускаю функцию для переноса задачи в раздел просроченных, если её дата выполнения меньше чем сегодняшний день
@@ -1321,8 +1321,8 @@ function reloadFormAddTask() {
     taskDescriptionInput.value = ""
     buttonAddNewTask.setAttribute('aria-disabled', 'true')
     setIsObservHiddenMenus(false)
-    deadlineButton.querySelector(".form-from-add-new-task__text-settings").innerHTML = "Срок выполнения"
-    deadlineButton.querySelector(".form-from-add-new-task__text-settings_hidden-num").innerHTML = "Срок выполнения"
+    deadlineButton.querySelector(".form-from-add-new-task__text-settings").innerText = "Срок выполнения"
+    deadlineButton.querySelector(".form-from-add-new-task__text-settings_hidden-num").innerText = "Срок выполнения"
     hiddenByDisplay(deadlineButton.querySelector(".form-from-add-new-task__icon-cross"), "hide")
     // Очищаю выделение выбранного срока выполнения из списка
     deadlineOptions.forEach(function(itemDeadline) { 
@@ -1333,13 +1333,13 @@ function reloadFormAddTask() {
         selectedDay.classList.remove("-selected-")
     }
     // Записываю сегодняшнее число в окно выбора срока выполнения для новой создаваемой задачи
-    deadlineButton.querySelector(".form-from-add-new-task__text-settings").innerHTML = `${nowDay} ${nowMonth}`
-    deadlineButton.querySelector(".form-from-add-new-task__text-settings_hidden-num").innerHTML = nowData.toLocaleDateString()
+    deadlineButton.querySelector(".form-from-add-new-task__text-settings").innerText = `${nowDay} ${nowMonth}`
+    deadlineButton.querySelector(".form-from-add-new-task__text-settings_hidden-num").innerText = nowData.toLocaleDateString()
     // Убираю скрытие с крестика в поле выбора срока выполнения
     hiddenByDisplay(deadlineButton.querySelector(".form-from-add-new-task__icon-cross"), "show")
 
     
-    priorityButton.querySelector(".form-from-add-new-task__text-settings").innerHTML = "Приоритет"
+    priorityButton.querySelector(".form-from-add-new-task__text-settings").innerText = "Приоритет"
     priorityButton.querySelector(".form-from-add-new-task__icon-selected-setting").setAttribute("src", "./icon/priority_ser.png")
     hiddenByDisplay(priorityButton.querySelector(".form-from-add-new-task__icon-cross"), "hide")
     // Очищаю выделение выбранного приоритета
@@ -1348,7 +1348,7 @@ function reloadFormAddTask() {
         hiddenByDisplay(itemPriority.querySelector(".form-from-add-new-task__priority-icon-selected"), "hide")    // Удаляю галочки у ранее выбранного элемента (если такой был)
     })
 
-    taskTypeButton.querySelector(".form-from-add-new-task__name-type-task").innerHTML = "Дом"  // Имя типа таска
+    taskTypeButton.querySelector(".form-from-add-new-task__name-type-task").innerText = "Дом"  // Имя типа таска
     taskTypeButton.querySelector(".form-from-add-new-task__icon_type").setAttribute("src", "./icon/home.png")  // Иконка типа таска
 
 

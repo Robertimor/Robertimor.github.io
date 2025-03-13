@@ -228,7 +228,7 @@ function selectDeadlineFunc(e) {
         const textAreaDeadlineHiddenNum = deadlineButton.querySelector(".form-from-add-new-task__text-settings_hidden-num")
 
         // Полная дата, которая была перевёрнута (стала: "год.месяц.число")
-        const textAreaDeadlineHiddenNumReversed = textAreaDeadlineHiddenNum.innerHTML.split(".").reverse().join(".")
+        const textAreaDeadlineHiddenNumReversed = textAreaDeadlineHiddenNum.innerText.split(".").reverse().join(".")
 
         MyCalendarForm = new AirDatepicker(curHiddenCalendarForm, {
             inline: false,  
@@ -291,7 +291,7 @@ function btnNewDeadlineSubtask(e) {
         const textAreaDeadlineHiddenNum = targetSubtask.querySelector(".subtask__deadline__date_hidden")
 
         // Полная дата, которая была перевёрнута (стала: "год.месяц.число")
-        const textAreaDeadlineHiddenNumReversed = textAreaDeadlineHiddenNum.innerHTML.split(".").reverse().join(".")
+        const textAreaDeadlineHiddenNumReversed = textAreaDeadlineHiddenNum.innerText.split(".").reverse().join(".")
 
         MyCalendar = new AirDatepicker(curHiddenCalendar, {
             inline: false,  

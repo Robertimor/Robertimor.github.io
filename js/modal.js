@@ -338,7 +338,7 @@ sectionContentBlock_viewContent.addEventListener("click", function(e) {
     const countSubtasks = wrapCountSubtask_and_Subtask.querySelector(".itc-modal-body__subtask-count .itc-modal-body__subtasks-count")
     const subtaskOuter_modal = modalContent.querySelector(".itc-modal-body__subtask-outer-block")
 
-    countSubtasks.innerHTML = getCurrentTask_arr().newTask_countSubtask
+    countSubtasks.innerText = getCurrentTask_arr().newTask_countSubtask
 
 
     // При клике на поле с именем/описанием таска
@@ -390,7 +390,7 @@ sectionContentBlock_viewContent.addEventListener("click", function(e) {
         removeTaskMass(window.localStorage.getItem("openMoTargetLiId") - 1, 1)
 
         // Обновляю поле на странице с количеством существующих тасков
-        countAllTasks.innerHTML = all_tasks.length    
+        countAllTasks.innerText = all_tasks.length    
 
         modal.dispose()
     })
@@ -521,11 +521,11 @@ sectionContentBlock_viewContent.addEventListener("click", function(e) {
             const contentNewSubtask = {    // Создаю объект из введённых данных
                 newSubtask_name: taskNameInput.value, 
                 newSubtask_description: taskDescriptionInput.value, 
-                newSubtask_typeSubtask_name: taskTypeButton.querySelector(".form-from-add-new-task__name-type-task").innerHTML,
+                newSubtask_typeSubtask_name: taskTypeButton.querySelector(".form-from-add-new-task__name-type-task").innerText,
                 newSubtask_typeSubtask_icon_src: taskTypeButton.querySelector(".form-from-add-new-task__icon_type").getAttribute("src"),
-                newSubtask_deadlineSubtask: deadlineButton.querySelector(".form-from-add-new-task__text-settings").innerHTML,
-                newSubtask_deadlineFullDataSubtask: deadlineButton.querySelector(".form-from-add-new-task__text-settings_hidden-num").innerHTML,
-                newSubtask_priority_name: priorityButton.querySelector(".form-from-add-new-task__text-settings").innerHTML,
+                newSubtask_deadlineSubtask: deadlineButton.querySelector(".form-from-add-new-task__text-settings").innerText,
+                newSubtask_deadlineFullDataSubtask: deadlineButton.querySelector(".form-from-add-new-task__text-settings_hidden-num").innerText,
+                newSubtask_priority_name: priorityButton.querySelector(".form-from-add-new-task__text-settings").innerText,
                 newSubtask_priority_color: colorPriority,
                 newSubtask_ID: currentTask_arr.newTask_countSubtask + 1
             }
@@ -540,7 +540,7 @@ sectionContentBlock_viewContent.addEventListener("click", function(e) {
             funcAddNewSubtask(contentNewSubtask)
 
             // Обновляю поле с количеством подзадач
-            countSubtasks.innerHTML = currentTask_arr.newTask_countSubtask
+            countSubtasks.innerText = currentTask_arr.newTask_countSubtask
 
             // Обнуляю элементы поля .taskForm (поле для добавление нового таска) и скрываю его
             reloadFormAddTask()

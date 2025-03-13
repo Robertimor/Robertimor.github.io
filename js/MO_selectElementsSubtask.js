@@ -110,7 +110,7 @@ function deadlineItemsSubtaskClick(items) {
 
 
             // Название выбранного дня (из списка)
-            const nameItemDeadline = item.querySelector(".subtask__dopFunction__deadline-name").innerHTML
+            const nameItemDeadline = item.querySelector(".subtask__dopFunction__deadline-name").innerText
 
             // Поле с текстом со сроком выполнения данной подзадачи (нужно для доп функции "Назначить срок") (внизу слева у каждой подзадачи)
             const deadlineThisSubtask = targetLi_modal.querySelector(".subtask__deadline__date_visible")
@@ -119,20 +119,20 @@ function deadlineItemsSubtaskClick(items) {
             const deadlineThisSubtaskFullNum = targetLi_modal.querySelector(".subtask__deadline__date_hidden")
 
 
-            if (nameItemDeadline == "Сегодня" && deadlineThisSubtask.innerHTML != `${nowDay} ${nowMonth}`) {
-                deadlineThisSubtask.innerHTML = `${nowDay} ${nowMonth}`
+            if (nameItemDeadline == "Сегодня" && deadlineThisSubtask.innerText != `${nowDay} ${nowMonth}`) {
+                deadlineThisSubtask.innerText = `${nowDay} ${nowMonth}`
 
-                deadlineThisSubtaskFullNum.innerHTML = nowData2.toLocaleDateString()
+                deadlineThisSubtaskFullNum.innerText = nowData2.toLocaleDateString()
 
 
                 //Очищаю стиль выбранного элемента со всех, если он где-то был (удаляю со всех элементов класс "hovered_select_menu")
                 reloadItemsDeadlineSubtask(item)
     
-            } else if (nameItemDeadline == "Завтра" && deadlineThisSubtask.innerHTML != `${nowDay+1} ${nowMonth}`) {
-                deadlineThisSubtask.innerHTML = `${nowDay+1} ${nowMonth}`
+            } else if (nameItemDeadline == "Завтра" && deadlineThisSubtask.innerText != `${nowDay+1} ${nowMonth}`) {
+                deadlineThisSubtask.innerText = `${nowDay+1} ${nowMonth}`
 
                 nowData2.setDate(nowDay+1)
-                deadlineThisSubtaskFullNum.innerHTML = nowData2.toLocaleDateString()
+                deadlineThisSubtaskFullNum.innerText = nowData2.toLocaleDateString()
 
 
                 //Очищаю стиль выбранного элемента со всех, если он где-то был (удаляю со всех элементов класс "hovered_select_menu")
@@ -151,10 +151,10 @@ function deadlineItemsSubtaskClick(items) {
                 }
     
                 // Если ближайшая суббота уже не была выбрана, то...
-                if (deadlineThisSubtask.innerHTML != `${dataWeekend.getDate()} ${Intl.DateTimeFormat(localLanguage, options1).format(dataWeekend)}`) {
-                    deadlineThisSubtask.innerHTML = `${dataWeekend.getDate()} ${Intl.DateTimeFormat(localLanguage, options1).format(dataWeekend)}`
+                if (deadlineThisSubtask.innerText != `${dataWeekend.getDate()} ${Intl.DateTimeFormat(localLanguage, options1).format(dataWeekend)}`) {
+                    deadlineThisSubtask.innerText = `${dataWeekend.getDate()} ${Intl.DateTimeFormat(localLanguage, options1).format(dataWeekend)}`
 
-                    deadlineThisSubtaskFullNum.innerHTML = dataWeekend.toLocaleDateString()
+                    deadlineThisSubtaskFullNum.innerText = dataWeekend.toLocaleDateString()
     
                     //Очищаю стиль выбранного элемента со всех, если он где-то был (удаляю со всех элементов класс "hovered_select_menu")
                     reloadItemsDeadlineSubtask(item)
@@ -164,26 +164,26 @@ function deadlineItemsSubtaskClick(items) {
                 let dataNextWeek = new Date()   // Создаю новый объект даты
                 dataNextWeek.setDate(dataNextWeek.getDate() + 7)    // Увеличиваю дату ровно на неделю (7 дней)
     
-                if (deadlineThisSubtask.innerHTML != `${dataNextWeek.getDate()} ${Intl.DateTimeFormat(localLanguage, options1).format(dataNextWeek)}`) {
-                    deadlineThisSubtask.innerHTML = `${dataNextWeek.getDate()} ${Intl.DateTimeFormat(localLanguage, options1).format(dataNextWeek)}`
+                if (deadlineThisSubtask.innerText != `${dataNextWeek.getDate()} ${Intl.DateTimeFormat(localLanguage, options1).format(dataNextWeek)}`) {
+                    deadlineThisSubtask.innerText = `${dataNextWeek.getDate()} ${Intl.DateTimeFormat(localLanguage, options1).format(dataNextWeek)}`
 
-                    deadlineThisSubtaskFullNum.innerHTML = dataNextWeek.toLocaleDateString()
+                    deadlineThisSubtaskFullNum.innerText = dataNextWeek.toLocaleDateString()
     
                     //Очищаю стиль выбранного элемента со всех, если он где-то был (удаляю со всех элементов класс "hovered_select_menu")
                     reloadItemsDeadlineSubtask(item)
                 }
     
-            } else if (nameItemDeadline == "Без срока" && deadlineThisSubtask.innerHTML != "Срок выполнения") {
+            } else if (nameItemDeadline == "Без срока" && deadlineThisSubtask.innerText != "Срок выполнения") {
                 setIsObservHiddenMenus(false)
     
-                deadlineThisSubtask.innerHTML = "Срок выполнения"
-                deadlineThisSubtaskFullNum.innerHTML = "Срок выполнения"
+                deadlineThisSubtask.innerText = "Срок выполнения"
+                deadlineThisSubtaskFullNum.innerText = "Срок выполнения"
 
 
                 //Очищаю стиль выбранного элемента со всех, если он где-то был (удаляю со всех элементов класс "hovered_select_menu")
                 reloadItemsDeadlineSubtask(item)
     
-            } else if (nameItemDeadline == "Без срока" && deadlineThisSubtask.innerHTML == "Срок выполнения") {
+            } else if (nameItemDeadline == "Без срока" && deadlineThisSubtask.innerText == "Срок выполнения") {
                 setIsObservHiddenMenus(false)
             }
 
@@ -208,8 +208,8 @@ function deadlineItemsSubtaskClick(items) {
 
 
             // Обновляю срок выполнения в массиве текущей ПОДЗАДАЧИ
-            all_subtasks[idCurSubtask].newSubtask_deadlineSubtask = deadlineThisSubtask.innerHTML
-            all_subtasks[idCurSubtask].newSubtask_deadlineFullDataSubtask = deadlineThisSubtaskFullNum.innerHTML
+            all_subtasks[idCurSubtask].newSubtask_deadlineSubtask = deadlineThisSubtask.innerText
+            all_subtasks[idCurSubtask].newSubtask_deadlineFullDataSubtask = deadlineThisSubtaskFullNum.innerText
 
             // Обновляю массив с подзадачами в основном файле (хранилище для него)
             reloadAll_subtasks(all_subtasks)
@@ -263,7 +263,7 @@ function deadlineItemSubtaskFormClick(e) {
 
 
     // Название выбранного дня (из списка)
-    const nameItemDeadline = item.querySelector(".form-from-add-new-task__deadline-name").innerHTML
+    const nameItemDeadline = item.querySelector(".form-from-add-new-task__deadline-name").innerText
 
     // Поле с текстом для выбранного срока
     const textAreaDeadline = deadlineButton.querySelector(".form-from-add-new-task__text-settings")
@@ -272,19 +272,19 @@ function deadlineItemSubtaskFormClick(e) {
     const textAreaDeadlineHiddenNum = deadlineButton.querySelector(".form-from-add-new-task__text-settings_hidden-num")
     
 
-    if (nameItemDeadline == "Сегодня" && textAreaDeadline.innerHTML != `${nowDay} ${nowMonth}`) {
-        textAreaDeadline.innerHTML = `${nowDay} ${nowMonth}`
+    if (nameItemDeadline == "Сегодня" && textAreaDeadline.innerText != `${nowDay} ${nowMonth}`) {
+        textAreaDeadline.innerText = `${nowDay} ${nowMonth}`
 
-        textAreaDeadlineHiddenNum.innerHTML = nowData2.toLocaleDateString()
+        textAreaDeadlineHiddenNum.innerText = nowData2.toLocaleDateString()
 
         //Очищаю стиль выбранного элемента со всех, если он где-то был (удаляю со всех элементов класс "hovered_select_menu")
         reloadItemsDeadlineSubtask(item)
 
-    } else if (nameItemDeadline == "Завтра" && textAreaDeadline.innerHTML != `${nowDay+1} ${nowMonth}`) {
-        textAreaDeadline.innerHTML = `${nowDay+1} ${nowMonth}`
+    } else if (nameItemDeadline == "Завтра" && textAreaDeadline.innerText != `${nowDay+1} ${nowMonth}`) {
+        textAreaDeadline.innerText = `${nowDay+1} ${nowMonth}`
         
         nowData2.setDate(nowDay+1)
-        textAreaDeadlineHiddenNum.innerHTML = nowData2.toLocaleDateString()
+        textAreaDeadlineHiddenNum.innerText = nowData2.toLocaleDateString()
 
         //Очищаю стиль выбранного элемента со всех, если он где-то был (удаляю со всех элементов класс "hovered_select_menu")
         reloadItemsDeadlineSubtask(item)
@@ -302,10 +302,10 @@ function deadlineItemSubtaskFormClick(e) {
 
 
         // Если ближайшая суббота уже не была выбрана, то...
-        if (textAreaDeadline.innerHTML != `${dataWeekend.getDate()} ${Intl.DateTimeFormat(localLanguage, options1).format(dataWeekend)}`) {
-            textAreaDeadline.innerHTML = `${dataWeekend.getDate()} ${Intl.DateTimeFormat(localLanguage, options1).format(dataWeekend)}`
+        if (textAreaDeadline.innerText != `${dataWeekend.getDate()} ${Intl.DateTimeFormat(localLanguage, options1).format(dataWeekend)}`) {
+            textAreaDeadline.innerText = `${dataWeekend.getDate()} ${Intl.DateTimeFormat(localLanguage, options1).format(dataWeekend)}`
 
-            textAreaDeadlineHiddenNum.innerHTML = dataWeekend.toLocaleDateString()
+            textAreaDeadlineHiddenNum.innerText = dataWeekend.toLocaleDateString()
 
             //Очищаю стиль выбранного элемента со всех, если он где-то был (удаляю со всех элементов класс "hovered_select_menu")
             reloadItemsDeadlineSubtask(item)
@@ -315,27 +315,27 @@ function deadlineItemSubtaskFormClick(e) {
         let dataNextWeek = new Date()   // Создаю новый объект даты
         dataNextWeek.setDate(dataNextWeek.getDate() + 7)    // Увеличиваю дату ровно на неделю (7 дней)
 
-        if (textAreaDeadline.innerHTML != `${dataNextWeek.getDate()} ${Intl.DateTimeFormat(localLanguage, options1).format(dataNextWeek)}`) {
-            textAreaDeadline.innerHTML = `${dataNextWeek.getDate()} ${Intl.DateTimeFormat(localLanguage, options1).format(dataNextWeek)}`
+        if (textAreaDeadline.innerText != `${dataNextWeek.getDate()} ${Intl.DateTimeFormat(localLanguage, options1).format(dataNextWeek)}`) {
+            textAreaDeadline.innerText = `${dataNextWeek.getDate()} ${Intl.DateTimeFormat(localLanguage, options1).format(dataNextWeek)}`
 
-            textAreaDeadlineHiddenNum.innerHTML = dataNextWeek.toLocaleDateString()
+            textAreaDeadlineHiddenNum.innerText = dataNextWeek.toLocaleDateString()
 
             //Очищаю стиль выбранного элемента со всех, если он где-то был (удаляю со всех элементов класс "hovered_select_menu")
             reloadItemsDeadlineSubtask(item)
         }
 
-    } else if (nameItemDeadline == "Без срока" && textAreaDeadline.innerHTML != "Срок выполнения") {
+    } else if (nameItemDeadline == "Без срока" && textAreaDeadline.innerText != "Срок выполнения") {
         setIsObservHiddenMenus(false)
 
 
-        textAreaDeadline.innerHTML = "Срок выполнения"
-        textAreaDeadlineHiddenNum.innerHTML = "Срок выполнения"
+        textAreaDeadline.innerText = "Срок выполнения"
+        textAreaDeadlineHiddenNum.innerText = "Срок выполнения"
 
         //Очищаю стиль выбранного элемента со всех, если он где-то был (удаляю со всех элементов класс "hovered_select_menu")
         reloadItemsDeadlineSubtask(item)
 
         hiddenByDisplay(deadlineButton.querySelector(".form-from-add-new-task__icon-cross"), "hide")
-    } else if (nameItemDeadline == "Без срока" && textAreaDeadline.innerHTML == "Срок выполнения") {
+    } else if (nameItemDeadline == "Без срока" && textAreaDeadline.innerText == "Срок выполнения") {
         setIsObservHiddenMenus(false)
     }
 }
@@ -392,10 +392,10 @@ function clickButtonNewDeadlineSubtaskFromCalendar(e) {
     // Ввожу в поле с выбором срока выполнения - выбранную в календаре дату (число + месяц)
     setIsObservHiddenMenus(true)
     observFunc(deadlineButton)
-    if (deadlineThisSubtask.innerHTML != dateDay + " " + selectMonthDataCalendare) {   // Если выбранная дата не такая же как уже выбранная
-        deadlineThisSubtask.innerHTML = dateDay + " " + selectMonthDataCalendare
+    if (deadlineThisSubtask.innerText != dateDay + " " + selectMonthDataCalendare) {   // Если выбранная дата не такая же как уже выбранная
+        deadlineThisSubtask.innerText = dateDay + " " + selectMonthDataCalendare
     }
-    deadlineThisSubtaskFullNum.innerHTML = selectDataCalendare.toLocaleDateString()
+    deadlineThisSubtaskFullNum.innerText = selectDataCalendare.toLocaleDateString()
 
 
     // Все задачи
@@ -414,8 +414,8 @@ function clickButtonNewDeadlineSubtaskFromCalendar(e) {
 
 
     // Обновляю срок выполнения в массиве текущей ПОДЗАДАЧИ
-    all_subtasks[idCurSubtask].newSubtask_deadlineSubtask = deadlineThisSubtask.innerHTML
-    all_subtasks[idCurSubtask].newSubtask_deadlineFullDataSubtask = deadlineThisSubtaskFullNum.innerHTML
+    all_subtasks[idCurSubtask].newSubtask_deadlineSubtask = deadlineThisSubtask.innerText
+    all_subtasks[idCurSubtask].newSubtask_deadlineFullDataSubtask = deadlineThisSubtaskFullNum.innerText
 
     // Обновляю массив с подзадачами в основном файле (хранилище для него)
     reloadAll_subtasks(all_subtasks)
@@ -490,10 +490,10 @@ function deadlineClickCalendar(e) {
     // Ввожу в поле с выбором срока выполнения - выбранную в календаре дату (число + месяц)
     setIsObservHiddenMenus(true)
     observFunc(deadlineButton)
-    if (textAreaDeadline.innerHTML != dateDay + " " + selectMonthDataCalendare) {   // Если выбранная дата не такая же как уже выбранная
-        textAreaDeadline.innerHTML = dateDay + " " + selectMonthDataCalendare
+    if (textAreaDeadline.innerText != dateDay + " " + selectMonthDataCalendare) {   // Если выбранная дата не такая же как уже выбранная
+        textAreaDeadline.innerText = dateDay + " " + selectMonthDataCalendare
     }
-    textAreaDeadlineHiddenNum.innerHTML = selectDataCalendare.toLocaleDateString()
+    textAreaDeadlineHiddenNum.innerText = selectDataCalendare.toLocaleDateString()
 
 }
 

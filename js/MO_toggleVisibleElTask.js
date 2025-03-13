@@ -111,8 +111,8 @@ function clickNameDescriptionModal(event) {
     <textarea class="itc-modal-content__textarea-name-task" name="name-task" placeholder="Название задачи" maxlength="500"></textarea>
     <textarea class="itc-modal-content__textarea-description-task" name="description-task" placeholder="Описание задачи" maxlength="10000"></textarea>
     <div class="task__maxLenght_name_description">
-        <div class="task__maxLenght_name">Лимит названия задачи: <span class="num_lenght_name">${div_name_task.innerHTML.length}</span> / 500</div>
-        <div class="task__maxLenght_description">Лимит описания задачи: <span class="num_lenght_description">${div_description_task.querySelector('.task__description-task-text').innerHTML.length}</span> / 10000</div>
+        <div class="task__maxLenght_name">Лимит названия задачи: <span class="num_lenght_name">${div_name_task.innerText.length}</span> / 500</div>
+        <div class="task__maxLenght_description">Лимит описания задачи: <span class="num_lenght_description">${div_description_task.querySelector('.task__description-task-text').innerText.length}</span> / 10000</div>
     </div>
     `
     // Вставляю поля textarea в контейнер, где были ранее отображены div-ы с именем/описанием таска
@@ -129,8 +129,8 @@ function clickNameDescriptionModal(event) {
 
 
     // Вставляю в эти textarea значения имени/описания текущего таска (которые были внутри ранее отображаемого div-а)
-    el_textarea_name.value = div_name_task.innerHTML 
-    el_textarea_description.value = div_description_task.querySelector("span").innerHTML 
+    el_textarea_name.value = div_name_task.innerText 
+    el_textarea_description.value = div_description_task.querySelector("span").innerText 
 
     // Создаю для этих двух textarea обработчик события, который запускает функцию "resizeTextarea" каждый раз, когда что-то вводится в поле textarea
     el_textarea_name.addEventListener("input", resizeTextarea)
@@ -194,7 +194,7 @@ function changValueLenght(_e) {
     // Если изменено поле имени таска
     if (getElement.classList.contains('itc-modal-content__textarea-name-task') && getElement.value.length <= 500) {
         maxLenght_name.style.color = '#ADADAD'
-        length_name.innerHTML = getElement.value.length
+        length_name.innerText = getElement.value.length
     } 
 
     // Если изменено поле имени таска и оно достигло лимита
@@ -205,7 +205,7 @@ function changValueLenght(_e) {
     // Если изменено поле описания таска
     if (getElement.classList.contains('itc-modal-content__textarea-description-task') && getElement.value.length <= 10000) {
         maxLenght_description.style.color = '#ADADAD'
-        length_description.innerHTML = getElement.value.length
+        length_description.innerText = getElement.value.length
     }
 
     // Если изменено поле описания таска и оно достигло лимита
@@ -355,7 +355,7 @@ function clickButDeadline(e) {
         const textAreaDeadlineHiddenNum = modalAside.querySelector(".itc-modal-body__text-settings_hidden-num")
 
         // Полная дата, которая была перевёрнута (стала: "год.месяц.число")
-        const textAreaDeadlineHiddenNumReversed = textAreaDeadlineHiddenNum.innerHTML.split(".").reverse().join(".")
+        const textAreaDeadlineHiddenNumReversed = textAreaDeadlineHiddenNum.innerText.split(".").reverse().join(".")
 
         MyCalendar = new AirDatepicker(curHiddenCalendar, {
             inline: false,  

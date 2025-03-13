@@ -320,7 +320,7 @@ function reIndexTasks() {
     tasksId = all_tasks.length
     window.localStorage.setItem("tasksId", all_tasks.length)
 
-    countAllTasks.innerHTML = all_tasks.length    // Обновляю поле на странице с количеством существующих тасков
+    countAllTasks.innerText = all_tasks.length    // Обновляю поле на странице с количеством существующих тасков
 
     // Обновляю массив с тасками в основном js файле и в localStorage
     reloadAllTasks(all_tasks)
@@ -338,7 +338,7 @@ function raspredTasks() {
 
     // Перебираю все таски (не просроченные) и перемещаю в просроченные те, у которых истёк срок
     allCurrentTasksOuter.querySelectorAll(".tasks__tasks-list .task").forEach(function(task) {
-        const dateTask = task.querySelector(".task__deadline__date_hidden").innerHTML.split(".").reverse().join(".")
+        const dateTask = task.querySelector(".task__deadline__date_hidden").innerText.split(".").reverse().join(".")
         const todayDateReverse = nowData.toLocaleDateString().split(".").reverse().join(".")
 
         if (dateTask < todayDateReverse) {
@@ -348,7 +348,7 @@ function raspredTasks() {
         }
     })
     allOverdueTasks.querySelectorAll(".task").forEach(function(task) {
-        const dateTask = task.querySelector(".task__deadline__date_hidden").innerHTML.split(".").reverse().join(".")
+        const dateTask = task.querySelector(".task__deadline__date_hidden").innerText.split(".").reverse().join(".")
         const todayDateReverse = nowData.toLocaleDateString().split(".").reverse().join(".")
         if (dateTask >= todayDateReverse) {
             allCurrentTasksOuter.append(task)

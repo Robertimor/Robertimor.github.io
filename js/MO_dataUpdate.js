@@ -288,21 +288,21 @@ function updateModal(curTask) {
         funcAddNewSubtask(subtaskEl)
     })
     // Обновляю поле с количеством подзадач
-    countSubtasks.innerHTML = currentTask_arr.newTask_countSubtask
+    countSubtasks.innerText = currentTask_arr.newTask_countSubtask
 
 
 
     // Вставляю в sidebar тип таска, на который переключились
-    modalContent.querySelector(".itc-modal-body__select-setting .wrapper-type-task__name").innerHTML = modalAside_nameTypeTask
+    modalContent.querySelector(".itc-modal-body__select-setting .wrapper-type-task__name").innerText = modalAside_nameTypeTask
     modalContent.querySelector(".wrapper-type-task__icon-type-project").setAttribute("src", modalAside_iconTypeTask)
 
     // Вставляю в sidebar срок выполнения таска, на который переключились
-    modalContent.querySelector(".itc-modal-body__select-setting .itc-modal-body__text-settings").innerHTML = modalAside_deadlineTask
-    modalContent.querySelector(".itc-modal-body__select-setting .itc-modal-body__text-settings_hidden-num").innerHTML = modalAside_deadlineTaskFullNum
+    modalContent.querySelector(".itc-modal-body__select-setting .itc-modal-body__text-settings").innerText = modalAside_deadlineTask
+    modalContent.querySelector(".itc-modal-body__select-setting .itc-modal-body__text-settings_hidden-num").innerText = modalAside_deadlineTaskFullNum
 
 
     // Вставляю в sidebar приоритет таска, на который переключились
-    modalContent.querySelector(".itc-modal-body__wrapper-priority .itc-modal-body__text-settings").innerHTML = modalAside_priorityNameTask     
+    modalContent.querySelector(".itc-modal-body__wrapper-priority .itc-modal-body__text-settings").innerText = modalAside_priorityNameTask     
     modalContent.querySelector(".itc-modal-body__wrapper-priority .itc-modal-body__icon-selected-setting").setAttribute("src", modalAside_prioritySrcColorTask)
 
 

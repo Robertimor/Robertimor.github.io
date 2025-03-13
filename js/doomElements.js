@@ -91,11 +91,11 @@ const currectEntryDate = `${nowYear}.${nowMonthNum + 1}.${nowDay}`
 
 
 
-nameToday.innerHTML = `${nowDay} ${nowMonth} ‧ Сегодня ‧ ${correctWeekday}`     // Записываю в html код текущую дату
+nameToday.innerText = `${nowDay} ${nowMonth} ‧ Сегодня ‧ ${correctWeekday}`     // Записываю в html код текущую дату
 
 // Записываю сегодняшнее число в окно выбора срока выполнения для новой создаваемой задачи
-deadlineButton.querySelector(".form-from-add-new-task__text-settings").innerHTML = `${nowDay} ${nowMonth}`
-deadlineButton.querySelector(".form-from-add-new-task__text-settings_hidden-num").innerHTML = nowData.toLocaleDateString()
+deadlineButton.querySelector(".form-from-add-new-task__text-settings").innerText = `${nowDay} ${nowMonth}`
+deadlineButton.querySelector(".form-from-add-new-task__text-settings_hidden-num").innerText = nowData.toLocaleDateString()
 
 
 

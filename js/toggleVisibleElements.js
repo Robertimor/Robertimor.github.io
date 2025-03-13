@@ -518,7 +518,7 @@ deadlineButton.addEventListener("click", function(e) {
         const textAreaDeadlineHiddenNum = deadlineButton.querySelector(".form-from-add-new-task__text-settings_hidden-num")
 
         // Полная дата, которая была перевёрнута (стала: "год.месяц.число")
-        const textAreaDeadlineHiddenNumReversed = textAreaDeadlineHiddenNum.innerHTML.split(".").reverse().join(".")
+        const textAreaDeadlineHiddenNumReversed = textAreaDeadlineHiddenNum.innerText.split(".").reverse().join(".")
 
         MyCalendarForm = new AirDatepicker(curHiddenCalendarForm, {
             inline: false,  
@@ -853,7 +853,7 @@ priorityButton.addEventListener("click", function(e) {      // При нажат
         observFunc(priorityButton)  // При первом открытии скрытого меню, начнётся отслеживание изменения окна "priorityButton"
 
         // Переменная с названием приоритета, которое было выбрано (и уже прописано. Например, "p1")
-        const selectedPriorityName = priorityButton.querySelector(".form-from-add-new-task__text-settings").innerHTML
+        const selectedPriorityName = priorityButton.querySelector(".form-from-add-new-task__text-settings").innerText
         // Переменная с тем элементом приоритета из списка в скрытом меню, которое соответствует ранее выбранному приоритету
         const selectedPriority = priorityMenu.querySelector(`[aria-label="${selectedPriorityName}"]`).parentElement
 
@@ -873,7 +873,7 @@ priorityButton.addEventListener("click", function(e) {      // При нажат
 priorityMenu.addEventListener("click", function(e) {     // При нажатии на само поля выбора
     isSelectionMenuActive = 1;
     
-    if (isObservHiddenMenus == false && priorityButton.querySelector(".form-from-add-new-task__text-settings").innerHTML == "Приоритет") {
+    if (isObservHiddenMenus == false && priorityButton.querySelector(".form-from-add-new-task__text-settings").innerText == "Приоритет") {
         setIsObservHiddenMenus(true)     // Даётся разрешение на реакцию при изменении во время слежки за объектом
         observFunc(priorityButton)   // Начинается слежка за "priorityButton", если ранее была отключена (либо повторно устанавливается. Старая удаляется)
     }

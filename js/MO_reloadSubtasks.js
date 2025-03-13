@@ -91,11 +91,11 @@ function copyAndPushLabelsSubtask(settingsSubtask) {
     taskNameInput.value = settingsSubtask.newSubtask_name   // Имя подзадачи
     taskDescriptionInput.value = settingsSubtask.newSubtask_description    // Описание подзадачи
 
-    taskTypeButton.querySelector(".form-from-add-new-task__name-type-task").innerHTML = settingsSubtask.newSubtask_typeSubtask_name // Имя типа подзадачи
+    taskTypeButton.querySelector(".form-from-add-new-task__name-type-task").innerText = settingsSubtask.newSubtask_typeSubtask_name // Имя типа подзадачи
     taskTypeButton.querySelector(".form-from-add-new-task__icon_type").setAttribute("src", settingsSubtask.newSubtask_typeSubtask_icon_src)  // Иконка типа подзадачи
-    deadlineButton.querySelector(".form-from-add-new-task__text-settings").innerHTML = settingsSubtask.newSubtask_deadlineSubtask
-    deadlineButton.querySelector(".form-from-add-new-task__text-settings_hidden-num").innerHTML = settingsSubtask.newSubtask_deadlineFullDataSubtask
-    priorityButton.querySelector(".form-from-add-new-task__text-settings").innerHTML = settingsSubtask.newSubtask_priority_name   // Имя приоритета
+    deadlineButton.querySelector(".form-from-add-new-task__text-settings").innerText = settingsSubtask.newSubtask_deadlineSubtask
+    deadlineButton.querySelector(".form-from-add-new-task__text-settings_hidden-num").innerText = settingsSubtask.newSubtask_deadlineFullDataSubtask
+    priorityButton.querySelector(".form-from-add-new-task__text-settings").innerText = settingsSubtask.newSubtask_priority_name   // Имя приоритета
     priorityButton.querySelector(".form-from-add-new-task__icon-selected-setting").setAttribute("src", `./icon/priority_${settingsSubtask.newSubtask_priority_color}.png`)    // Цвет флага
 }
 
@@ -165,11 +165,11 @@ function buttonSaveSubtask() {
 function updateDataSubtask_arr(subtaskArr) {
     subtaskArr.newSubtask_name = taskNameInput.value
     subtaskArr.newSubtask_description = taskDescriptionInput.value
-    subtaskArr.newSubtask_typeSubtask_name = taskTypeButton.querySelector(".form-from-add-new-task__name-type-task").innerHTML   // Имя типа подзадачи
+    subtaskArr.newSubtask_typeSubtask_name = taskTypeButton.querySelector(".form-from-add-new-task__name-type-task").innerText   // Имя типа подзадачи
     subtaskArr.newSubtask_typeSubtask_icon_src = taskTypeButton.querySelector(".form-from-add-new-task__icon_type").getAttribute("src") // Иконка типа подзадачи
-    subtaskArr.newSubtask_deadlineSubtask = deadlineButton.querySelector(".form-from-add-new-task__text-settings").innerHTML
-    subtaskArr.newSubtask_deadlineFullDataSubtask = deadlineButton.querySelector(".form-from-add-new-task__text-settings_hidden-num").innerHTML
-    subtaskArr.newSubtask_priority_name = priorityButton.querySelector(".form-from-add-new-task__text-settings").innerHTML
+    subtaskArr.newSubtask_deadlineSubtask = deadlineButton.querySelector(".form-from-add-new-task__text-settings").innerText
+    subtaskArr.newSubtask_deadlineFullDataSubtask = deadlineButton.querySelector(".form-from-add-new-task__text-settings_hidden-num").innerText
+    subtaskArr.newSubtask_priority_name = priorityButton.querySelector(".form-from-add-new-task__text-settings").innerText
 
     // Создаю переменную для выяснения названия цвета у приоритета. Беру содержание тега src у выбранного изображения и разбиваю его на массив.
     let arrColor = priorityButton.querySelector(".form-from-add-new-task__icon-selected-setting").getAttribute("src").split("")
@@ -181,13 +181,13 @@ function updateDataSubtask_arr(subtaskArr) {
 
 // Функция для обновления данных элемента подзадачи
 function updateDataSubtask_element(subtaskEl, subtaskArr) {
-    subtaskEl.querySelector(".subtask__name-subtask").innerHTML = subtaskArr.newSubtask_name      // Название подзадачи
-    subtaskEl.querySelector(".subtask__description-subtask-text").innerHTML = subtaskArr.newSubtask_description    // Описание подзадачи
+    subtaskEl.querySelector(".subtask__name-subtask").innerText = subtaskArr.newSubtask_name      // Название подзадачи
+    subtaskEl.querySelector(".subtask__description-subtask-text").innerText = subtaskArr.newSubtask_description    // Описание подзадачи
     
-    subtaskEl.querySelector(".subtask__deadline__date_visible").innerHTML = subtaskArr.newSubtask_deadlineSubtask     // Вписываю в поле с текстом со сроком выполнения данной подзадачи выбранноу дату (внизу слева у каждой подзадачи)
-    subtaskEl.querySelector(".subtask__deadline__date_hidden").innerHTML = subtaskArr.newSubtask_deadlineFullDataSubtask
+    subtaskEl.querySelector(".subtask__deadline__date_visible").innerText = subtaskArr.newSubtask_deadlineSubtask     // Вписываю в поле с текстом со сроком выполнения данной подзадачи выбранноу дату (внизу слева у каждой подзадачи)
+    subtaskEl.querySelector(".subtask__deadline__date_hidden").innerText = subtaskArr.newSubtask_deadlineFullDataSubtask
 
-    subtaskEl.querySelector(".subtask__typeSubtask span").innerHTML = subtaskArr.newSubtask_typeSubtask_name  // Имя типа подзадачи
+    subtaskEl.querySelector(".subtask__typeSubtask span").innerText = subtaskArr.newSubtask_typeSubtask_name  // Имя типа подзадачи
 
     subtaskEl.querySelector(".subtask__imgBlock-typeSubtask img").setAttribute("src", subtaskArr.newSubtask_typeSubtask_icon_src)  // Иконка типа подзадачи
     
@@ -279,7 +279,7 @@ function funcAddNewSubtask(content) {
     subtaskOuter_modal.insertAdjacentHTML("afterbegin", html)
 
     // Обновляю поле с количеством подзадач
-    countSubtasks.innerHTML = currentTask_arr.newTask_countSubtask
+    countSubtasks.innerText = currentTask_arr.newTask_countSubtask
 }
 
 
@@ -332,7 +332,7 @@ function removeSubTask(curSubtask) {
     all_tasks[window.localStorage.getItem("openMoTargetLiId")-1] = currentTask_arr      // Обновляю текущий таск в массиве тасков
 
     // Обновляю поле с количеством подзадач
-    countSubtasks.innerHTML = currentTask_arr.newTask_countSubtask
+    countSubtasks.innerText = currentTask_arr.newTask_countSubtask
 
 
     // Обновляю массив с подзадачами в основном файле (хранилище для него)
