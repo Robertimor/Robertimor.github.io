@@ -2,7 +2,8 @@
 // Файл для изменения отображения элементов на странице (либо же изменение их стилей) 
 
 import {hiddenByDisplay} from "./base.js"
-import {sectionContentBlock_viewContent, taskForm, taskTextAreas, taskNameInput, taskSettingsButtons, deadlineButton, deadlineMenu, priorityButton, priorityMenu, taskTypeMenu, taskTypeButton, buttonCloseMenuNewTask, buttonAddNewTask, buttonSaveTask, addNewTask, addTaskIconDefault, addTaskIconHover, currectEntryDate} from "./doomElements.js"
+import {sectionContentBlock_viewContent, taskForm, taskTextAreas, taskNameInput, taskSettingsButtons, deadlineButton, deadlineMenu, priorityButton, priorityMenu, taskTypeMenu, taskTypeButton, buttonCloseMenuNewTask, buttonAddNewTask, buttonSaveTask, addNewTask, addTaskIconDefault, addTaskIconHover} from "./domElements.js"
+import {currectEntryDate} from "./dateElements.js"
 import {reloadFormAddTask, switchIsModal_block, reloadItemsAndCalendarDeadline, changeMyCalendar} from "./scripts.js"
 
 

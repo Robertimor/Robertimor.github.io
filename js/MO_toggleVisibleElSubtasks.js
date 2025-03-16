@@ -3,7 +3,8 @@
 // Данный файл для изменения отображения элементов ПОДЗАДАЧ внутри МО (либо же изменение их стилей) 
 
 import {hiddenByDisplay} from "./base.js"
-import {deadlineButton, deadlineMenu, deadlineOptions, priorityButton, priorityMenu, taskTypeMenu, currectEntryDate } from "./doomElements.js"
+import {deadlineButton, deadlineMenu, deadlineOptions, priorityButton, priorityMenu, taskTypeMenu} from "./domElements.js"
+import {currectEntryDate} from "./dateElements.js"
 import {reloadFormAddTask} from "./scripts.js"
 import {switchDisabledShowDopFuncTask, setIsObservHiddenMenus, observFunc} from "./toggleVisibleElements.js"
 

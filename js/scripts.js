@@ -1,8 +1,9 @@
 'use strict';
 
 import {hiddenByDisplay} from "./base.js"
-import {userMenu, countAllTasks, sectionContentBlock_viewContent, allCurrentTasksOuter, taskForm, taskNameInput, taskDescriptionInput, deadlineButton, deadlineOptions, deadlineCalendar, priorityButton, priorityMenu, priorityOptions, taskTypeMenu, taskTypeOptions, taskTypeButton,  buttonAddNewTask, buttonSaveTask, addNewTask, localLanguage, nowData, optionsWithMonth, optionsWithWeekday, nowDay, nowMonth, currectEntryDate} from "./doomElements.js"
-import {sortTasks, raspredTasks, reIndexTasks, setTasksId, getTasksId} from "./dataProcessing.js"
+import {countAllTasks, sectionContentBlock_viewContent, allCurrentTasksOuter, taskForm, taskNameInput, taskDescriptionInput, deadlineButton, deadlineOptions, priorityButton, priorityOptions, taskTypeMenu, taskTypeOptions, taskTypeButton,  buttonAddNewTask, buttonSaveTask, addNewTask} from "./domElements.js"
+import {nowData, nowDay, nowMonth, currectEntryDate} from "./dateElements.js"
+import {sortTasks, raspredTasks, setTasksId, getTasksId, getIndexCurTask} from "./dataProcessing.js"
 import {closeModalNewTask} from "./sidebar.js"
 import {switchDisabledShowDopFuncTask, setCurrentLi, getCurrentLi, setCurrentLi_klick, setIsNewDeadlineButtonClicked, getIsNewDeadlineButtonClicked, setIsObservHiddenMenus, hide_task_dopFuncs, observFunc, show_task_dopFuncs} from "./toggleVisibleElements.js"
 
@@ -227,7 +228,7 @@ function updateDataTask_arr(curTargetLi, taskArr) {
 
 
     // Обновляю текущий таск из массива с тасками (локально в массиве текущего файла)
-    all_tasks[curTargetLi.getAttribute("id")-1] = taskArr
+    all_tasks[getIndexCurTask(all_tasks, taskArr.newTask_ID)] = taskArr
     
     // Обновляю массив с тасками в js и в localStorage (перезаписываю с учётом изменений)
     reloadAllTasks(all_tasks)
@@ -241,7 +242,7 @@ function updateDataTask_arr(curTargetLi, taskArr) {
     sortTasks(curTargetLi.parentElement, true, statusTask)
 }
 // Функция для обновления данных элемента таска
-export function updateDataTask_element(taskEl, taskArr) {
+function updateDataTask_element(taskEl, taskArr) {
         taskEl.querySelector(".task__name-task").innerText = taskArr.newTask_name      // Название таска
         taskEl.querySelector(".task__description-task-text").innerText = taskArr.newTask_description    // Описание таска
         
@@ -384,8 +385,6 @@ function removeTask(curTask) {
 
     // Удаляю этот таск из массива с тасками
     removeTaskMass(liFromArr, 1)
-
-    reIndexTasks()
 }
 
 
@@ -558,22 +557,16 @@ buttonAddNewTask.addEventListener("click", function(e) {
         }
 
 
-        funcAddNewTask(contentNewTask, true)      // Запускаю функцию для добавления нового html элемента с новым таском
         addNewTaskMass(contentNewTask)      // Добавляю созданый объект в массив из списка всех тасков
+        funcAddNewTask(contentNewTask, allCurrentTasksOuter)      // Запускаю функцию для добавления нового html элемента с новым таском
         countAllTasks.innerText = all_tasks.length    // Обновляю поле на странице с количеством существующих тасков
 
 
         // Запускаю функцию для переноса задачи в раздел просроченных, если её дата выполнения меньше чем сегодняшний день
-        // raspredTasks()
-        let tasks0 = [...document.querySelector(".tasks__tasks-list").children];
-        console.log(tasks0);
-        console.log(JSON.parse(window.localStorage.getItem("all_tasks")));
-        
+        raspredTasks()       
 
         // Сортирую таски (не просроченные) (и html и сам массив)
         sortTasks(document.querySelector(".tasks__tasks-list"), true, "normal")
-
-        console.log(JSON.parse(window.localStorage.getItem("all_tasks")));
 
         // Обнуляю элементы поля .taskForm (поле для добавление нового таска) и скрываю его
         reloadFormAddTask() 
@@ -610,7 +603,7 @@ buttonAddNewTask.addEventListener("click", function(e) {
     }
 })
 
-function funcAddNewTask(content, newCreated = false) {
+function funcAddNewTask(content, container) {
     const template = document.createElement("template");
     template.innerHTML = `
     <li class="task" id="${content.newTask_ID}">
@@ -685,12 +678,8 @@ function funcAddNewTask(content, newCreated = false) {
     </div>
     </li>
     `
-    if (newCreated == true) {
-        allCurrentTasksOuter.append(template.content.cloneNode(true))     // Добавляю новый template элемент таска в конец
-    }
-    else {
-        allCurrentTasksOuter.prepend(template.content.cloneNode(true))     // Добавляю новый template элемент таска в начало
-    }
+    
+    container.append(template.content.cloneNode(true))     // Добавляю новый template элемент таска в начало
 }
 
 // function testF() {
@@ -744,4 +733,4 @@ function reloadFormAddTask() {
     hiddenByDisplay(buttonSaveTask, "hide")
 
 }
-export {reloadAllTasks, switchIsModal, switchIsModal_block, reloadFormAddTask, reloadItemsDeadline, reloadItemsAndCalendarDeadline, changeMyCalendar, setSelectedDay, getSelectedDay, funcAddNewTask}
+export {reloadAllTasks, switchIsModal, switchIsModal_block, updateDataTask_element, reloadFormAddTask, reloadItemsDeadline, reloadItemsAndCalendarDeadline, changeMyCalendar, setSelectedDay, getSelectedDay, funcAddNewTask}

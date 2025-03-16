@@ -2,9 +2,11 @@
 // Данный файл для функций выбора данных ТАСКА (внутри МО)
 
 import {hiddenByDisplay} from "./base.js"
-import {buttonCloseMenuNewTask, localLanguage, optionsWithMonth, optionsWithWeekday, nowDay, nowMonth} from "./doomElements.js"
+import {buttonCloseMenuNewTask} from "./domElements.js"
+import {localLanguage, optionsWithMonth, optionsWithWeekday, nowDay, nowMonth} from "./dateElements.js"
 import {updateDataTask_element, reloadAllTasks} from "./scripts.js"
 import {switchDisabledShowDopFuncTask} from "./toggleVisibleElements.js"
+import {getIndexCurTask} from "./dataProcessing.js"
 import {setCurrentLi_modal, getCurrentTask_arr, setSelectedDay_modal, getSelectedDay_modal} from "./MO_dataUpdate.js"
 
 import {getEl_textarea_name, reloadItemsPriority_modal} from "./MO_toggleVisibleElTask.js"
@@ -155,7 +157,7 @@ function clickSaveEditModal() {
     currentTask_arr.newTask_name = el_textarea_name.value
     currentTask_arr.newTask_description = el_textarea_description.value
 
-    all_tasks[currentTask_arr.newTask_ID-1] = currentTask_arr
+    all_tasks[getIndexCurTask(all_tasks, currentTask_arr.newTask_ID)] = currentTask_arr
 
     // Обновляю массив с тасками в js файлах и в localStorage (перезаписываю с учётом изменений)
     reloadAllTasks(all_tasks)
@@ -212,7 +214,7 @@ function selectTypetaskItemMO(type) {
 
     
     // Обновляю массив с подзадачами внутри массива с тасками (локально в массиве текущего файла)
-    all_tasks[window.localStorage.getItem("openMoTargetLiId")-1] = currentTask_arr
+    all_tasks[getIndexCurTask(all_tasks, window.localStorage.getItem("openMoTargetLiId"))] = currentTask_arr
 
     // Обновляю массив с тасками (перезаписываю с учётом изменений)
     reloadAllTasks(all_tasks)
@@ -321,7 +323,7 @@ function selectDeadlineItemMO(item) {
     currentTask_arr.newTask_deadlineFullDataTask = textAreaDeadlineHiddenNum_modal.innerText
 
     // Обновляю массив с подзадачами внутри массива с тасками (локально в массиве текущего файла)
-    all_tasks[window.localStorage.getItem("openMoTargetLiId")-1] = currentTask_arr
+    all_tasks[getIndexCurTask(all_tasks, window.localStorage.getItem("openMoTargetLiId"))] = currentTask_arr
 
     // Обновляю массив с тасками в localStorage и у основного файла js (перезаписываю с учётом изменений)
     reloadAllTasks(all_tasks)
@@ -410,7 +412,7 @@ function showElCalentare_modal(currData) {
     currentTask_arr.newTask_deadlineFullDataTask = selectDataCalendare.toLocaleDateString()
 
     // Обновляю массив с подзадачами внутри массива с тасками (локально в массиве текущего файла)
-    all_tasks[window.localStorage.getItem("openMoTargetLiId")-1] = currentTask_arr
+    all_tasks[getIndexCurTask(all_tasks, window.localStorage.getItem("openMoTargetLiId"))] = currentTask_arr
 
     // Обновляю массив с тасками в localStorage и у основного файла js (перезаписываю с учётом изменений)
     reloadAllTasks(all_tasks)
@@ -470,7 +472,7 @@ function selectPriorityItemMO(item) {
     checkbox_modal_icon.setAttribute("src", checkbox_modal_icon_newSrc)     // Меняю путь до галочки - на новый
 
     // Обновляю массив с подзадачами внутри массива с тасками (локально в массиве текущего файла)
-    all_tasks[window.localStorage.getItem("openMoTargetLiId")-1] = currentTask_arr
+    all_tasks[getIndexCurTask(all_tasks, window.localStorage.getItem("openMoTargetLiId"))] = currentTask_arr
 
     // Обновляю массив с тасками (перезаписываю с учётом изменений)
     reloadAllTasks(all_tasks)  

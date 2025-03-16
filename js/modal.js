@@ -1,9 +1,10 @@
 'use strict';
 import ItcModal from "../modal/js/modal.js";
 import {hiddenByDisplay} from "./base.js"
-import {countAllTasks, sectionContentBlock_viewContent, taskForm, taskNameInput, taskDescriptionInput, deadlineButton, deadlineMenu, deadlineOptions, deadlineCalendar, priorityButton, taskTypeButton, buttonCloseMenuNewTask, buttonAddNewTask, buttonSaveTask} from "./doomElements.js"
+import {countAllTasks, sectionContentBlock_viewContent, taskForm, taskNameInput, taskDescriptionInput, deadlineButton, deadlineMenu, deadlineOptions, deadlineCalendar, priorityButton, taskTypeButton, buttonCloseMenuNewTask, buttonAddNewTask, buttonSaveTask} from "./domElements.js"
 import {reloadFormAddTask, removeTaskMass, reloadAllTasks, switchIsModal, switchIsModal_block} from "./scripts.js"
 import {switchDisabledShowDopFuncTask} from "./toggleVisibleElements.js"
+import {getIndexCurTask} from "./dataProcessing.js"
 
 import {getVarsMO_dataUpdate, checkNavArrow_modal, prevTask, nextTask, setCurrentLi_modal, getCurrentLi_modal, getTargetLi_subtask, getCurrentTask_arr, getAll_subtasks} from "./MO_dataUpdate.js"
 
@@ -387,7 +388,7 @@ sectionContentBlock_viewContent.addEventListener("click", function(e) {
         // Удаляю текущий таск из html
         targetLi.remove()
         // Удаляю текущий таск из массива
-        removeTaskMass(window.localStorage.getItem("openMoTargetLiId") - 1, 1)
+        removeTaskMass(getIndexCurTask(all_tasks, window.localStorage.getItem("openMoTargetLiId")), 1)
 
         // Обновляю поле на странице с количеством существующих тасков
         countAllTasks.innerText = all_tasks.length    
@@ -547,8 +548,8 @@ sectionContentBlock_viewContent.addEventListener("click", function(e) {
 
 
             // Обновляю текщий таск в массиве тасков, а так же массив с подзадачами внутри массива с тасками (локально в массиве текущего файла)
-            all_tasks[window.localStorage.getItem("openMoTargetLiId")-1] = currentTask_arr      // Обновляю текущий таск в массиве тасков
-            all_tasks[window.localStorage.getItem("openMoTargetLiId")-1].newTask_Subtasks_arr = all_subtasks        // Обновляю массив с подзадачами внутри текущего таска (в массиве тасков)
+            all_tasks[getIndexCurTask(all_tasks, window.localStorage.getItem("openMoTargetLiId"))] = currentTask_arr      // Обновляю текущий таск в массиве тасков
+            all_tasks[getIndexCurTask(all_tasks, window.localStorage.getItem("openMoTargetLiId"))].newTask_Subtasks_arr = all_subtasks        // Обновляю массив с подзадачами внутри текущего таска (в массиве тасков)
 
             // Обновляю массив с тасками в js файлах и в localStorage (перезаписываю с учётом изменений)
             reloadAllTasks(all_tasks)

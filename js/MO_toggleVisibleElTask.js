@@ -2,7 +2,7 @@
 // Данный файл для изменения отображения элементов ТАСКА внутри МО (либо же изменение их стилей) 
 
 import {hiddenByDisplay} from "./base.js" 
-import {currectEntryDate} from "./doomElements.js"
+import {currectEntryDate} from "./dateElements.js"
 import {statusIsModal} from "./modal.js"
 import {switchDisabledShowDopFuncTask} from "./toggleVisibleElements.js"
 import {setIsSelectionMenuActive_MO, getIsSelectionMenuActive_MO, setIsNewDeadlineButtonClicked_MO, getCurrentLi_modal, getTargetLi_subtask} from "./MO_dataUpdate.js"

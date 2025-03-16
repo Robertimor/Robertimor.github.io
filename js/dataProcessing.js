@@ -1,7 +1,7 @@
 'use strict';
 // Данный файл обрабатывает таски (сортировка по сроку, распределение).
 
-import {countAllTasks, sectionContentBlock_viewContent, buttonSortAllTaskUP, buttonSortAllTaskDOWN, buttonSortOverdueTaskUP, buttonSortOverdueTaskDOWN, allOverdueTasks, butHideOverdue, iconHideOverdue, allCurrentTasksOuter, nowData} from "./doomElements.js"
+import {countAllTasks, sectionContentBlock_viewContent, buttonSortAllTaskUP, buttonSortAllTaskDOWN, buttonSortOverdueTaskUP, buttonSortOverdueTaskDOWN, allOverdueTasks, butHideOverdue, iconHideOverdue, allCurrentTasksOuter} from "./domElements.js"
 import {funcAddNewTask, reloadAllTasks} from "./scripts.js"
 
 
@@ -13,217 +13,42 @@ let all_tasks = JSON.parse(window.localStorage.getItem("all_tasks"));
 let tasksId = 0     // Счётчик для присваивания уникальных id создаваемым таскам
 tasksId = Number(window.localStorage.getItem("tasksId"))
 
-// При запуске страницы создаю дубль массива с существующими тасками, где сразу сортирую по сроку и добавляю их на страницу
-// Дубль массива со всеми тасками
-let allTasksDoubleStart = []
+// При запуске страницы проверяю пуст ли массив с тасками и если нет, то сразу сортирую его по сроку и добавляю элементы на страницу
 if (all_tasks && all_tasks.length > 0) {
-    allTasksDoubleStart = all_tasks.slice()
+    // Сортирую массив по сроку выполнения
+    all_tasks.sort(function(a, b) {
+        // Преобразуем строку с датой в объект Date.
+        let dateA = new Date(a.newTask_dateCreated)
+        let dateB = new Date(b.newTask_dateCreated)  
+
+        
+        //Если ascending === true, то сортируем по возрастанию (от ранних дат к поздним).
+        //Если ascending === false, то сортируем по убыванию (от поздних дат к ранним).
+
+        return dateA - dateB
+    })
+    reloadAllTasks(all_tasks);
+
+    // Добавляю все элементы этого массива (таски) на html страницу 
+    all_tasks.forEach(function(el) {
+        funcAddNewTask(el, allCurrentTasksOuter)
+    })
 }
-
-// Сортирую массив по сроку выполнения
-allTasksDoubleStart.sort(function(a, b) {
-    // Преобразуем строку с датой в объект Date.
-    let dateA = new Date(a.newTask_dateCreated)
-    let dateB = new Date(b.newTask_dateCreated)  
-
-    
-    //Если ascending === true, то сортируем по возрастанию (от ранних дат к поздним).
-    //Если ascending === false, то сортируем по убыванию (от поздних дат к ранним).
-
-    return dateA - dateB
-})
-// Добавляю все элементы этого массива (таски) на html страницу 
-allTasksDoubleStart.forEach(function(el) {
-    funcAddNewTask(el)
-})
-
-
-
 
 
 
 
 // Функция для сортировки тасков на странице (и обычных и просроченных) в порядке возрастания/убывания их срока выполнения
-// function sortTasks(container, ascending = true, statusDeadline) {
-//     //  Получаем все элементы задач из контейнера
-//     // [...] — превращаем HTMLCollection в массив для удобной работы с sort().
-//     let tasks = [...container.children];
-
-//     all_tasks = JSON.parse(window.localStorage.getItem("all_tasks"));
-//     // Создаю так же отдельную переменную с текущим расположением элементов тасков в массиве. Нужно это что бы верно отсортировать html элементы тасков
-//     let all_tasks0 = JSON.parse(window.localStorage.getItem("all_tasks"));
-
-//     // console.log("tasks: ", tasks);
-//     // console.log("all_tasks: ", all_tasks);
-//     // console.log("all_tasks0: ", all_tasks0);
-
-//     // Сортирую массив для html элементов тасков
-//     tasks.sort((a, b) => {
-//         let idA = Number(a.getAttribute("id")) -1 
-//         let idB = Number(b.getAttribute("id")) -1 
-
-//         // Преобразуем строку с датой в объект Date.
-//         let dateA = new Date(all_tasks0[idA].newTask_dateCreated);
-//         let dateB = new Date(all_tasks0[idB].newTask_dateCreated);
-
-//         //Если ascending === true, то сортируем по возрастанию (от ранних дат к поздним).
-//         //Если ascending === false, то сортируем по убыванию (от поздних дат к ранним).
-//         return ascending ? dateA - dateB : dateB - dateA;
-//     })
-
-//     // Отдельные массивы для просроченных и обычных задач
-//     let overdueTasks = all_tasks.filter(task => task.newTask_isOverdue);
-//     let normalTasks = all_tasks.filter(task => !task.newTask_isOverdue);
-
-//     // Выбираем нужный массив для сортировки
-//     let tasksToSort;
-//     if (statusDeadline === "overdue") {
-//         tasksToSort = overdueTasks;
-//     } else if (statusDeadline === "normal") {
-//         tasksToSort = normalTasks;
-//     } else {
-//         tasksToSort = all_tasks;    // Если сортируем все задачи
-//     }
-
-//     // Сортировка массива
-//     tasksToSort.sort((a, b) => {
-//         let dateA = new Date(a.newTask_dateCreated);
-//         let dateB = new Date(b.newTask_dateCreated);
-//         return ascending ? dateA - dateB : dateB - dateA;
-//     });
-
-//     // Объединяем обратно в общий массив
-//     all_tasks = [...overdueTasks, ...normalTasks];
-
-//     // let allTasks3 = all_tasks0.slice()
-//     // console.log("allTasks3: ", allTasks3);
-
-//     // Если сортировка была запущена для просроченных задач:
-//     // if (statusDeadline == "overdue") {
-//     //     all_tasks.sort((a, b) => {
-//     //         // Пропускаю к сравнению лишь те таски, которые просрочены
-//     //         if (a.newTask_isOverdue == true && b.newTask_isOverdue == true) {
-//     //             // Преобразуем строку с датой в объект Date.
-//     //             let dateA = new Date(a.newTask_dateCreated)
-//     //             let dateB = new Date(b.newTask_dateCreated)  
-
-//     //             //Если ascending === true, то сортируем по возрастанию (от ранних дат к поздним).
-//     //             //Если ascending === false, то сортируем по убыванию (от поздних дат к ранним).
-//     //             return ascending ? dateA - dateB : dateB - dateA;   
-//     //         }
-
-//     //     })
-//     // } 
-  
-
-//     // Иначе, если сортировка была запущена для обычных задач (не просроченных)
-//     // else if (statusDeadline == "normal") {
-//     //     // Сортирую сам массив с тасками
-//     //     all_tasks.sort((a, b) => {  
-//     //         // Пропускаю к сравнению лишь те таски, которые не просрочены
-//     //         if (a.newTask_isOverdue == false && b.newTask_isOverdue == false) {
-//     //             // Преобразуем строку с датой в объект Date.
-//     //             let dateA = new Date(a.newTask_dateCreated)
-//     //             let dateB = new Date(b.newTask_dateCreated)  
-
-//     //             // console.log("a = ", a, "; b = ", b, "dateA = ", dateA, "dateB = ", dateB);
-//     //             // console.log("dateB - dateA = ", dateB - dateA);
-
-                
-//     //             //Если ascending === true, то сортируем по возрастанию (от ранних дат к поздним).
-//     //             //Если ascending === false, то сортируем по убыванию (от поздних дат к ранним).
-//     //             return ascending ? dateA - dateB : dateB - dateA;
-//     //         }
-//     //     })
-//     // }
-//     // else if (!statusDeadline) {
-//     //     all_tasks.sort((a, b) => {
-//     //         // Преобразуем строку с датой в объект Date.
-//     //         let dateA = new Date(a.newTask_dateCreated)
-//     //         let dateB = new Date(b.newTask_dateCreated)  
-
-            
-//     //         //Если ascending === true, то сортируем по возрастанию (от ранних дат к поздним).
-//     //         //Если ascending === false, то сортируем по убыванию (от поздних дат к ранним).
-
-//     //         return ascending ? dateA - dateB : dateB - dateA;
-//     //     })
-//     // }
-
-
-//     // let allTasks4 = allTasks3.slice().sort((a, b) => {  
-//     //     // Преобразуем строку с датой в объект Date.
-//     //     let dateA = new Date(a.newTask_dateCreated)
-//     //     let dateB = new Date(b.newTask_dateCreated)  
-
-//     //     // console.log("a = ", a, "; b = ", b, "dateA = ", dateA, "dateB = ", dateB);
-//     //     // console.log("dateB - dateA = ", dateB - dateA);
-
-        
-//     //     //Если ascending === true, то сортируем по возрастанию (от ранних дат к поздним).
-//     //     //Если ascending === false, то сортируем по убыванию (от поздних дат к ранним).
-//     //     return ascending ? dateA - dateB : dateB - dateA;
-//     // })
-
-//     // all_tasks0.forEach(function(task) {
-//     //     console.log("task.newTask_dateCreated: ", task.newTask_dateCreated)
-//     //     console.log("new Date(task.newTask_dateCreated): ", new Date(task.newTask_dateCreated));
-//     // })
-    
-
-//     // console.log("tasks: ", tasks);
-//     // console.log("all_tasks: ", all_tasks);
-//     // console.log("all_tasks0: ", all_tasks0);
-//     // console.log("allTasks3: ", allTasks3);
-//     // console.log("allTasks4: ", allTasks4);
-
-
-
-
-
-//     // Удаляем все элементы из контейнера
-//     while (container.firstChild) {
-//         container.removeChild(container.firstChild);
-//     }
-
-//     // Перебираем отсортированные <li class="task"> в массиве tasks.
-//     // appendChild(task) перемещает задачу в конец списка container, сохраняя ее в новом порядке.
-//     tasks.forEach(task => container.appendChild(task));
-
-//     // Обновляю массив с тасками в основном js файле и в localStorage
-//     reloadAllTasks(all_tasks)
-
-//     reIndexTasks()
-// }
 function sortTasks(container, ascending = true, statusDeadline) {
-    let tasks = [...container.children]; // HTML элементы
-    let all_tasks = JSON.parse(window.localStorage.getItem("all_tasks"));
-    let all_tasks0 = all_tasks.slice()
+    all_tasks = JSON.parse(window.localStorage.getItem("all_tasks"));
 
     // console.log("tasks: ", tasks);
     // console.log("all_tasks: ", all_tasks);
     // console.log("all_tasks0: ", all_tasks0);
 
-    // Сортирую массив для html элементов тасков
-    tasks.sort((a, b) => {
-        let idA = Number(a.getAttribute("id")) -1 
-        let idB = Number(b.getAttribute("id")) -1 
-
-        // Преобразуем строку с датой в объект Date.
-        let dateA = new Date(all_tasks0[idA].newTask_dateCreated);
-        let dateB = new Date(all_tasks0[idB].newTask_dateCreated);
-
-        //Если ascending === true, то сортируем по возрастанию (от ранних дат к поздним).
-        //Если ascending === false, то сортируем по убыванию (от поздних дат к ранним).
-        return ascending ? dateA - dateB : dateB - dateA;
-    })
-
-
-
     // Отдельные массивы для просроченных и обычных задач
     let overdueTasks = all_tasks.filter(task => task.newTask_isOverdue);
     let normalTasks = all_tasks.filter(task => !task.newTask_isOverdue);
-
 
 
     // Выбираем нужный массив для сортировки
@@ -236,6 +61,7 @@ function sortTasks(container, ascending = true, statusDeadline) {
         tasksToSort = all_tasks; // Если сортируем все задачи
     }
 
+
     // Сортировка массива
     tasksToSort.sort((a, b) => {
         let dateA = new Date(a.newTask_dateCreated);
@@ -247,26 +73,22 @@ function sortTasks(container, ascending = true, statusDeadline) {
     all_tasks = [...overdueTasks, ...normalTasks];
 
 
-    // Обновляем localStorage и DOM
+    // Обновляем localStorage и DOM:
+
+    // Обновляю массив тасков в localStorage
     reloadAllTasks(all_tasks);
 
 
     // Очищаем контейнер и добавляем отсортированные элементы
+
     while (container.firstChild) {
         container.removeChild(container.firstChild);
     }
-    tasks.forEach(task => container.appendChild(task));
 
-    reIndexTasks();
-}
-
-function te() {
-    all_tasks = JSON.parse(window.localStorage.getItem("all_tasks"));
-    all_tasks.forEach(function(task) {
-        task.newTask_isOverdue = false
+    tasksToSort.forEach(function(el) {
+        funcAddNewTask(el, container)
     })
-    reloadAllTasks(all_tasks);
-} 
+}
 
 
 // События по клику на стрелочки для сортировки тасков
@@ -284,31 +106,6 @@ buttonSortOverdueTaskDOWN.addEventListener("click", function() {    // По уб
 })
 
 
-// Функция для перезаписи индексов тасков
-function reIndexTasks() {
-    // Все таски на html странице
-    let allTasksHTML = sectionContentBlock_viewContent.querySelectorAll(".task")
-    all_tasks = JSON.parse(window.localStorage.getItem("all_tasks"));
-
-
-    // Перебираю все таски и обновляю их id (как в массиве тасков, так и в html)
-    for (let i = 0; i < all_tasks.length; i++) {
-        all_tasks[i].newTask_ID = i + 1
-        allTasksHTML[i].setAttribute("id", i + 1)
-    }
-    
-    // Обновляю счётчик тасков (это работает при удалении таска)
-    tasksId = all_tasks.length
-    window.localStorage.setItem("tasksId", all_tasks.length)
-
-    countAllTasks.innerText = all_tasks.length    // Обновляю поле на странице с количеством существующих тасков
-
-    // Обновляю массив с тасками в основном js файле и в localStorage
-    reloadAllTasks(all_tasks)
-}
-
-
-
 
 
 
@@ -321,37 +118,42 @@ function raspredTasks() {
 
     // Перебираю все таски (не просроченные) и перемещаю в просроченные те, у которых истёк срок
     tasksNormal.forEach(function(task) {
-        const dateTask = new Date(all_tasks[task.getAttribute("id")-1].newTask_dateCreated)
+        // Нахожу в массиве тасков тот, id  которого равен текущему таску на html странице
+        const thisTask = all_tasks.find(function(el) {
+            return el.newTask_ID === Number(task.getAttribute("id"))
+        })
+        const dateTask = new Date(thisTask.newTask_dateCreated)
         const todayDate = new Date()
-        console.log(dateTask);
-        console.log(todayDate);
-        console.log("dateTask < todayDat? ", dateTask < todayDate);
+        // console.log(dateTask);
+        // console.log(todayDate);
+        // console.log("dateTask < todayDat? ", dateTask < todayDate);
 
         if (dateTask < todayDate) {
             allOverdueTasks.append(task)
-            all_tasks[task.getAttribute("id")-1].newTask_isOverdue = true
+            all_tasks[getIndexCurTask(all_tasks, thisTask.newTask_ID)].newTask_isOverdue = true
             reloadAllTasks(all_tasks)
         }
     })
     tasksOverdue.forEach(function(task) {
-        const dateTask = new Date(all_tasks[task.getAttribute("id")-1].newTask_dateCreated)
+        // Нахожу в массиве тасков тот, id  которого равен текущему таску на html странице
+        const thisTask = all_tasks.find(function(el) {
+            return el.newTask_ID === task.getAttribute("id")
+        })
+        const dateTask = new Date(thisTask.newTask_dateCreated)
         const todayDate = new Date().toISOString()
         if (dateTask >= todayDate) {
             allCurrentTasksOuter.append(task)
-            all_tasks[task.getAttribute("id")-1].newTask_isOverdue = false
+            all_tasks[getIndexCurTask(all_tasks, thisTask.newTask_ID)].newTask_isOverdue = false
         }
     })
 }
 
 
-
-
-
 sortTasks(document.querySelector(".tasks__tasks-list"), true)
-
 
 // При запуске страницы запускаю функцию для переноса задачи в раздел просроченных, если её дата выполнения меньше чем сегодняшний день
 raspredTasks()
+
 
 
 
@@ -397,5 +199,12 @@ function setTasksId(val) {
 function getTasksId() {
     return tasksId
 }
+
+function getIndexCurTask(arr, curId) {
+    return arr.findIndex(function(task) {
+        return task.newTask_ID === Number(curId)
+    })
+}
+
 // te()
-export {sortTasks, raspredTasks, reIndexTasks, setTasksId, getTasksId}
+export {sortTasks, raspredTasks, setTasksId, getTasksId, getIndexCurTask}

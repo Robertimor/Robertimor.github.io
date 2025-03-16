@@ -4,8 +4,9 @@
 import {hiddenByDisplay} from "./base.js"
 import {reloadFormAddTask, reloadAllTasks} from "./scripts.js"
 import {switchDisabledShowDopFuncTask} from "./toggleVisibleElements.js"
+import {getIndexCurTask} from "./dataProcessing.js"
 import {statusIsModal} from "./modal.js"
-import {sectionContentBlock_viewContent, taskForm, taskNameInput, taskDescriptionInput, deadlineButton, priorityButton, taskTypeButton, buttonAddNewTask, buttonSaveTask} from "./doomElements.js"
+import {sectionContentBlock_viewContent, taskForm, taskNameInput, taskDescriptionInput, deadlineButton, priorityButton, taskTypeButton, buttonAddNewTask, buttonSaveTask} from "./domElements.js"
 import {reloadCurrentLi_klick_MO} from "./MO_toggleVisibleElSubtasks.js"
 import {reloadAll_subtasks, getAll_subtasks, setCurrentLi_modal, setTargetLi_subtask, getTargetLi_subtask, getCurrentTask_arr} from "./MO_dataUpdate.js"
 
@@ -127,7 +128,7 @@ function buttonSaveSubtask() {
 
 
         // Обновляю массив с подзадачами внутри массива с тасками (локально в массиве текущего файла)
-        all_tasks[window.localStorage.getItem("openMoTargetLiId")-1].newTask_Subtasks_arr = all_subtasks
+        all_tasks[getIndexCurTask(all_tasks, window.localStorage.getItem("openMoTargetLiId"))].newTask_Subtasks_arr = all_subtasks
 
         // Обновляю массив с тасками (перезаписываю с учётом изменений) (глобально, в localstorage)
         reloadAllTasks(all_tasks)
@@ -329,7 +330,7 @@ function removeSubTask(curSubtask) {
 
     currentTask_arr.newTask_countSubtask = all_subtasks.length
     // Обновляю текщий таск в массиве тасков (локально в массиве текущего файла)
-    all_tasks[window.localStorage.getItem("openMoTargetLiId")-1] = currentTask_arr      // Обновляю текущий таск в массиве тасков
+    all_tasks[getIndexCurTask(all_tasks, window.localStorage.getItem("openMoTargetLiId"))] = currentTask_arr      // Обновляю текущий таск в массиве тасков
 
     // Обновляю поле с количеством подзадач
     countSubtasks.innerText = currentTask_arr.newTask_countSubtask
@@ -338,7 +339,7 @@ function removeSubTask(curSubtask) {
     // Обновляю массив с подзадачами в основном файле (хранилище для него)
     reloadAll_subtasks(all_subtasks)
 
-    all_tasks[currentTask_arr.newTask_ID - 1].newTask_Subtasks_arr = all_subtasks
+    all_tasks[getIndexCurTask(all_tasks, currentTask_arr.newTask_ID)].newTask_Subtasks_arr = all_subtasks
 
     // Обновляю массив с тасками в основном js файле и в localStorage
     reloadAllTasks(all_tasks)

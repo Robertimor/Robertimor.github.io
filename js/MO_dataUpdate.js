@@ -5,6 +5,7 @@ import {hiddenByDisplay} from "./base.js"
 import {getVarsMO_allFiles} from "./modal.js"
 import {clickCloseEditModal} from "./MO_selectElementsTask.js"
 import {funcAddNewSubtask} from "./MO_reloadSubtasks.js"
+import {getIndexCurTask} from "./dataProcessing.js"
 
 
 
@@ -68,23 +69,26 @@ function getVarsMO_dataUpdate(curTask) {
 
 // Функция проверки и изменения состояния кнопок навигации (prev/next) в м.о.
 function checkNavArrow_modal(curId, parentCurrentTask) {
+    all_tasks = JSON.parse(window.localStorage.getItem('all_tasks'))
     let isVisibleTasksTop 
     let isVisibleTasksBottom
+
+    const curIndexTask = getIndexCurTask(all_tasks, curId)
     
     let tasks = [...parentCurrentTask.children];
     tasks.forEach((el) => {
-        // Если id у проверяемого таска меньше чем у текущего И при этом проверяемый таск скрыт (имеет класс hiddenFiltered), то isVisibleTasksTop = true. Иначе = false
+        // Если индекс (в массиве тасков) у проверяемого таска меньше чем у текущего И при этом проверяемый таск НЕ скрыт (не имеет класс hiddenFiltered), то isVisibleTasksTop = true. Иначе = false
         // (Так же сперва проверяется присвоилось ли на прошлых итерациях переменной isVisibleTasksTop значение "true". Если данная переменная пустая (если это первая итерация) или же имеет значение "false", то тогда можно проводить итерацию и проверку для дальнейшего изменения этой переменной)
-        if (isVisibleTasksTop != true && el.getAttribute("id") < curId && el.classList.contains("hiddenFiltered") == false) {
+        if (isVisibleTasksTop != true && getIndexCurTask(all_tasks, el.getAttribute("id")) < curIndexTask && el.classList.contains("hiddenFiltered") == false) {
             isVisibleTasksTop = true
         }
         // Иначе проверяется присвоилось ли на прошлых итерациях переменной isVisibleTasksTop какое-либо значение. Если данная переменная пустая (если это первая итерация), то ей присваивается значение false. В дальнейшем данная переменная либо не изменится, либо изменится на true
         else if (!isVisibleTasksTop) {
             isVisibleTasksTop = false
         }
-        // Если id у проверяемого таска больше чем у текущего И при этом проверяемый таск скрыт (имеет класс hiddenFiltered), то isVisibleTasksTop = true. Иначе = false
+        // Если индекс (в массиве тасков) у проверяемого таска больше чем у текущего И при этом проверяемый таск НЕ скрыт (не имеет класс hiddenFiltered), то isVisibleTasksTop = true. Иначе = false
         // (Так же сперва проверяется присвоилось ли на прошлых итерациях переменной isVisibleTasksBottom значение "true". Если данная переменная пустая (если это первая итерация) или же имеет значение "false", то тогда можно проводить итерацию и проверку для дальнейшего изменения этой переменной)
-        if (isVisibleTasksBottom != true && el.getAttribute("id") > curId && el.classList.contains("hiddenFiltered") == false) {
+        if (isVisibleTasksBottom != true && getIndexCurTask(all_tasks, el.getAttribute("id")) > curIndexTask && el.classList.contains("hiddenFiltered") == false) {
             isVisibleTasksBottom = true
         }
         // Иначе проверяется присвоилось ли на прошлых итерациях переменной isVisibleTasksBottom какое-либо значение. Если данная переменная пустая (если это первая итерация), то ей присваивается значение false. В дальнейшем данная переменная либо не изменится, либо изменится на true
@@ -94,28 +98,30 @@ function checkNavArrow_modal(curId, parentCurrentTask) {
     })
 
 
+    const btnPrevTask = document.querySelector(".itc-modal-header__btn-prev-task")
+    const btnNextTask = document.querySelector(".itc-modal-header__btn-next-task")
 
-    // Если выбраный таск является первым (самым верхним) (id самого верхнего совпадает с выбранным), то стрелочка "prev" диактивируется. В ином случае, - активируется
+
+    // Если выбраный таск является первым (самым верхним) (id самого верхнего совпадает с выбранным) ИЛИ сверху не обнаружено ни одного отображаемого таска (isVisibleTasksTop == false), то стрелочка "prev" диактивируется. В ином случае, - активируется
     if (parentCurrentTask.firstElementChild.getAttribute("id") == curId || isVisibleTasksTop == false) {
-        document.querySelector(".itc-modal-header__btn-prev-task").classList.add("disabled")
-        document.querySelector(".itc-modal-header__btn-prev-task").setAttribute("aria-disabled", "true");
-        document.querySelector(".itc-modal-header__btn-prev-task").classList.remove("hover-hint_black");
+        btnPrevTask.classList.add("disabled")
+        btnPrevTask.setAttribute("aria-disabled", "true");
+        btnPrevTask.classList.remove("hover-hint_black");
     } else if (parentCurrentTask.firstElementChild.getAttribute("id") != curId || isVisibleTasksTop == true) {
-        document.querySelector(".itc-modal-header__btn-prev-task").classList.remove("disabled")
-        document.querySelector(".itc-modal-header__btn-prev-task").setAttribute("aria-disabled", "false");
-        document.querySelector(".itc-modal-header__btn-prev-task").classList.add("hover-hint_black");
+        btnPrevTask.classList.remove("disabled")
+        btnPrevTask.setAttribute("aria-disabled", "false");
+        btnPrevTask.classList.add("hover-hint_black");
     }
 
-
-    // Если выбраный таск является последним (самым нижним), то стрелочка "next" диактивируется. В ином случае, - активируется
+    // Если выбраный таск является последним (самым нижним) ИЛИ снизу не обнаружено ни одного отображаемого таска (isVisibleTasksBottom == false), то стрелочка "next" диактивируется. В ином случае, - активируется
     if (parentCurrentTask.lastElementChild.getAttribute("id") == curId || isVisibleTasksBottom == false) {
-        document.querySelector(".itc-modal-header__btn-next-task").classList.add("disabled")
-        document.querySelector(".itc-modal-header__btn-next-task").setAttribute("aria-disabled", "true");
-        document.querySelector(".itc-modal-header__btn-next-task").classList.remove("hover-hint_black");
+        btnNextTask.classList.add("disabled")
+        btnNextTask.setAttribute("aria-disabled", "true");
+        btnNextTask.classList.remove("hover-hint_black");
     } else if (parentCurrentTask.lastElementChild.getAttribute("id") != curId || isVisibleTasksBottom == true) {     // Иначе, если наоборот, то:
-        document.querySelector(".itc-modal-header__btn-next-task").classList.remove("disabled")
-        document.querySelector(".itc-modal-header__btn-next-task").setAttribute("aria-disabled", "false");
-        document.querySelector(".itc-modal-header__btn-next-task").classList.add("hover-hint_black");
+        btnNextTask.classList.remove("disabled")
+        btnNextTask.setAttribute("aria-disabled", "false");
+        btnNextTask.classList.add("hover-hint_black");
     }
 }
 
@@ -124,23 +130,28 @@ function checkNavArrow_modal(curId, parentCurrentTask) {
 function prevTask() {
     // Если стрелка "prev" имеет аттрибут "aira-disabled = false" (кнопка не деактивирована)
     if (document.querySelector(".itc-modal-header__btn-prev-task").getAttribute("aria-disabled") == "false") {
+        all_tasks = JSON.parse(window.localStorage.getItem('all_tasks'))
         let prevEl       // Соседний предыдущий таск (ДОСТУПНЫЙ (не скрытый))
         let parentCurrentTask = targetLi.parentElement
         let tasks = [...parentCurrentTask.children];        // Массив из всех html элементов тасков
+        const curIndexTaskHtml = tasks.findIndex(function(task) {
+            return Number(task.getAttribute("id")) === currentIdTask_arr
+        })
         
         // Перебираем все таски и находим самый ближайший доступный к текущему (из предыдущих тасков). Цикл заканчивается как только такой таск находится.
-        for (let i = parentCurrentTask.lastElementChild.getAttribute("id") - tasks.length; !prevEl; i++) {      // Изначально i = id последнего таска - длине массива из тасков у текущего родителя (обычных тасков, либо просроченных). Затем i увеличивается на 1 с каждой итерацией, пока  переменная prevEl не приймет какое-либо значение
-            if (tasks[currentIdTask_arr - 1 - i].previousElementSibling.classList.contains("hiddenFiltered") == false) {
-                prevEl = tasks[currentIdTask_arr - 1 - i].previousElementSibling
+        for (let i = 0; !prevEl; i++) {      // Изначально i = id последнего таска - длине массива из тасков у текущего родителя (обычных тасков, либо просроченных). Затем i увеличивается на 1 с каждой итерацией, пока  переменная prevEl не приймет какое-либо значение
+            if (tasks[curIndexTaskHtml - i].previousElementSibling.classList.contains("hiddenFiltered") == false) {
+                prevEl = tasks[curIndexTaskHtml - i].previousElementSibling
             }
         }
 
 
-        currentIdTask_arr = prevEl.getAttribute("id")      // Меняю id таска, что бы он соответствовал тому таску в массиве, на который нужно перейти
-        // Текущий выбранный (новый, после нажатия на стрелочку) таск меняется на тот, что соответствует новому id (предыдущему в списке) 
+        currentIdTask_arr = Number(prevEl.getAttribute("id"))      // Меняю id таска, что бы он соответствовал тому таску в массиве, на который нужно перейти
+        // Текущий выбранный (новый, после нажатия на стрелочку) таск меняется на тот, что соответствует новому id (предыдущему в списке) ;
 
-        
-        currentTask_arr = all_tasks[prevEl.getAttribute("id") - 1]  
+
+        currentTask_arr = all_tasks[getIndexCurTask(all_tasks, currentIdTask_arr)]  
+
 
         targetLi = prevEl
 
@@ -177,21 +188,26 @@ function prevTask() {
 function nextTask() {
      // Если стрелка "next" имеет аттрибут "aira-disabled = false" (кнопка не деактивирована)
      if (document.querySelector(".itc-modal-header__btn-next-task").getAttribute("aria-disabled") == "false") {
+        all_tasks = JSON.parse(window.localStorage.getItem('all_tasks'))
         let nextEl       // Соседний следующий таск (ДОСТУПНЫЙ (не скрытый))
         let parentCurrentTask = targetLi.parentElement
         let tasks = [...parentCurrentTask.children];        // Массив из всех html элементов тасков
+        const curIndexTaskHtml = tasks.findIndex(function(task) {
+            return Number(task.getAttribute("id")) === currentIdTask_arr
+        })
         
         // Перебираем все таски и находим самый ближайший доступный к текущему (из следующий тасков). Цикл заканчивается как только такой таск находится.
-        for (let i = parentCurrentTask.lastElementChild.getAttribute("id") - tasks.length; !nextEl; i--) {      // Изначально i = id последнего таска - длине массива из тасков у текущего родителя (обычных тасков, либо просроченных). Затем i увеличивается на 1 с каждой итерацией, пока  переменная nextEl не приймет какое-либо значение
-            if (tasks[currentIdTask_arr - 1 - i].nextElementSibling.classList.contains("hiddenFiltered") == false) {
-                nextEl = tasks[currentIdTask_arr - 1 - i].nextElementSibling
+        for (let i = 0; !nextEl; i++) {      // Изначально i = id последнего таска - длине массива из тасков у текущего родителя (обычных тасков, либо просроченных). Затем i увеличивается на 1 с каждой итерацией, пока  переменная nextEl не приймет какое-либо значение
+            if (tasks[curIndexTaskHtml + i].nextElementSibling.classList.contains("hiddenFiltered") == false) {
+                nextEl = tasks[curIndexTaskHtml + i].nextElementSibling
             }
         }
+        
 
 
-        currentIdTask_arr = nextEl.getAttribute("id")     // Меняю id таска, что бы он соответствовал тому таску в массиве, на который нужно перейти
+        currentIdTask_arr = Number(nextEl.getAttribute("id"))     // Меняю id таска, что бы он соответствовал тому таску в массиве, на который нужно перейти
         // Текущий выбранный (новый, после нажатия на стрелочку) таск меняется на тот, что соответствует новому id (следующему в списке)  
-        currentTask_arr = all_tasks[nextEl.getAttribute("id") - 1]
+        currentTask_arr = all_tasks[getIndexCurTask(all_tasks, currentIdTask_arr)]
 
         targetLi = nextEl
         
@@ -333,7 +349,7 @@ function updateModal(curTask) {
 
 function reloadAll_subtasks(newArr) {
     all_subtasks = newArr
-    all_tasks[currentIdTask_arr -1].newTask_Subtasks_arr = newArr
+    all_tasks[getIndexCurTask(all_tasks, currentIdTask_arr)].newTask_Subtasks_arr = newArr
 
     window.localStorage.setItem('all_tasks', JSON.stringify(all_tasks))
 }

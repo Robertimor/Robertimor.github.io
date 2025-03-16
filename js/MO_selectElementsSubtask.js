@@ -2,9 +2,11 @@
 // Данный файл для функций выбора данных подзадачи
 
 import {hiddenByDisplay} from "./base.js"
-import {deadlineButton, deadlineOptions, localLanguage, optionsWithMonth, optionsWithWeekday, nowDay, nowMonth} from "./doomElements.js"
+import {deadlineButton, deadlineOptions} from "./domElements.js"
+import {localLanguage, optionsWithMonth, optionsWithWeekday, nowDay, nowMonth} from "./dateElements.js"
 import {reloadAllTasks} from "./scripts.js"
 import {setIsObservHiddenMenus, observFunc} from "./toggleVisibleElements.js"
+import {getIndexCurTask} from "./dataProcessing.js"
 import {statusIsModal} from "./modal.js"
 import {reloadAll_subtasks, getAll_subtasks, setCurrentLi_modal, setTargetLi_subtask, getCurrentTask_arr} from "./MO_dataUpdate.js"
 
@@ -216,7 +218,7 @@ function deadlineItemsSubtaskClick(items) {
 
 
             // Обновляю текущий таск из массива с тасками (локально в массиве текущего файла)
-            all_tasks[window.localStorage.getItem("openMoTargetLiId")-1] = currentTask_arr
+            all_tasks[getIndexCurTask(all_tasks, window.localStorage.getItem("openMoTargetLiId"))] = currentTask_arr
 
             // Обновляю массив с тасками в js файлах и в localStorage (перезаписываю с учётом изменений)
             reloadAllTasks(all_tasks)
@@ -421,7 +423,7 @@ function clickButtonNewDeadlineSubtaskFromCalendar(e) {
     reloadAll_subtasks(all_subtasks)
 
     // Обновляю текущий таск из массива с тасками (локально в массиве текущего файла)
-    all_tasks[window.localStorage.getItem("openMoTargetLiId")-1] = currentTask_arr
+    all_tasks[getIndexCurTask(all_tasks, window.localStorage.getItem("openMoTargetLiId"))] = currentTask_arr
 
     // Обновляю массив с тасками в js файлах и в localStorage (перезаписываю с учётом изменений)
     reloadAllTasks(all_tasks)

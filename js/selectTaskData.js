@@ -1,11 +1,12 @@
 'use strict';
 // Файл для поведения при выборе данных (тип таска, срок, приоритет) задачи (при создании / редактировании). 
 
-import {countAllTasks, sectionContentBlock_viewContent, allCurrentTasksOuter, taskForm, taskNameInput, taskDescriptionInput, deadlineButton, deadlineOptions, deadlineCalendar, priorityButton, priorityMenu, priorityOptions, taskTypeMenu, taskTypeOptions, taskTypeButton,  buttonAddNewTask, buttonSaveTask, addNewTask, localLanguage, nowData, optionsWithMonth, optionsWithWeekday, nowDay, nowMonth, currectEntryDate} from "./doomElements.js"
+import {countAllTasks, sectionContentBlock_viewContent, allCurrentTasksOuter, taskForm, taskNameInput, taskDescriptionInput, deadlineButton, deadlineOptions, deadlineCalendar, priorityButton, priorityMenu, priorityOptions, taskTypeMenu, taskTypeOptions, taskTypeButton} from "./domElements.js"
+import {localLanguage, optionsWithMonth, optionsWithWeekday, nowDay, nowMonth} from "./dateElements.js"
 import {hiddenByDisplay} from "./base.js"
 import {switchDisabledShowDopFuncTask, setCurrentLi, getCurrentLi, setCurrentLi_klick, setIsNewDeadlineButtonClicked, getIsNewDeadlineButtonClicked, setIsObservHiddenMenus, hide_task_dopFuncs, observFunc, show_task_dopFuncs} from "./toggleVisibleElements.js"
 import {reloadAllTasks, switchIsModal_block, reloadItemsDeadline, setSelectedDay, getSelectedDay} from "./scripts.js"
-import {sortTasks, raspredTasks, reIndexTasks, setTasksId, getTasksId} from "./dataProcessing.js"
+import {sortTasks, raspredTasks, setTasksId, getTasksId, getIndexCurTask} from "./dataProcessing.js"
 
 
 
@@ -173,8 +174,8 @@ function deadlineItemsClick(items) {
             liFromArr.newTask_dateCreated = fullDateCreated
 
             // Обновляю текущий таск из массива с тасками (локально в массиве текущего файла)
-            all_tasks[targetLi.getAttribute("id")-1] = liFromArr
-            
+            all_tasks[getIndexCurTask(all_tasks, targetLi.getAttribute("id"))] = liFromArr
+
             // Обновляю массив с тасками в js и в localStorage (перезаписываю с учётом изменений)
             reloadAllTasks(all_tasks)
 
@@ -388,7 +389,7 @@ sectionContentBlock_viewContent.addEventListener("click", function(e) {
     liFromArr.newTask_dateCreated = fullDateCreated
 
     // Обновляю текущий таск из массива с тасками (локально в массиве текущего файла)
-    all_tasks[targetLi.getAttribute("id")-1] = liFromArr
+    all_tasks[getIndexCurTask(all_tasks, targetLi.getAttribute("id"))] = liFromArr
     
     // Обновляю массив с тасками в js и в localStorage (перезаписываю с учётом изменений)
     reloadAllTasks(all_tasks)
